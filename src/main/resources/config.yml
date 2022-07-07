@@ -1,0 +1,55 @@
+global-chat:
+  # These formats are used when speaking globally
+  formats:
+    # Default format, more can be specified
+    default:
+      prefix:
+        display: "%luckperms_prefix%" # Shown in chat
+        hover: # Shown when hovered
+          - "Boo"
+        on-click: "/suicide" # Ran when hovered
+      name:
+        display: "%player_name%"
+        hover:
+          - "%player_name%"
+          - "Click to msg"
+        on-click: "/msg %player_name%"
+      prefix-separator:
+        display: "&8|"
+        hover:
+          -
+        on-click: "/msg %player_name%"
+      name-separator:
+        display: "&8»"
+        hover:
+          -
+        on-click: ""
+
+# Experimental group chat system
+groups:
+  enabled: true
+
+  # formats
+  formats:
+    normal:
+      prefix:
+        display: "&7[%chat_alias%]" # Shown in chat
+        hover: # Shown when hovered
+          - "Boo"
+        on-click: "/g msg %chat_alias%" # Ran when hovered
+      name:
+        display: "%player_name%"
+        hover:
+          - "%player_name%"
+          - "Click to msg privately"
+        on-click: "/msg %player_name%"
+      prefix-separator:
+        display: ""
+        hover:
+          -
+        on-click: ""
+      name-separator:
+        display: "&8»"
+        hover:
+          -
+        on-click: ""

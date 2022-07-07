@@ -1,0 +1,22 @@
+name: Rockwall
+version: '${version}'
+main: me.cobble.rockwall.Rockwall
+api-version: 1.19
+depend: [ PlaceholderAPI ]
+authors: [ Cbble_ ]
+description: An advanced, elegant and powerful chat system
+libraries:
+  - 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.0'
+permissions:
+  rockwall.color:
+    description: Allows players to send colored messages
+    default: op
+  rockwall.clearchat:
+    default: op
+    description: Allows players to clear chat
+commands:
+  clearchat:
+    aliases:
+      - chatclear
+      - chclr
+    description: Clears the global chat
