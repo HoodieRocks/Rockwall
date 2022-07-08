@@ -1,5 +1,6 @@
 package me.cobble.rockwall.utils
 
+import me.clip.placeholderapi.PlaceholderAPI
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.ClickEvent
@@ -10,6 +11,7 @@ import org.bukkit.entity.Player
 
 object Utils {
     private const val WITH_DELIMITER = "((?<=%1\$s)|(?=%1\$s))"
+    var placeholderAPIPresent = false
 
     fun color(text: String): String {
         val texts: Array<String> =
@@ -35,7 +37,10 @@ object Utils {
         return finalText.toString()
     }
 
-    // same as Utils#color(text), but requires permission to use color
+    /**
+     * Same as Utils#color(text), but requires permission to use color
+     * @see Utils.color
+     */
     fun color(text: String, player: Player): String {
         if (player.hasPermission("rockwall.color")) {
             val texts: Array<String> =
@@ -63,22 +68,29 @@ object Utils {
         return text
     }
 
-    fun formatAsFileStructure(array: List<RockwallBaseCommand>): Array<BaseComponent> {
+    /**
+     * Formats sub commands as a file structure display
+     */
+    fun formatAsFileStructure(list: List<RockwallBaseCommand>): Array<BaseComponent> {
         val components = ArrayList<BaseComponent>()
+        val sortedList = list.sortedBy { it.name }
 
-        for (i in array.indices) {
-            val sc: RockwallBaseCommand = array[i]
-            val format: String = "&e${sc.syntax} &7- ${sc.descriptor}"
+        for (i in sortedList.indices) {
+            val sc: RockwallBaseCommand = sortedList[i]
+            val format = "&e${sc.syntax} &7- ${sc.descriptor}"
             when (i) {
-                0 -> components.add(addEvents(formatCmd("┌ ", format), sc.descriptor, sc.syntax)!!)
-                array.size - 1 -> components.add(addEvents(formatCmd("└ ", format), sc.descriptor, sc.syntax)!!)
-                else -> components.add(addEvents(formatCmd("├ ", format), sc.descriptor, sc.syntax)!!)
+                0 -> components.add(addEvents(formatCmd("┌ ", format), sc.descriptor, sc.syntax))
+                list.size - 1 -> components.add(addEvents(formatCmd("└ ", format), sc.descriptor, sc.syntax))
+                else -> components.add(addEvents(formatCmd("├ ", format), sc.descriptor, sc.syntax))
             }
         }
         return components.toTypedArray()
     }
 
-    private fun addEvents(text: String?, hoverText: String?, command: String?): BaseComponent? {
+    /**
+     * Adds click and hover events
+     */
+    private fun addEvents(text: String?, hoverText: String?, command: String?): BaseComponent {
         val component = TextComponent(text)
         component.hoverEvent =
             HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(hoverText))
@@ -87,11 +99,34 @@ object Utils {
         return component
     }
 
-    private fun formatCmd(prefix: String, cmd: String): String? {
+    private fun formatCmd(prefix: String, cmd: String): String {
         return color("&e$prefix&7$cmd\n")
     }
 
+    /**
+     * Checks if string is non-alphanumeric
+     * @return if string is alphanumeric
+     */
     fun String.containsSpecialCharacters(): Boolean {
         return this.contains(Regex("[^A-Za-z0-9]"))
+    }
+
+    /**
+     * Flattens a string list to a single string
+     * @return string list as string
+     */
+    fun flattenStringList(list: List<String>): String {
+        val builder: StringBuilder = StringBuilder()
+        list.forEach {
+            builder.append(it)
+            if (list.indexOf(it) != list.size - 1) builder.append('\n')
+        }
+
+        return builder.toString()
+    }
+
+    fun setPlaceholders(player: Player, string: String): String {
+        return if(placeholderAPIPresent) PlaceholderAPI.setPlaceholders(player, string)
+        else string
     }
 }

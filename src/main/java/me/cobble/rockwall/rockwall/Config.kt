@@ -1,4 +1,4 @@
-package me.cobble.rockwall.utils
+package me.cobble.rockwall.rockwall
 
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration

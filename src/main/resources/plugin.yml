@@ -1,8 +1,8 @@
 name: Rockwall
 version: '${version}'
-main: me.cobble.rockwall.Rockwall
+main: me.cobble.rockwall.rockwall.Rockwall
 api-version: 1.19
-depend: [ PlaceholderAPI ]
+softdepend: [ PlaceholderAPI ]
 authors: [ Cbble_ ]
 description: An advanced, elegant and powerful chat system
 libraries:
@@ -14,9 +14,18 @@ permissions:
   rockwall.clearchat:
     default: op
     description: Allows players to clear chat
+  rockwall.admin:
+    default: op
+    description: Allows access to admin commands
 commands:
   clearchat:
     aliases:
       - chatclear
-      - chclr
+      - cc
     description: Clears the global chat
+  rockwall:
+    aliases:
+      - rwall
+      - rw
+    description: Admin command for Rockwall
+

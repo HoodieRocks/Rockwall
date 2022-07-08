@@ -1,7 +1,7 @@
 package me.cobble.rockwall.utils.global
 
 import me.clip.placeholderapi.PlaceholderAPI
-import me.cobble.rockwall.utils.Config
+import me.cobble.rockwall.rockwall.Config
 import me.cobble.rockwall.utils.Utils
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -28,27 +28,22 @@ object GlobalChatUtils {
         format.hoverEvent = HoverEvent(
             HoverEvent.Action.SHOW_TEXT, Text(
                 Utils.color(
-                    PlaceholderAPI.setPlaceholders(
+                    Utils.setPlaceholders(
                         player,
-                        flattenStringList(section.getStringList("hover"))
+                        Utils.flattenStringList(section.getStringList("hover"))
                     )
                 )
             )
         )
         format.clickEvent = ClickEvent(
             ClickEvent.Action.SUGGEST_COMMAND,
-            PlaceholderAPI.setPlaceholders(player, section.getString("on-click")!!)
+            Utils.setPlaceholders(player, section.getString("on-click")!!)
         )
 
         return format
     }
 
-    fun flattenStringList(list: List<String>): String {
-        val builder: StringBuilder = StringBuilder()
-        list.forEach {
-            builder.append(it).append('\n')
-        }
-
-        return builder.toString()
+    fun isGlobalChatEnabled(): Boolean {
+        return Config.getBool("global-chat.enabled")
     }
 }

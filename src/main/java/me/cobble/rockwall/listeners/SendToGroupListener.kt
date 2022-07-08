@@ -1,6 +1,6 @@
 package me.cobble.rockwall.listeners
 
-import me.cobble.rockwall.Rockwall
+import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.global.FormatType
 import me.cobble.rockwall.utils.groups.GroupType

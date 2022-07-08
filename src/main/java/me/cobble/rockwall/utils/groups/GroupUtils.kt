@@ -1,10 +1,8 @@
 package me.cobble.rockwall.utils.groups
 
-import me.clip.placeholderapi.PlaceholderAPI
-import me.cobble.rockwall.utils.Config
+import me.cobble.rockwall.rockwall.Config
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.global.FormatType
-import me.cobble.rockwall.utils.global.GlobalChatUtils
 import me.cobble.rockwall.utils.groups.models.Group
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -49,7 +47,7 @@ object GroupUtils {
         val format = TextComponent(
             *TextComponent.fromLegacyText(
                 Utils.color(
-                    PlaceholderAPI.setPlaceholders(
+                    Utils.setPlaceholders(
                         player,
                         section!!.getString("display")!!.replace("%chat_alias%", group!!.alias)
                     )
@@ -59,18 +57,36 @@ object GroupUtils {
         format.hoverEvent = HoverEvent(
             HoverEvent.Action.SHOW_TEXT, Text(
                 Utils.color(
-                    PlaceholderAPI.setPlaceholders(
+                    Utils.setPlaceholders(
                         player,
-                        GlobalChatUtils.flattenStringList(section.getStringList("hover"))
+                        Utils.flattenStringList(section.getStringList("hover"))
                     )
                 )
             )
         )
         format.clickEvent = ClickEvent(
             ClickEvent.Action.SUGGEST_COMMAND,
-            PlaceholderAPI.setPlaceholders(player, section.getString("on-click")!!)
+            Utils.setPlaceholders(player, section.getString("on-click")!!)
         )
 
         return format
+    }
+
+    fun areGroupsEnabled(): Boolean {
+        return Config.getBool("groups.enabled")
+    }
+
+    /**
+     * Gets the user's groups
+     * @return all groups the user is a member in
+     */
+    fun getUsersGroups(player: UUID): ArrayList<Group> {
+        val groups = ArrayList<Group>()
+
+        for (group: Group in GroupManager.getGroups().values) {
+            if (group.isMember(player)) groups.add(group)
+        }
+
+        return groups
     }
 }

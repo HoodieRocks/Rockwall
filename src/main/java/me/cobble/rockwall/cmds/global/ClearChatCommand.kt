@@ -1,6 +1,6 @@
-package me.cobble.rockwall.cmds
+package me.cobble.rockwall.cmds.global
 
-import me.cobble.rockwall.Rockwall
+import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
 import org.bukkit.Bukkit
 import org.bukkit.command.Command
@@ -16,16 +16,15 @@ class ClearChatCommand(plugin: Rockwall) : CommandExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender is Player) {
-            return if (sender.hasPermission("rockwall.clearchat")) {
+            if (sender.hasPermission("rockwall.clearchat")) {
                 for (i in (0..100)) {
                     for (player: Player in Bukkit.getOnlinePlayers()) {
                         player.sendMessage("\n")
                     }
                 }
-                true
             } else {
                 sender.sendMessage(Utils.color("&cYou do not have permission to use this command"))
-                true
+                return false
             }
         }
         return false

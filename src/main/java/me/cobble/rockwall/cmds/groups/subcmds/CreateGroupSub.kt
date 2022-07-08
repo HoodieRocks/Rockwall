@@ -1,4 +1,4 @@
-package me.cobble.rockwall.cmds.subcmds.groups
+package me.cobble.rockwall.cmds.groups.subcmds
 
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
@@ -11,9 +11,9 @@ class CreateGroupSub : RockwallBaseCommand() {
     override val name: String
         get() = "create"
     override val descriptor: String
-        get() = "creates a new group"
+        get() = "Creates a new group"
     override val syntax: String
-        get() = "/g create <name> [type]"
+        get() = "/g create <name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {

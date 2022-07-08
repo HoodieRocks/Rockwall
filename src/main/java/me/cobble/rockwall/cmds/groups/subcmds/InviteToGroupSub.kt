@@ -1,4 +1,4 @@
-package me.cobble.rockwall.cmds.subcmds.groups
+package me.cobble.rockwall.cmds.groups.subcmds
 
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils

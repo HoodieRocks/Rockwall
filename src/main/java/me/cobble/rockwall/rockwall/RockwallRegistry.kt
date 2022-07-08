@@ -1,9 +1,12 @@
-package me.cobble.rockwall
+package me.cobble.rockwall.rockwall
 
-import me.cobble.rockwall.cmds.ClearChatCommand
-import me.cobble.rockwall.cmds.GroupCommand
+import me.cobble.rockwall.cmds.admin.RockwallCommand
+import me.cobble.rockwall.cmds.global.ClearChatCommand
+import me.cobble.rockwall.cmds.groups.GroupCommand
 import me.cobble.rockwall.listeners.SendGloballyListener
 import me.cobble.rockwall.listeners.SendToGroupListener
+import me.cobble.rockwall.utils.global.GlobalChatUtils
+import me.cobble.rockwall.utils.groups.GroupUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
 
@@ -23,16 +26,23 @@ class RockwallRegistry(private val plugin: Rockwall) {
     }
 
     fun registerBukkitCommands() {
-        map!!.register(PREFIX, GroupCommand())
+        if (GroupUtils.areGroupsEnabled()) {
+            map!!.register(PREFIX, GroupCommand())
+        }
     }
 
     fun registerCommandExecutors() {
-        ClearChatCommand(plugin)
+        RockwallCommand(plugin)
+        if (GlobalChatUtils.isGlobalChatEnabled()) {
+            ClearChatCommand(plugin)
+        }
     }
 
     fun registerListeners() {
         SendGloballyListener(plugin)
-        SendToGroupListener(plugin)
+        if (GroupUtils.areGroupsEnabled()) {
+            SendToGroupListener(plugin)
+        }
     }
 
     companion object {

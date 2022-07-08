@@ -1,10 +1,11 @@
-package me.cobble.rockwall.cmds
+package me.cobble.rockwall.cmds.groups
 
-import me.cobble.rockwall.cmds.subcmds.groups.*
-import me.cobble.rockwall.utils.Config
+import me.cobble.rockwall.cmds.groups.subcmds.*
+import me.cobble.rockwall.rockwall.Config
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.groups.GroupManager
+import me.cobble.rockwall.utils.groups.GroupUtils
 import me.cobble.rockwall.utils.groups.models.Group
 import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.Bukkit
@@ -20,7 +21,8 @@ class GroupCommand : BukkitCommand("group", "Command for groups", "", listOf("g"
         MessageGroupSub(),
         AcceptInviteSub(),
         DenyInviteSub(),
-        DeleteGroupSub()
+        DeleteGroupSub(),
+        LeaveGroupSub()
     )
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
@@ -29,7 +31,7 @@ class GroupCommand : BukkitCommand("group", "Command for groups", "", listOf("g"
         if (sender is Player) {
             val p = sender
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
-                p.sendMessage(Utils.color("&e\n\n&lRockwall &7Private Chat Commands\n\n"))
+                p.sendMessage(Utils.color("&e\n\n&lRockwall &7Group Commands\n\n"))
                 val copy: MutableList<RockwallBaseCommand> = ArrayList(subCommands)
                 for (subCommand: RockwallBaseCommand in subCommands) {
                     if (!p.hasPermission(subCommand.permission) || !p.isOp()) {
@@ -72,19 +74,11 @@ class GroupCommand : BukkitCommand("group", "Command for groups", "", listOf("g"
                     }
                 }
 
-                if (args[0].equals("msg", ignoreCase = true)) {
-                    for (group: Group in GroupManager.getGroups().values) {
-                        if (group.isMember(sender.uniqueId)) list.add(group.alias)
-                    }
+                if (args[0].equals("msg", ignoreCase = true) || args[0].equals("leave", ignoreCase = true)) {
+                    GroupUtils.getUsersGroups(sender.uniqueId).forEach { list.add(it.alias) }
                 }
 
-                if (args[0].equals("accept", ignoreCase = true)) {
-                    for (group: Group in GroupManager.getGroups().values) {
-                        if (group.isInvited(sender.uniqueId)) list.add(group.alias)
-                    }
-                }
-
-                if (args[0].equals("deny", ignoreCase = true)) {
+                if (args[0].equals("accept", ignoreCase = true) || args[0].equals("deny", ignoreCase = true)) {
                     for (group: Group in GroupManager.getGroups().values) {
                         if (group.isInvited(sender.uniqueId)) list.add(group.alias)
                     }

@@ -20,7 +20,7 @@ object GroupManager {
         val memberCopy = group.members
         for (member: UUID in group.members) {
             val player = Bukkit.getPlayer(member)
-            if (player!!.isOnline) player.sendMessage(Utils.color("&cThe owner of this group has deleted the group"))
+            if (player!!.isOnline) player.sendMessage(Utils.color("&7The owner of ${group.alias} has deleted the group"))
         }
 
         group.members.removeAll(memberCopy.toSet())
@@ -28,7 +28,7 @@ object GroupManager {
         val inviteCopy = group.invites
         for (member: UUID in group.invites) {
             val player = Bukkit.getPlayer(member)
-            if (player!!.isOnline) player.sendMessage(Utils.color("&cThe owner of this group has deleted the group"))
+            if (player!!.isOnline) player.sendMessage(Utils.color("&7The owner of ${group.alias} has deleted the group"))
         }
         group.invites.removeAll(inviteCopy.toSet())
 

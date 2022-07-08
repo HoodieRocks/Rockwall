@@ -1,6 +1,6 @@
 package me.cobble.rockwall.listeners
 
-import me.cobble.rockwall.Rockwall
+import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.global.FormatType
 import me.cobble.rockwall.utils.global.GlobalChatUtils
@@ -11,7 +11,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class SendGloballyListener(plugin: Rockwall) : Listener {
+class SendGloballyListener(private val plugin: Rockwall) : Listener {
 
     init {
         Bukkit.getPluginManager().registerEvents(this, plugin)
