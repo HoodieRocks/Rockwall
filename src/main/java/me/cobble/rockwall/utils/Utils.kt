@@ -126,7 +126,7 @@ object Utils {
     }
 
     fun setPlaceholders(player: Player, string: String): String {
-        return if(placeholderAPIPresent) PlaceholderAPI.setPlaceholders(player, string)
+        return if (placeholderAPIPresent) PlaceholderAPI.setPlaceholders(player, string)
         else string
     }
 }

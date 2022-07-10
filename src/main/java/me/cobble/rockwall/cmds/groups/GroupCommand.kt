@@ -84,6 +84,13 @@ class GroupCommand : BukkitCommand("group", "Command for groups", "", listOf("g"
                     }
                 }
             }
+
+            if (args.size == 3) {
+                if (args[0].equals("create", ignoreCase = true)) {
+                    list.add("admin")
+                    list.add("normal")
+                }
+            }
         }
 
         return list

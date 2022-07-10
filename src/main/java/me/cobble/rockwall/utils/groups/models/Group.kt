@@ -20,4 +20,28 @@ interface Group {
     fun isSpeaking(uuid: UUID): Boolean {
         return activeSpeakers.contains(uuid)
     }
+
+    fun addMember(uuid: UUID) {
+        members.add(uuid)
+    }
+
+    fun removeMember(uuid: UUID) {
+        members.remove(uuid)
+    }
+
+    fun addInvite(uuid: UUID) {
+        invites.add(uuid)
+    }
+
+    fun removeInvite(uuid: UUID) {
+        invites.remove(uuid)
+    }
+
+    fun addSpeaker(uuid: UUID) {
+        activeSpeakers.add(uuid)
+    }
+
+    fun removeSpeaker(uuid: UUID) {
+        activeSpeakers.remove(uuid)
+    }
 }

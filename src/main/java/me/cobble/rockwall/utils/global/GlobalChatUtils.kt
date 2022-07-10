@@ -27,10 +27,9 @@ object GlobalChatUtils {
         )
         format.hoverEvent = HoverEvent(
             HoverEvent.Action.SHOW_TEXT, Text(
-                Utils.color(
-                    Utils.setPlaceholders(
-                        player,
-                        Utils.flattenStringList(section.getStringList("hover"))
+                TextComponent.fromLegacyText(
+                    Utils.color(
+                        Utils.setPlaceholders(player, Utils.flattenStringList(section.getStringList("hover")))
                     )
                 )
             )

@@ -61,14 +61,13 @@ object GroupManager {
 
     fun getGroup(name: String): Group? {
         if (name.isBlank()) return null
-        for (group: Group in groups.values) {
-            if (group.alias == name) return group
+        return groups.values.find {
+            it.alias == name
         }
-        return null
     }
 
     fun groupExists(uuid: UUID): Boolean {
-        return groups.contains(uuid)
+        return groups.containsKey(uuid)
     }
 
     fun groupExists(name: String): Boolean {
@@ -77,5 +76,14 @@ object GroupManager {
 
     fun getGroups(): HashMap<UUID, Group> {
         return groups
+    }
+
+    fun tickTimers() {
+        for (group: Group in groups.values) {
+            if (group is NormalGroup) {
+                if (group.timeTillDeath == 0) deleteGroup(group)
+                group.decrementTimeTillDeath()
+            }
+        }
     }
 }

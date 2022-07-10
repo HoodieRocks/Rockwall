@@ -1,10 +1,12 @@
 package me.cobble.rockwall.listeners
 
+import me.cobble.rockwall.rockwall.Config
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.global.FormatType
 import me.cobble.rockwall.utils.groups.GroupType
 import me.cobble.rockwall.utils.groups.GroupUtils
+import me.cobble.rockwall.utils.groups.models.NormalGroup
 import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -38,17 +40,18 @@ class SendToGroupListener(plugin: Rockwall) : Listener {
                     player.spigot().sendMessage(
                         *ComponentBuilder()
                             .append(prefix)
-                            .appendLegacy(" ")
                             .append(prefixSeparator)
-                            .appendLegacy(" ")
                             .append(name)
-                            .appendLegacy(" ")
                             .append(nameSeparator)
-                            .appendLegacy(" " + Utils.color(event.message, event.player))
+                            .appendLegacy(Utils.color(event.message, event.player))
                             .create()
                     )
+                } else {
+                    group.removeMember(uuid)
                 }
             }
+
+            if (group is NormalGroup) group.timeTillDeath = Config.getInt("groups.timeout")
         }
     }
 }

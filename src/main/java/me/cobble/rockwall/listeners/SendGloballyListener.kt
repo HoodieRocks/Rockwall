@@ -8,17 +8,21 @@ import me.cobble.rockwall.utils.groups.GroupUtils
 import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
+import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
-class SendGloballyListener(private val plugin: Rockwall) : Listener {
+class SendGloballyListener(plugin: Rockwall) : Listener {
 
     init {
         Bukkit.getPluginManager().registerEvents(this, plugin)
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOW)
     fun onGlobalMessageSent(event: AsyncPlayerChatEvent) {
+        if (event.isCancelled) {
+            return
+        }
         event.isCancelled = true
 
         if (GroupUtils.getCurrentSpeakingChat(event.player.uniqueId) == null) {
@@ -31,13 +35,10 @@ class SendGloballyListener(private val plugin: Rockwall) : Listener {
             Bukkit.spigot().broadcast(
                 *ComponentBuilder()
                     .append(prefix)
-                    .appendLegacy(" ")
                     .append(prefixSeparator)
-                    .appendLegacy(" ")
                     .append(name)
-                    .appendLegacy(" ")
                     .append(nameSeparator)
-                    .appendLegacy(" " + Utils.color(event.message, event.player))
+                    .appendLegacy(Utils.color(event.message, event.player))
                     .create()
             )
         }

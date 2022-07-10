@@ -42,7 +42,7 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
 
     override fun onCommand(sender: CommandSender, command: Command, label: String, args: Array<out String>): Boolean {
         if (sender is Player) {
-            if(sender.hasPermission("rockwall.admin")) {
+            if (sender.hasPermission("rockwall.admin")) {
                 if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
                     sender.sendMessage(Utils.color("&e\n\n&lRockwall &cAdmin &7Commands\n\n"))
                     val copy: MutableList<RockwallBaseCommand> = ArrayList(subCommands)

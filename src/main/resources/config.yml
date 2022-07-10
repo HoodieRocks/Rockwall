@@ -10,6 +10,7 @@
 # This likely sounds confusing, that's because it is.
 # Just know global chat refers to Minecraft's chat
 # And groups refer to group chat-like messaging this plugin includes
+
 global-chat:
   # Is the global chat enabled?
   enabled: true
@@ -19,23 +20,23 @@ global-chat:
     # Default format, more can be specified
     default:
       prefix:
-        display: "%luckperms_prefix%" # Shown in chat
+        display: "%luckperms_prefix% " # Shown in chat
         hover: # Shown when hovered
           - "Boo"
         on-click: "/suicide" # Ran when hovered
       name:
-        display: "%player_name%"
+        display: "%player_name% "
         hover:
           - "%player_name%"
           - "Click to msg"
         on-click: "/msg %player_name%"
       prefix-separator:
-        display: "&8|"
+        display: "&8| "
         hover:
           -
         on-click: "/msg %player_name%"
       name-separator:
-        display: "&8»"
+        display: "&8» "
         hover:
           -
         on-click: ""
@@ -45,6 +46,10 @@ global-chat:
 groups:
   # Are groups enabled?
   enabled: true
+
+  # Time until normal groups get automatically delete
+  # In seconds
+  timeout: 120
 
   # formats, only normal and (WIP) admin (Admin groups do nothing right now)
   formats:

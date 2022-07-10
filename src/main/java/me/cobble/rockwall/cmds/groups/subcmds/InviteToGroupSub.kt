@@ -4,6 +4,7 @@ import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.groups.GroupManager
 import me.cobble.rockwall.utils.groups.InviteSender
+import me.cobble.rockwall.utils.groups.models.AdminGroup
 import me.cobble.rockwall.utils.groups.models.Group
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
@@ -32,10 +33,16 @@ class InviteToGroupSub : RockwallBaseCommand() {
 
         if (target == null) {
             p.sendMessage(Utils.color("&cThat player does not exist or is offline"))
+            return
+        }
+
+        if (group is AdminGroup) {
+            p.sendMessage(Utils.color("&cYou can't invite people to an admin group, only admins can join!"))
+            return
         }
 
         if (group.owner == p.uniqueId) {
-            group.invites.add(target!!.uniqueId)
+            group.addInvite(target.uniqueId)
             InviteSender.sendInvites(group.invites, group.alias)
         } else {
             p.sendMessage(Utils.color("&cYou do not have permission to invite others to this chat"))

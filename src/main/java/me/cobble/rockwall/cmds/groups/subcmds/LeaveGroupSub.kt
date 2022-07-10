@@ -45,5 +45,9 @@ class LeaveGroupSub : RockwallBaseCommand() {
         group.members.remove(p.uniqueId)
         group.activeSpeakers.remove(p.uniqueId)
         p.sendMessage(Utils.color("You have now left this group, see you!"))
+
+        if (group.members.size == 0) {
+            GroupManager.deleteGroup(group)
+        }
     }
 }

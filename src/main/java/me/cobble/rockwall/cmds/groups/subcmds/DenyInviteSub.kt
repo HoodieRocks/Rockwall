@@ -21,8 +21,8 @@ class DenyInviteSub : RockwallBaseCommand() {
             if (GroupUtils.validateGroupName(args[0]) && GroupManager.groupExists(args[0])) {
                 val group = GroupManager.getGroup(args[0])
                 if (group!!.isInvited(p.uniqueId)) {
-                    GroupUtils.inviteToMember(p.uniqueId, group)
-                    p.sendMessage("&aYou are now a member of ${group.alias}")
+                    group.removeInvite(p.uniqueId)
+                    p.sendMessage("&cYou have denied being invited to ${group.alias}")
                 }
             }
         }

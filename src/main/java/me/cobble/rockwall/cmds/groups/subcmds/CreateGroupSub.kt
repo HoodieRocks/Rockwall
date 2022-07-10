@@ -30,7 +30,12 @@ class CreateGroupSub : RockwallBaseCommand() {
             }
 
             if (args.size == 2) {
-                GroupManager.createGroup(p.uniqueId, args[0], GroupType.valueOf(args[1].uppercase()))
+                val type = GroupType.valueOf(args[1].uppercase())
+                if (type == GroupType.ADMIN && !p.hasPermission("rockwall.admin.create")) {
+                    p.sendMessage(Utils.color("&cYou do not have permission to create an admin group"))
+                    return
+                }
+                GroupManager.createGroup(p.uniqueId, args[0], GroupType.valueOf(args[1].uppercase().trim()))
             } else {
                 GroupManager.createGroup(p.uniqueId, args[0], GroupType.NORMAL)
             }

@@ -8,6 +8,7 @@ import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
 
@@ -19,14 +20,14 @@ object GroupUtils {
 
     fun inviteToMember(uuid: UUID, group: Group?) {
         if (group == null) return
-        group.members.add(uuid)
-        group.invites.remove(uuid)
+        group.addMember(uuid)
+        group.removeInvite(uuid)
     }
 
     fun changeChatSpeaker(player: UUID, group: Group?) {
         GroupManager.getGroups().values.forEach {
             if (group == null || it != group) {
-                it.activeSpeakers.remove(player)
+                it.removeSpeaker(player)
             }
         }
     }
@@ -80,11 +81,16 @@ object GroupUtils {
      * Gets the user's groups
      * @return all groups the user is a member in
      */
-    fun getUsersGroups(player: UUID): ArrayList<Group> {
+    fun getUsersGroups(uuid: UUID): List<Group> {
+        val player = Bukkit.getPlayer(uuid)
         val groups = ArrayList<Group>()
 
+        if (player!!.hasPermission("rockwall.admin.join")) {
+            return GroupManager.getGroups().values.toList()
+        }
+
         for (group: Group in GroupManager.getGroups().values) {
-            if (group.isMember(player)) groups.add(group)
+            if (group.isMember(uuid)) groups.add(group)
         }
 
         return groups

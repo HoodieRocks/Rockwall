@@ -27,20 +27,27 @@ class RockwallRegistry(private val plugin: Rockwall) {
 
     fun registerBukkitCommands() {
         if (GroupUtils.areGroupsEnabled()) {
+            plugin.logger.info("Registering group commands")
             map!!.register(PREFIX, GroupCommand())
+        }
+        if (GlobalChatUtils.isGlobalChatEnabled()) {
+            plugin.logger.info("Registering global chat commands")
+            map!!.register(PREFIX, ClearChatCommand())
         }
     }
 
     fun registerCommandExecutors() {
         RockwallCommand(plugin)
-        if (GlobalChatUtils.isGlobalChatEnabled()) {
-            ClearChatCommand(plugin)
-        }
     }
 
     fun registerListeners() {
-        SendGloballyListener(plugin)
+        if (GlobalChatUtils.isGlobalChatEnabled()) {
+            plugin.logger.info("Registering global chat listeners")
+            SendGloballyListener(plugin)
+        }
+
         if (GroupUtils.areGroupsEnabled()) {
+            plugin.logger.info("Registering group listeners")
             SendToGroupListener(plugin)
         }
     }
