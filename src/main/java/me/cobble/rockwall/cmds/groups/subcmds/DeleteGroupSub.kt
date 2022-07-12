@@ -1,7 +1,7 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
+import me.cobble.rockwall.rockwall.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.groups.GroupManager
 import org.bukkit.entity.Player
 
@@ -17,7 +17,7 @@ class DeleteGroupSub : RockwallBaseCommand() {
         val group = GroupManager.getGroup(p.uniqueId)
 
         if (group == null) {
-            p.sendMessage(Utils.color("&cThere is no group owned by you to delete"))
+            p.sendMessage(Messages.getGroupString("errors.no-group-for-deletion"))
             return
         }
 

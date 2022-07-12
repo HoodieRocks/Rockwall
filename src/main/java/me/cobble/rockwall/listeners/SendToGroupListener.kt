@@ -34,9 +34,19 @@ class SendToGroupListener(plugin: Rockwall) : Listener {
             val name = GroupUtils.formatMaker(event.player, group, GroupType.NORMAL, FormatType.NAME)
             val nameSeparator = GroupUtils.formatMaker(event.player, group, GroupType.NORMAL, FormatType.NAME_SEPARATOR)
 
+            event.player.spigot().sendMessage(
+                *ComponentBuilder()
+                    .append(prefix)
+                    .append(prefixSeparator)
+                    .append(name)
+                    .append(nameSeparator)
+                    .appendLegacy(Utils.color(event.message, event.player))
+                    .create()
+            )
+
             for (uuid: UUID in group!!.members) {
                 val player = Bukkit.getPlayer(uuid)!!
-                if (player.isOnline) {
+                if (player.isOnline && uuid != event.player.uniqueId) {
                     player.spigot().sendMessage(
                         *ComponentBuilder()
                             .append(prefix)

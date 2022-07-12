@@ -42,6 +42,9 @@ object GlobalChatUtils {
         return format
     }
 
+    /**
+     * Check if global chat is enabled in config
+     */
     fun isGlobalChatEnabled(): Boolean {
         return Config.getBool("global-chat.enabled")
     }

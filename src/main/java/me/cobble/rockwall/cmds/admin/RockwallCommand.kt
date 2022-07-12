@@ -1,6 +1,9 @@
 package me.cobble.rockwall.cmds.admin
 
+import me.cobble.rockwall.cmds.admin.subcmds.CheckUpdateSub
 import me.cobble.rockwall.cmds.admin.subcmds.ReloadConfigSub
+import me.cobble.rockwall.cmds.admin.subcmds.RockwallInfoSub
+import me.cobble.rockwall.rockwall.Messages
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
@@ -18,7 +21,9 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
     }
 
     private val subCommands = arrayListOf(
-        ReloadConfigSub()
+        ReloadConfigSub(),
+        CheckUpdateSub(),
+        RockwallInfoSub(plugin)
     )
 
     override fun onTabComplete(
@@ -45,14 +50,7 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
             if (sender.hasPermission("rockwall.admin")) {
                 if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
                     sender.sendMessage(Utils.color("&e\n\n&lRockwall &cAdmin &7Commands\n\n"))
-                    val copy: MutableList<RockwallBaseCommand> = ArrayList(subCommands)
-                    for (subCommand: RockwallBaseCommand in subCommands) {
-                        if (!sender.hasPermission(subCommand.permission) || !sender.isOp()) {
-                            copy.remove(subCommand)
-                        }
-                    }
-
-                    val components: Array<BaseComponent> = Utils.formatAsFileStructure(copy)
+                    val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands)
 
                     sender.spigot().sendMessage(*components)
                     sender.sendMessage("\n\n")
@@ -68,7 +66,7 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
                     }
                 }
             } else {
-                sender.sendMessage(Utils.color("&aYou do not have permission to run this command"))
+                sender.sendMessage(Utils.color(Messages.getPermissionString("no-perm-general")))
             }
         }
         return false

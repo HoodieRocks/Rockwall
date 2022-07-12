@@ -1,5 +1,6 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
+import me.cobble.rockwall.rockwall.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.groups.GroupManager
@@ -21,30 +22,30 @@ class LeaveGroupSub : RockwallBaseCommand() {
         }
 
         if (!GroupUtils.validateGroupName(args[0])) {
-            p.sendMessage(Utils.color("&cInvalid group name"))
+            p.sendMessage(Messages.getGroupString("errors.invalid"))
             return
         }
 
         val group = GroupManager.getGroup(args[0])
 
         if (group == null) {
-            p.sendMessage(Utils.color("&cThat group does not exist"))
+            p.sendMessage(Messages.getGroupString("errors.404"))
             return
         }
 
         if (!group.isMember(p.uniqueId)) {
-            p.sendMessage(Utils.color("&cYou can't leave a group you aren't in, silly!"))
+            p.sendMessage(Messages.getGroupString("errors.leave-group-not-in"))
             return
         }
 
         if (group.owner == p.uniqueId) {
-            p.sendMessage(Utils.color("&cYou can't leave your own group, to delete this group use /group delete"))
+            p.sendMessage(Messages.getGroupString("owner-leave-group"))
             return
         }
 
         group.members.remove(p.uniqueId)
         group.activeSpeakers.remove(p.uniqueId)
-        p.sendMessage(Utils.color("You have now left this group, see you!"))
+        p.sendMessage(Messages.getGroupString("leave"))
 
         if (group.members.size == 0) {
             GroupManager.deleteGroup(group)

@@ -26,13 +26,9 @@ permissions:
     default: op
     description: Allows for creating admin groups
 commands:
-  clearchat:
-    aliases:
-      - chatclear
-      - cc
-    description: Clears the global chat
   rockwall:
     aliases:
+      - rock
       - rwall
       - rw
     description: Admin command for Rockwall

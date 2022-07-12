@@ -10,7 +10,7 @@ object Config {
     private val log = Bukkit.getLogger()
     private var file: File? = null
     private var config: YamlConfiguration? = null
-    fun setup() { // NO_UCD (use default)
+    fun setup() {
         file = File(
             Bukkit.getServer().pluginManager.getPlugin("Rockwall")!!.dataFolder,
             "config.yml"
@@ -20,7 +20,6 @@ object Config {
             try {
                 file!!.createNewFile()
             } catch (e: IOException) {
-                // that's a lot of damage
                 e.printStackTrace()
             }
         }
@@ -43,7 +42,7 @@ object Config {
         return get()!!.getInt(path)
     }
 
-    fun save() { // NO_UCD (use default)
+    fun save() {
         try {
             config!!.save(file!!)
         } catch (e: IOException) {
@@ -51,8 +50,8 @@ object Config {
         }
     }
 
-    fun reload() { // NO_UCD (unused code)
+    fun reload() {
         config = YamlConfiguration.loadConfiguration(file!!)
-        log.info("Rockwall config reloaded")
+        log.info("Rockwall Main Config reloaded")
     }
 }

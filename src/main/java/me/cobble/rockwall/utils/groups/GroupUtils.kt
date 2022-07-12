@@ -14,16 +14,25 @@ import java.util.*
 
 object GroupUtils {
 
+    /**
+     * Check to see if the group name is valid
+     */
     fun validateGroupName(string: String): Boolean {
         return Regex("[A-z]+#[0-9]+").matches(string)
     }
 
+    /**
+     * Converts invited players to a group member
+     */
     fun inviteToMember(uuid: UUID, group: Group?) {
         if (group == null) return
         group.addMember(uuid)
         group.removeInvite(uuid)
     }
 
+    /**
+     * Change what chat the player is in
+     */
     fun changeChatSpeaker(player: UUID, group: Group?) {
         GroupManager.getGroups().values.forEach {
             if (group == null || it != group) {
@@ -32,6 +41,9 @@ object GroupUtils {
         }
     }
 
+    /**
+     * Get chat player is speaking in
+     */
     fun getCurrentSpeakingChat(player: UUID): Group? {
         for (group: Group in GroupManager.getGroups().values) {
             if (group.isSpeaking(player)) {
@@ -73,6 +85,9 @@ object GroupUtils {
         return format
     }
 
+    /**
+     * Check if groups are enabled in config
+     */
     fun areGroupsEnabled(): Boolean {
         return Config.getBool("groups.enabled")
     }

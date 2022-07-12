@@ -4,13 +4,13 @@
 # |  _ < (_) | (__|   <  \ V  V / (_| | | |
 # |_| \_\___/ \___|_|\_\  \_/\_/ \__,_|_|_|
 #
+# Main Config
 # Plugin created by Cbble_
 
 # Settings for the default chat
 # This likely sounds confusing, that's because it is.
-# Just know global chat refers to Minecraft's chat
-# And groups refer to group chat-like messaging this plugin includes
-
+# Just know "global chat" refers to Minecraft's chat
+# And "groups" refer to group chat-like messaging this plugin includes
 global-chat:
   # Is the global chat enabled?
   enabled: true
@@ -22,8 +22,10 @@ global-chat:
       prefix:
         display: "%luckperms_prefix% " # Shown in chat
         hover: # Shown when hovered
-          - "Boo"
+          - "%luckperms_prefix%"
+          - "%player_name%"
         on-click: "/suicide" # Ran when hovered
+        # This pattern is the same for every other entry here
       name:
         display: "%player_name% "
         hover:
@@ -41,7 +43,7 @@ global-chat:
           -
         on-click: ""
 
-# Experimental group chat system
+# Settings for experimental group chat system
 # Refers to group chat-like messaging this plugin includes
 groups:
   # Are groups enabled?
@@ -59,6 +61,7 @@ groups:
         hover: # Shown when hovered
           - "Boo"
         on-click: "/g msg %chat_alias%" # Ran when hovered
+        # This pattern is the same for every other entry here
       name:
         display: "%player_name%"
         hover:

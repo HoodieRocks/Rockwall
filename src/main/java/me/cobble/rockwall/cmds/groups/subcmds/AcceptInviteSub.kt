@@ -1,5 +1,6 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
+import me.cobble.rockwall.rockwall.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.groups.GroupManager
@@ -22,7 +23,7 @@ class AcceptInviteSub : RockwallBaseCommand() {
                 val group = GroupManager.getGroup(args[0])
                 if (group!!.isInvited(p.uniqueId)) {
                     GroupUtils.inviteToMember(p.uniqueId, group)
-                    p.sendMessage("&aYou are now a member of ${group.alias}")
+                    p.sendMessage(Messages.getGroupString("joined", group))
                 }
             }
         }

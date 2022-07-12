@@ -1,7 +1,7 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
+import me.cobble.rockwall.rockwall.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.groups.GroupManager
 import me.cobble.rockwall.utils.groups.GroupUtils
 import me.cobble.rockwall.utils.groups.models.AdminGroup
@@ -17,7 +17,7 @@ class MessageGroupSub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty() || (args.size == 1 && args[0].equals("global", ignoreCase = true))) {
-            p.sendMessage(Utils.color("&aYou are now speaking in the global chat"))
+            p.sendMessage(Messages.getGroupString("messaging-global"))
             GroupUtils.changeChatSpeaker(p.uniqueId, null)
         } else {
             val groupName = args[0]
@@ -27,14 +27,16 @@ class MessageGroupSub : RockwallBaseCommand() {
                         p.uniqueId
                     ))
                 ) {
-                    if (group.isSpeaking(p.uniqueId)) p.sendMessage(Utils.color("&cYou are already talking in this group")) else {
+                    if (group.isSpeaking(p.uniqueId)) p.sendMessage(Messages.getGroupString("already-speaking")) else {
                         group.addSpeaker(p.uniqueId)
                         GroupUtils.changeChatSpeaker(p.uniqueId, group)
-                        p.sendMessage(Utils.color("&aYou are now talking in $groupName."))
+                        p.sendMessage(Messages.getGroupString("now-speaking", group))
                     }
                 } else {
-                    p.sendMessage(Utils.color("&cThat group does not exist"))
+                    p.sendMessage(Messages.getGroupString("errors.404"))
                 }
+            } else {
+                p.sendMessage(Messages.getGroupString("errors.invalid"))
             }
         }
     }

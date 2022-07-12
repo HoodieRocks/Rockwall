@@ -1,6 +1,6 @@
 package me.cobble.rockwall.utils.groups
 
-import me.cobble.rockwall.utils.Utils
+import me.cobble.rockwall.rockwall.Messages
 import me.cobble.rockwall.utils.groups.models.AdminGroup
 import me.cobble.rockwall.utils.groups.models.Group
 import me.cobble.rockwall.utils.groups.models.NormalGroup
@@ -20,7 +20,7 @@ object GroupManager {
         val memberCopy = group.members
         for (member: UUID in group.members) {
             val player = Bukkit.getPlayer(member)
-            if (player!!.isOnline) player.sendMessage(Utils.color("&7The owner of ${group.alias} has deleted the group"))
+            if (player!!.isOnline) player.sendMessage(Messages.getGroupString("deletion", group))
         }
 
         group.members.removeAll(memberCopy.toSet())
@@ -28,13 +28,12 @@ object GroupManager {
         val inviteCopy = group.invites
         for (member: UUID in group.invites) {
             val player = Bukkit.getPlayer(member)
-            if (player!!.isOnline) player.sendMessage(Utils.color("&7The owner of ${group.alias} has deleted the group"))
+            if (player!!.isOnline) player.sendMessage(Messages.getGroupString("deletion", group))
         }
         group.invites.removeAll(inviteCopy.toSet())
 
-        for (member: UUID in group.activeSpeakers) {
-            group.activeSpeakers.remove(member)
-        }
+        val speakerCopy = group.activeSpeakers
+        group.activeSpeakers.removeAll(speakerCopy.toSet())
 
         groups.remove(group.owner)
     }

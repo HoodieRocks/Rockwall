@@ -1,5 +1,6 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
+import me.cobble.rockwall.rockwall.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.groups.GroupManager
@@ -22,7 +23,7 @@ class DenyInviteSub : RockwallBaseCommand() {
                 val group = GroupManager.getGroup(args[0])
                 if (group!!.isInvited(p.uniqueId)) {
                     group.removeInvite(p.uniqueId)
-                    p.sendMessage("&cYou have denied being invited to ${group.alias}")
+                    p.sendMessage(Messages.getGroupString("invite-denied"))
                 }
             }
         }

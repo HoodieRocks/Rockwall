@@ -1,0 +1,48 @@
+#   ____            _                   _ _
+# |  _ \ ___   ___| | ____      ____ _| | |
+# | |_) / _ \ / __| |/ /\ \ /\ / / _` | | |
+# |  _ < (_) | (__|   <  \ V  V / (_| | | |
+# |_| \_\___/ \___|_|\_\  \_/\_/ \__,_|_|_|
+#
+# Message config
+# Plugin created by Cbble_
+
+# Permission related messages
+permission-messages:
+
+  # Used for when the player doesn't have a permission
+  # Ex. rockwall.admin
+  no-perm-general: "&aYou do not have permission to run this command"
+  no-create-admin-perm: "&cYou do not have permission to create an admin group"
+  no-perm-group: "&cYou do not have permission to invite others to this chat"
+
+# Group related messages
+groups:
+  # Placeholders
+  # %group_alias% - the group alias
+
+  # Group interactions
+  creation: "&aGroup created with name %group_alias%."
+  deletion: "&7The owner of %group_alias% has deleted the group"
+  join: "&aYou are now a member of %group_alias%"
+  deny: "&cYou have denied being invited to %group_alias%"
+  leave: "&aYou have now left this group, see you!"
+  messaging-global: "&aYou are now speaking in the global chat"
+  already-speaking: "&cYou are already talking in this group"
+  now-speaking: "&aYou are now talking in %group_alias%"
+
+
+  # Errors related to groups
+  # Ex. you can't have 2 groups open, no special characters
+  errors:
+    no-special-characters: "&cYou can not use special characters in the group name!"
+    group-limit-reached: "&cYou can not have 2 groups open at the same time!"
+    no-group-for-deletion: "&cThere is no group owned by you to delete"
+    no-group-for-invites: "&cYou do not have a group to invite people to!"
+    offline-player: "&cThat player does not exist or is offline"
+    cant-invite-to-admin-group: "&cYou can't invite people to an admin group, only admins can join!"
+    invalid: "&cInvalid group name"
+    # does not exist
+    404: "&cThat group does not exist"
+    leave-group-not-in: "&cYou can't leave a group you aren't in, silly!"
+    owner-leave-group: "&cYou can't leave your own group, to delete this group use /group delete"

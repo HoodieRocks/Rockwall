@@ -1,5 +1,6 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
+import me.cobble.rockwall.rockwall.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.groups.GroupManager
@@ -27,17 +28,17 @@ class InviteToGroupSub : RockwallBaseCommand() {
         val target = Bukkit.getPlayer(args[0])
 
         if (group == null) {
-            p.sendMessage(Utils.color("&cYou do not have a chat to invite people to!"))
+            p.sendMessage(Messages.getGroupString("errors.no-group-for-invites"))
             return
         }
 
         if (target == null) {
-            p.sendMessage(Utils.color("&cThat player does not exist or is offline"))
+            p.sendMessage(Messages.getGroupString("errors.offline-player"))
             return
         }
 
         if (group is AdminGroup) {
-            p.sendMessage(Utils.color("&cYou can't invite people to an admin group, only admins can join!"))
+            p.sendMessage(Messages.getGroupString("errors.cant-invite-to-admin-group"))
             return
         }
 
@@ -45,7 +46,7 @@ class InviteToGroupSub : RockwallBaseCommand() {
             group.addInvite(target.uniqueId)
             InviteSender.sendInvites(group.invites, group.alias)
         } else {
-            p.sendMessage(Utils.color("&cYou do not have permission to invite others to this chat"))
+            p.sendMessage(Messages.getPermissionString("no-perm-group"))
         }
     }
 }

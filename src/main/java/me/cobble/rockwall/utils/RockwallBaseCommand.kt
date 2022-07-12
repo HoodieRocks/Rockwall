@@ -12,14 +12,6 @@ abstract class RockwallBaseCommand {
     abstract val name: String
 
     /**
-     * Get the permission of the sub command.
-     *
-     * @return The permission of the sub command.
-     */
-    val permission: String
-        get() = "rockwall.default"
-
-    /**
      * Get the description of the sub command.
      *
      * @return The description of the sub command.

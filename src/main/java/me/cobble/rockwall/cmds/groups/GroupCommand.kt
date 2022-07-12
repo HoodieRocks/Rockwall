@@ -29,25 +29,17 @@ class GroupCommand : BukkitCommand("group", "Command for groups", "", listOf("g"
         if (!Config.getBool("groups.enabled")) return false
 
         if (sender is Player) {
-            val p = sender
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
-                p.sendMessage(Utils.color("&e\n\n&lRockwall &7Group Commands\n\n"))
-                val copy: MutableList<RockwallBaseCommand> = ArrayList(subCommands)
-                for (subCommand: RockwallBaseCommand in subCommands) {
-                    if (!p.hasPermission(subCommand.permission) || !p.isOp()) {
-                        copy.remove(subCommand)
-                    }
-                }
+                sender.sendMessage(Utils.color("&e\n\n&lRockwall &7Group Commands\n\n"))
+                val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands)
 
-                val components: Array<BaseComponent> = Utils.formatAsFileStructure(copy)
-
-                p.spigot().sendMessage(*components)
-                p.sendMessage("\n\n")
+                sender.spigot().sendMessage(*components)
+                sender.sendMessage("\n\n")
             } else {
                 for (subCommand in subCommands) {
                     if (subCommand.name == args[0]) {
                         subCommand.run(
-                            p,
+                            sender,
                             args.drop(1).toTypedArray()
                         )
                         return true
