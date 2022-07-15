@@ -27,16 +27,16 @@ class SendToGroupListener(plugin: Rockwall) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     fun onSpeakToGroup(event: AsyncPlayerChatEvent) {
 
-        if(event.isCancelled) {
+        if (event.isCancelled) {
             return
         }
 
-        event.isCancelled = true
 
         if (GroupUtils.getCurrentSpeakingChat(event.player.uniqueId) != null) {
+            event.isCancelled = true
 
             val group = GroupUtils.getCurrentSpeakingChat(event.player.uniqueId)
-            val type = if(group is AdminGroup) GroupType.ADMIN else GroupType.NORMAL
+            val type = if (group is AdminGroup) GroupType.ADMIN else GroupType.NORMAL
 
 
             // various components from config formats
@@ -56,10 +56,10 @@ class SendToGroupListener(plugin: Rockwall) : Listener {
 
             for (uuid: UUID in group!!.members) {
                 val player = Bukkit.getPlayer(uuid)!!
-                if (player.isOnline){
+                if (player.isOnline) {
 
                     // we already sent the message to the event player, don't do it again
-                    if(uuid != event.player.uniqueId) {
+                    if (uuid != event.player.uniqueId) {
                         player.spigot().sendMessage(*components.create())
                     }
                 } else {
