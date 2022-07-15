@@ -8,7 +8,10 @@ import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import java.util.*
 
+
+// sends invites to player
 object InviteSender {
+
     fun sendInvites(invites: ArrayList<UUID>, name: String) {
         for (id: UUID in invites) {
             val player = Bukkit.getPlayer(id)

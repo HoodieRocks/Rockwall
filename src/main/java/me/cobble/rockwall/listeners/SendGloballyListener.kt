@@ -12,6 +12,9 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 
+/**
+ * Sends message to the regular Minecraft Chat
+ */
 class SendGloballyListener(plugin: Rockwall) : Listener {
 
     init {
@@ -20,6 +23,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     fun onGlobalMessageSent(event: AsyncPlayerChatEvent) {
+        // player is muted
         if (event.isCancelled) {
             return
         }
@@ -30,6 +34,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
 
             val permission = GlobalChatUtils.getFormatPermission(event.player)
 
+            // config format components
             val prefix = GlobalChatUtils.formatMaker(event.player, permission, FormatType.PREFIX)
             val prefixSeparator = GlobalChatUtils.formatMaker(event.player, permission, FormatType.PREFIX_SEPARATOR)
             val name = GlobalChatUtils.formatMaker(event.player, permission, FormatType.NAME)

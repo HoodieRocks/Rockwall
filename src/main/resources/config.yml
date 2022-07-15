@@ -16,6 +16,7 @@ global-chat:
   enabled: true
 
   # These formats are used when speaking globally
+  # Higher the format is in the file, the higher the priority
   formats:
     # Default format, more can be specified
     default:

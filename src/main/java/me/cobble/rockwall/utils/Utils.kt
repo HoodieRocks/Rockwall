@@ -125,6 +125,10 @@ object Utils {
         return builder.toString()
     }
 
+    /**
+     * Uses PlaceholderAPI placeholders if present,
+     * if not it returns the inputted string
+     */
     fun setPlaceholders(player: Player, string: String): String {
         return if (placeholderAPIPresent) PlaceholderAPI.setPlaceholders(player, string)
         else string

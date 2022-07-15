@@ -11,6 +11,10 @@ import org.bukkit.entity.Player
 
 object GlobalChatUtils {
 
+    /**
+     * Creates string formats from config entries
+     * @return component with click, hover event and display text
+     */
     fun formatMaker(player: Player, formatName: String, type: FormatType): TextComponent? {
         if (formatName.isBlank()) return null
         val configSection = Config.get()!!.getConfigurationSection("global-chat.formats.$formatName") ?: return null
@@ -44,11 +48,16 @@ object GlobalChatUtils {
 
     /**
      * Check if global chat is enabled in config
+     * @return if global chat is enabled
      */
     fun isGlobalChatEnabled(): Boolean {
         return Config.getBool("global-chat.enabled")
     }
 
+    /**
+     * Gets the highest permission for a player
+     * @return format name
+     */
     fun getFormatPermission(p: Player): String {
         val keys = Config.get()!!.getConfigurationSection("global-chat.formats")!!.getKeys(false)
         for (key in keys) {
