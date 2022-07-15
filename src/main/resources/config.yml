@@ -57,13 +57,13 @@ groups:
   formats:
     normal:
       prefix:
-        display: "&7[%chat_alias%]" # Shown in chat
+        display: "&7[%chat_alias%] " # Shown in chat
         hover: # Shown when hovered
           - "Boo"
         on-click: "/g msg %chat_alias%" # Ran when hovered
         # This pattern is the same for every other entry here
       name:
-        display: "%player_name%"
+        display: "%player_name% "
         hover:
           - "%player_name%"
           - "Click to msg privately"
@@ -74,7 +74,30 @@ groups:
           -
         on-click: ""
       name-separator:
-        display: "&8»"
+        display: "&8» "
+        hover:
+          -
+        on-click: ""
+    admin:
+      prefix:
+        display: "&7[%chat_alias%] &c[Admin] " # Shown in chat
+        hover: # Shown when hovered
+          - "Boo"
+        on-click: "/g msg %chat_alias%" # Ran when hovered
+        # This pattern is the same for every other entry here
+      name:
+        display: "%player_name% "
+        hover:
+          - "%player_name%"
+          - "Click to msg privately"
+        on-click: "/msg %player_name%"
+      prefix-separator:
+        display: ""
+        hover:
+          -
+        on-click: ""
+      name-separator:
+        display: "&8» "
         hover:
           -
         on-click: ""

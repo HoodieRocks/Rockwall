@@ -23,14 +23,17 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
         if (event.isCancelled) {
             return
         }
+
         event.isCancelled = true
 
         if (GroupUtils.getCurrentSpeakingChat(event.player.uniqueId) == null) {
 
-            val prefix = GlobalChatUtils.formatMaker(event.player, "default", FormatType.PREFIX)
-            val prefixSeparator = GlobalChatUtils.formatMaker(event.player, "default", FormatType.PREFIX_SEPARATOR)
-            val name = GlobalChatUtils.formatMaker(event.player, "default", FormatType.NAME)
-            val nameSeparator = GlobalChatUtils.formatMaker(event.player, "default", FormatType.NAME_SEPARATOR)
+            val permission = GlobalChatUtils.getFormatPermission(event.player)
+
+            val prefix = GlobalChatUtils.formatMaker(event.player, permission, FormatType.PREFIX)
+            val prefixSeparator = GlobalChatUtils.formatMaker(event.player, permission, FormatType.PREFIX_SEPARATOR)
+            val name = GlobalChatUtils.formatMaker(event.player, permission, FormatType.NAME)
+            val nameSeparator = GlobalChatUtils.formatMaker(event.player, permission, FormatType.NAME_SEPARATOR)
 
             Bukkit.spigot().broadcast(
                 *ComponentBuilder()

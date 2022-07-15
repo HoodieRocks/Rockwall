@@ -48,4 +48,14 @@ object GlobalChatUtils {
     fun isGlobalChatEnabled(): Boolean {
         return Config.getBool("global-chat.enabled")
     }
+
+    fun getFormatPermission(p: Player): String {
+        val keys = Config.get()!!.getConfigurationSection("global-chat.formats")!!.getKeys(false)
+        for (key in keys) {
+            if (p.hasPermission("rockwall.format.$key") && key != "default") {
+                return key
+            }
+        }
+        return "default"
+    }
 }
