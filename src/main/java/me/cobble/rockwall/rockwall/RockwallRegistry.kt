@@ -2,11 +2,11 @@ package me.cobble.rockwall.rockwall
 
 import me.cobble.rockwall.cmds.admin.RockwallCommand
 import me.cobble.rockwall.cmds.global.ClearChatCommand
-import me.cobble.rockwall.cmds.groups.GroupCommand
+import me.cobble.rockwall.cmds.groups.PartyCommand
 import me.cobble.rockwall.listeners.SendGloballyListener
-import me.cobble.rockwall.listeners.SendToGroupListener
+import me.cobble.rockwall.listeners.SendToPartyListener
 import me.cobble.rockwall.utils.global.GlobalChatUtils
-import me.cobble.rockwall.utils.groups.GroupUtils
+import me.cobble.rockwall.utils.parties.PartyUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
 
@@ -26,9 +26,9 @@ class RockwallRegistry(private val plugin: Rockwall) {
     }
 
     fun registerBukkitCommands() {
-        if (GroupUtils.areGroupsEnabled()) {
+        if (PartyUtils.arePartiesEnabled()) {
             plugin.logger.info("Registering group commands")
-            map!!.register(PREFIX, GroupCommand())
+            map!!.register(PREFIX, PartyCommand())
         }
         if (GlobalChatUtils.isGlobalChatEnabled()) {
             plugin.logger.info("Registering global chat commands")
@@ -46,9 +46,9 @@ class RockwallRegistry(private val plugin: Rockwall) {
             SendGloballyListener(plugin)
         }
 
-        if (GroupUtils.areGroupsEnabled()) {
+        if (PartyUtils.arePartiesEnabled()) {
             plugin.logger.info("Registering group listeners")
-            SendToGroupListener(plugin)
+            SendToPartyListener(plugin)
         }
     }
 

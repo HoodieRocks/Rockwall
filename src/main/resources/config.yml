@@ -7,10 +7,16 @@
 # Main Config
 # Plugin created by Cbble_
 
+# Don't remove
+config-version: 1
+
+# General settings for the whole plugin
+settings:
+  # Reset the hover message color on new line or
+  # will the colours apply to the next line
+  reset-color-on-new-line: true
+
 # Settings for the default chat
-# This likely sounds confusing, that's because it is.
-# Just know "global chat" refers to Minecraft's chat
-# And "groups" refer to group chat-like messaging this plugin includes
 global-chat:
   # Is the global chat enabled?
   enabled: true
@@ -44,15 +50,15 @@ global-chat:
           -
         on-click: ""
 
-# Settings for experimental group chat system
-# Refers to group chat-like messaging this plugin includes
-groups:
+# Settings for experimental party system
+# Refers to party-like messaging this plugin includes
+parties:
   # Are groups enabled?
   enabled: true
 
   # Time until normal groups get automatically delete
   # In seconds
-  timeout: 120
+  timeout: 300
 
   # formats, only normal and (WIP) admin (Admin groups do nothing right now)
   formats:

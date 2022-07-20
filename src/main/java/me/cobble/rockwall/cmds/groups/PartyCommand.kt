@@ -1,28 +1,28 @@
 package me.cobble.rockwall.cmds.groups
 
 import me.cobble.rockwall.cmds.groups.subcmds.*
-import me.cobble.rockwall.rockwall.Config
+import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
-import me.cobble.rockwall.utils.groups.GroupManager
-import me.cobble.rockwall.utils.groups.GroupUtils
-import me.cobble.rockwall.utils.groups.models.Group
+import me.cobble.rockwall.utils.parties.PartyManager
+import me.cobble.rockwall.utils.parties.PartyUtils
+import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
 import org.bukkit.entity.Player
 
-class GroupCommand : BukkitCommand("group", "Command for groups", "", listOf("g")) {
+class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("par", "p", "part")) {
 
     private val subCommands = arrayListOf(
-        CreateGroupSub(),
-        InviteToGroupSub(),
-        MessageGroupSub(),
+        CreatePartySub(),
+        InviteToPartySub(),
+        MessagePartySub(),
         AcceptInviteSub(),
         DenyInviteSub(),
-        DeleteGroupSub(),
-        LeaveGroupSub()
+        DeletePartySub(),
+        LeavePartySub()
     )
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
@@ -30,7 +30,7 @@ class GroupCommand : BukkitCommand("group", "Command for groups", "", listOf("g"
 
         if (sender is Player) {
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
-                sender.sendMessage(Utils.color("&e\n\n&lRockwall &7Group Commands\n\n"))
+                sender.sendMessage(Utils.color("&e\n\n&lRockwall &7Party Commands\n\n"))
                 val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands)
 
                 sender.spigot().sendMessage(*components)
@@ -67,12 +67,12 @@ class GroupCommand : BukkitCommand("group", "Command for groups", "", listOf("g"
                 }
 
                 if (args[0].equals("msg", ignoreCase = true) || args[0].equals("leave", ignoreCase = true)) {
-                    GroupUtils.getUsersGroups(sender.uniqueId).forEach { list.add(it.alias) }
+                    PartyUtils.getUsersGroups(sender.uniqueId).forEach { list.add(it.alias) }
                 }
 
                 if (args[0].equals("accept", ignoreCase = true) || args[0].equals("deny", ignoreCase = true)) {
-                    for (group: Group in GroupManager.getGroups().values) {
-                        if (group.isInvited(sender.uniqueId)) list.add(group.alias)
+                    for (party: Party in PartyManager.getGroups().values) {
+                        if (party.isInvited(sender.uniqueId)) list.add(party.alias)
                     }
                 }
             }

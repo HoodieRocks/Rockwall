@@ -1,6 +1,7 @@
 package me.cobble.rockwall.utils
 
 import me.clip.placeholderapi.PlaceholderAPI
+import me.cobble.rockwall.config.Config
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.ClickEvent
@@ -120,6 +121,7 @@ object Utils {
         list.forEach {
             builder.append(it)
             if (list.indexOf(it) != list.size - 1) builder.append('\n')
+            if (Config.getBool("settings.reset-color-on-new-line")) builder.append("&r&f")
         }
 
         return builder.toString()

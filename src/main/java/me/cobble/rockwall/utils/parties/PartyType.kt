@@ -1,4 +1,4 @@
-package me.cobble.rockwall.utils.groups
+package me.cobble.rockwall.utils.parties
 
 /**
  * *Types of groups.*
@@ -8,7 +8,7 @@ package me.cobble.rockwall.utils.groups
  * ADMIN - groups that only admins can create and join.
  * admins can join any admin group without invites
  */
-enum class GroupType(private val type: String) {
+enum class PartyType(private val type: String) {
     NORMAL("normal"),
     ADMIN("admin");
 

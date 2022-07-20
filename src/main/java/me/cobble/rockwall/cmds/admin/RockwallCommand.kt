@@ -3,7 +3,7 @@ package me.cobble.rockwall.cmds.admin
 import me.cobble.rockwall.cmds.admin.subcmds.CheckUpdateSub
 import me.cobble.rockwall.cmds.admin.subcmds.ReloadConfigSub
 import me.cobble.rockwall.cmds.admin.subcmds.RockwallInfoSub
-import me.cobble.rockwall.rockwall.Messages
+import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils

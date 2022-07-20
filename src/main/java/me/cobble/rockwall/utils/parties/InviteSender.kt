@@ -1,4 +1,4 @@
-package me.cobble.rockwall.utils.groups
+package me.cobble.rockwall.utils.parties
 
 import me.cobble.rockwall.utils.Utils
 import net.md_5.bungee.api.chat.ClickEvent

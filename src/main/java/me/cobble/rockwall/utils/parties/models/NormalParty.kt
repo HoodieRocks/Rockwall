@@ -1,9 +1,9 @@
-package me.cobble.rockwall.utils.groups.models
+package me.cobble.rockwall.utils.parties.models
 
-import me.cobble.rockwall.rockwall.Config
+import me.cobble.rockwall.config.Config
 import java.util.*
 
-class NormalGroup(override val owner: UUID, override val alias: String) : Group {
+class NormalParty(override val owner: UUID, override val alias: String) : Party {
     override val members: ArrayList<UUID> = arrayListOf(owner)
     override val invites: ArrayList<UUID> = arrayListOf()
     override val activeSpeakers: ArrayList<UUID> = arrayListOf()

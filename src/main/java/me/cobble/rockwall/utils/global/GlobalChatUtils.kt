@@ -1,7 +1,7 @@
 package me.cobble.rockwall.utils.global
 
 import me.clip.placeholderapi.PlaceholderAPI
-import me.cobble.rockwall.rockwall.Config
+import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.Utils
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent

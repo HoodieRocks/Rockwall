@@ -20,11 +20,11 @@ permissions:
     children:
       - rockwall.admin.join
   rockwall.admin.join:
-    description: Allows access to joining admin groups
+    description: Allows access to joining admin parties
     default: op
   rockwall.admin.create:
     default: op
-    description: Allows for creating admin groups
+    description: Allows for creating admin parties
 commands:
   rockwall:
     aliases:

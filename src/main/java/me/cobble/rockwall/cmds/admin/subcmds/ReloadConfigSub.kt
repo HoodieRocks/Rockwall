@@ -1,7 +1,7 @@
 package me.cobble.rockwall.cmds.admin.subcmds
 
-import me.cobble.rockwall.rockwall.Config
-import me.cobble.rockwall.rockwall.Messages
+import me.cobble.rockwall.config.Config
+import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
 import org.bukkit.entity.Player

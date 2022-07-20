@@ -1,13 +1,13 @@
 package me.cobble.rockwall.listeners
 
-import me.cobble.rockwall.rockwall.Config
+import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.global.FormatType
-import me.cobble.rockwall.utils.groups.GroupType
-import me.cobble.rockwall.utils.groups.GroupUtils
-import me.cobble.rockwall.utils.groups.models.AdminGroup
-import me.cobble.rockwall.utils.groups.models.NormalGroup
+import me.cobble.rockwall.utils.parties.PartyType
+import me.cobble.rockwall.utils.parties.PartyUtils
+import me.cobble.rockwall.utils.parties.models.AdminParty
+import me.cobble.rockwall.utils.parties.models.NormalParty
 import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -17,7 +17,7 @@ import org.bukkit.event.player.AsyncPlayerChatEvent
 import java.util.*
 
 // Sends messages to Rockwall's group system
-class SendToGroupListener(plugin: Rockwall) : Listener {
+class SendToPartyListener(plugin: Rockwall) : Listener {
 
     init {
         Bukkit.getPluginManager().registerEvents(this, plugin)
@@ -32,18 +32,18 @@ class SendToGroupListener(plugin: Rockwall) : Listener {
         }
 
 
-        if (GroupUtils.getCurrentSpeakingChat(event.player.uniqueId) != null) {
+        if (PartyUtils.getCurrentSpeakingChat(event.player.uniqueId) != null) {
             event.isCancelled = true
 
-            val group = GroupUtils.getCurrentSpeakingChat(event.player.uniqueId)
-            val type = if (group is AdminGroup) GroupType.ADMIN else GroupType.NORMAL
+            val group = PartyUtils.getCurrentSpeakingChat(event.player.uniqueId)
+            val type = if (group is AdminParty) PartyType.ADMIN else PartyType.NORMAL
 
 
             // various components from config formats
-            val prefix = GroupUtils.formatMaker(event.player, group, type, FormatType.PREFIX)
-            val prefixSeparator = GroupUtils.formatMaker(event.player, group, type, FormatType.PREFIX_SEPARATOR)
-            val name = GroupUtils.formatMaker(event.player, group, type, FormatType.NAME)
-            val nameSeparator = GroupUtils.formatMaker(event.player, group, type, FormatType.NAME_SEPARATOR)
+            val prefix = PartyUtils.formatMaker(event.player, group, type, FormatType.PREFIX)
+            val prefixSeparator = PartyUtils.formatMaker(event.player, group, type, FormatType.PREFIX_SEPARATOR)
+            val name = PartyUtils.formatMaker(event.player, group, type, FormatType.NAME)
+            val nameSeparator = PartyUtils.formatMaker(event.player, group, type, FormatType.NAME_SEPARATOR)
 
             val components = ComponentBuilder()
                 .append(prefix)
@@ -68,7 +68,7 @@ class SendToGroupListener(plugin: Rockwall) : Listener {
             }
 
             // reset time until auto-deletion
-            if (group is NormalGroup) group.timeTillDeath = Config.getInt("groups.timeout")
+            if (group is NormalParty) group.timeTillDeath = Config.getInt("groups.timeout")
         }
     }
 }

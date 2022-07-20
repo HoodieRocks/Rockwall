@@ -1,10 +1,12 @@
-package me.cobble.rockwall.rockwall
+package me.cobble.rockwall.config
 
+import me.cobble.rockwall.rockwall.Rockwall
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.io.IOException
+import java.nio.file.Files
 
 object Config {
     private val log = Bukkit.getLogger()
@@ -30,10 +32,6 @@ object Config {
         return config
     }
 
-    fun getString(path: String): String {
-        return get()!!.getString(path)!!
-    }
-
     fun getBool(path: String): Boolean {
         return get()!!.getBoolean(path)
     }
@@ -53,5 +51,19 @@ object Config {
     fun reload() {
         config = YamlConfiguration.loadConfiguration(file!!)
         log.info("Rockwall Main Config reloaded")
+    }
+
+    fun update(plugin: Rockwall) {
+        val version = getInt("config-version")
+        if (plugin.description.version[0].digitToInt() > version) {
+            plugin.logger.info("Old config found, moving to ${plugin.dataFolder.toString() + "/old/config.yml"}")
+            val oldFolder = File(plugin.dataFolder.toString() + "/old/")
+            oldFolder.mkdir()
+
+            val oldConfig = File(plugin.dataFolder.toString() + "/old/config.yml")
+
+            Files.move(file!!.toPath(), oldConfig.toPath())
+            plugin.initConfig()
+        }
     }
 }

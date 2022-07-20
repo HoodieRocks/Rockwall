@@ -1,11 +1,11 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
-import me.cobble.rockwall.rockwall.Messages
+import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.groups.GroupManager
+import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.entity.Player
 
-class DeleteGroupSub : RockwallBaseCommand() {
+class DeletePartySub : RockwallBaseCommand() {
     override val name: String
         get() = "delete"
     override val descriptor: String
@@ -14,7 +14,7 @@ class DeleteGroupSub : RockwallBaseCommand() {
         get() = "/g delete"
 
     override fun run(p: Player, args: Array<String>) {
-        val group = GroupManager.getGroup(p.uniqueId)
+        val group = PartyManager.getGroup(p.uniqueId)
 
         if (group == null) {
             p.sendMessage(Messages.getGroupString("errors.no-group-for-deletion"))
@@ -22,7 +22,7 @@ class DeleteGroupSub : RockwallBaseCommand() {
         }
 
         if (group.owner == p.uniqueId) {
-            GroupManager.deleteGroup(group)
+            PartyManager.deleteGroup(group)
         }
     }
 }

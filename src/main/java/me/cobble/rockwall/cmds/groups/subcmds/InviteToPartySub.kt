@@ -1,16 +1,16 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
-import me.cobble.rockwall.rockwall.Messages
+import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
-import me.cobble.rockwall.utils.groups.GroupManager
-import me.cobble.rockwall.utils.groups.InviteSender
-import me.cobble.rockwall.utils.groups.models.AdminGroup
-import me.cobble.rockwall.utils.groups.models.Group
+import me.cobble.rockwall.utils.parties.InviteSender
+import me.cobble.rockwall.utils.parties.PartyManager
+import me.cobble.rockwall.utils.parties.models.AdminParty
+import me.cobble.rockwall.utils.parties.models.Party
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class InviteToGroupSub : RockwallBaseCommand() {
+class InviteToPartySub : RockwallBaseCommand() {
     override val name: String
         get() = "invite"
     override val descriptor: String
@@ -24,10 +24,10 @@ class InviteToGroupSub : RockwallBaseCommand() {
             return
         }
 
-        val group: Group? = GroupManager.getGroup(p.uniqueId)
+        val party: Party? = PartyManager.getGroup(p.uniqueId)
         val target = Bukkit.getPlayer(args[0])
 
-        if (group == null) {
+        if (party == null) {
             p.sendMessage(Messages.getGroupString("errors.no-group-for-invites"))
             return
         }
@@ -37,14 +37,14 @@ class InviteToGroupSub : RockwallBaseCommand() {
             return
         }
 
-        if (group is AdminGroup) {
+        if (party is AdminParty) {
             p.sendMessage(Messages.getGroupString("errors.cant-invite-to-admin-group"))
             return
         }
 
-        if (group.owner == p.uniqueId) {
-            group.addInvite(target.uniqueId)
-            InviteSender.sendInvites(group.invites, group.alias)
+        if (party.owner == p.uniqueId) {
+            party.addInvite(target.uniqueId)
+            InviteSender.sendInvites(party.invites, party.alias)
         } else {
             p.sendMessage(Messages.getPermissionString("no-perm-group"))
         }

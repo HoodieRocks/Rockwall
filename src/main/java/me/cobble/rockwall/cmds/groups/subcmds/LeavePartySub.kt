@@ -1,13 +1,13 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
-import me.cobble.rockwall.rockwall.Messages
+import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
-import me.cobble.rockwall.utils.groups.GroupManager
-import me.cobble.rockwall.utils.groups.GroupUtils
+import me.cobble.rockwall.utils.parties.PartyManager
+import me.cobble.rockwall.utils.parties.PartyUtils
 import org.bukkit.entity.Player
 
-class LeaveGroupSub : RockwallBaseCommand() {
+class LeavePartySub : RockwallBaseCommand() {
     override val name: String
         get() = "leave"
     override val descriptor: String
@@ -21,12 +21,12 @@ class LeaveGroupSub : RockwallBaseCommand() {
             return
         }
 
-        if (!GroupUtils.validateGroupName(args[0])) {
+        if (!PartyUtils.validateGroupName(args[0])) {
             p.sendMessage(Messages.getGroupString("errors.invalid"))
             return
         }
 
-        val group = GroupManager.getGroup(args[0])
+        val group = PartyManager.getGroup(args[0])
 
         if (group == null) {
             p.sendMessage(Messages.getGroupString("errors.404"))
@@ -48,7 +48,7 @@ class LeaveGroupSub : RockwallBaseCommand() {
         p.sendMessage(Messages.getGroupString("leave"))
 
         if (group.members.size == 0) {
-            GroupManager.deleteGroup(group)
+            PartyManager.deleteGroup(group)
         }
     }
 }

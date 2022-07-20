@@ -1,9 +1,9 @@
-package me.cobble.rockwall.utils.groups
+package me.cobble.rockwall.utils.parties
 
-import me.cobble.rockwall.rockwall.Config
+import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.global.FormatType
-import me.cobble.rockwall.utils.groups.models.Group
+import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -12,7 +12,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
 
-object GroupUtils {
+object PartyUtils {
 
     /**
      * Check to see if the group name is valid
@@ -24,18 +24,18 @@ object GroupUtils {
     /**
      * Converts invited players to a group member
      */
-    fun inviteToMember(uuid: UUID, group: Group?) {
-        if (group == null) return
-        group.addMember(uuid)
-        group.removeInvite(uuid)
+    fun inviteToMember(uuid: UUID, party: Party?) {
+        if (party == null) return
+        party.addMember(uuid)
+        party.removeInvite(uuid)
     }
 
     /**
      * Change what chat the player is in
      */
-    fun changeChatSpeaker(player: UUID, group: Group?) {
-        GroupManager.getGroups().values.forEach {
-            if (group == null || it != group) {
+    fun changeChatSpeaker(player: UUID, party: Party?) {
+        PartyManager.getGroups().values.forEach {
+            if (party == null || it != party) {
                 it.removeSpeaker(player)
             }
         }
@@ -44,25 +44,25 @@ object GroupUtils {
     /**
      * Get chat player is speaking in
      */
-    fun getCurrentSpeakingChat(player: UUID): Group? {
-        for (group: Group in GroupManager.getGroups().values) {
-            if (group.isSpeaking(player)) {
-                return group
+    fun getCurrentSpeakingChat(player: UUID): Party? {
+        for (party: Party in PartyManager.getGroups().values) {
+            if (party.isSpeaking(player)) {
+                return party
             }
         }
         return null
     }
 
-    fun formatMaker(player: Player, group: Group?, groupType: GroupType, formatType: FormatType): TextComponent? {
+    fun formatMaker(player: Player, party: Party?, partyType: PartyType, formatType: FormatType): TextComponent? {
         val configSection =
-            Config.get()!!.getConfigurationSection("groups.formats.${groupType.getType()}") ?: return null
+            Config.get()!!.getConfigurationSection("groups.formats.${partyType.getType()}") ?: return null
         val section = configSection.getConfigurationSection(formatType.getType())
         val format = TextComponent(
             *TextComponent.fromLegacyText(
                 Utils.color(
                     Utils.setPlaceholders(
                         player,
-                        section!!.getString("display")!!.replace("%chat_alias%", group!!.alias)
+                        section!!.getString("display")!!.replace("%chat_alias%", party!!.alias)
                     )
                 )
             )
@@ -88,7 +88,7 @@ object GroupUtils {
     /**
      * Check if groups are enabled in config
      */
-    fun areGroupsEnabled(): Boolean {
+    fun arePartiesEnabled(): Boolean {
         return Config.getBool("groups.enabled")
     }
 
@@ -96,18 +96,18 @@ object GroupUtils {
      * Gets the user's groups
      * @return all groups the user is a member in
      */
-    fun getUsersGroups(uuid: UUID): List<Group> {
+    fun getUsersGroups(uuid: UUID): List<Party> {
         val player = Bukkit.getPlayer(uuid)
-        val groups = ArrayList<Group>()
+        val parties = ArrayList<Party>()
 
         if (player!!.hasPermission("rockwall.admin.join")) {
-            return GroupManager.getGroups().values.toList()
+            return PartyManager.getGroups().values.toList()
         }
 
-        for (group: Group in GroupManager.getGroups().values) {
-            if (group.isMember(uuid)) groups.add(group)
+        for (party: Party in PartyManager.getGroups().values) {
+            if (party.isMember(uuid)) parties.add(party)
         }
 
-        return groups
+        return parties
     }
 }

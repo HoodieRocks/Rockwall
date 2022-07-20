@@ -1,7 +1,8 @@
-package me.cobble.rockwall.rockwall
+package me.cobble.rockwall.config
 
+import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
-import me.cobble.rockwall.utils.groups.models.Group
+import me.cobble.rockwall.utils.parties.models.Party
 import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
@@ -13,7 +14,7 @@ object Messages {
     private var file: File? = null
 
     fun init(plugin: Rockwall) {
-        this.plugin = plugin
+        Messages.plugin = plugin
         file = File(Bukkit.getPluginManager().getPlugin("Rockwall")!!.dataFolder.toString() + "/messages.yml")
         plugin.saveResource("messages.yml", false)
         config = YamlConfiguration.loadConfiguration(file!!)
@@ -27,8 +28,8 @@ object Messages {
         return getString("permission-messages.$path")
     }
 
-    fun getGroupString(path: String, group: Group): String {
-        return getString("groups.$path").replace("%group_alias%", group.alias)
+    fun getGroupString(path: String, party: Party): String {
+        return getString("groups.$path").replace("%group_alias%", party.alias)
     }
 
     fun getGroupString(path: String): String {

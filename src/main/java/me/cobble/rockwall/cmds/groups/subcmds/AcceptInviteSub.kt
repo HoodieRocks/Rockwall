@@ -1,10 +1,10 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
-import me.cobble.rockwall.rockwall.Messages
+import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
-import me.cobble.rockwall.utils.groups.GroupManager
-import me.cobble.rockwall.utils.groups.GroupUtils
+import me.cobble.rockwall.utils.parties.PartyManager
+import me.cobble.rockwall.utils.parties.PartyUtils
 import org.bukkit.entity.Player
 
 class AcceptInviteSub : RockwallBaseCommand() {
@@ -19,10 +19,10 @@ class AcceptInviteSub : RockwallBaseCommand() {
         if (args.isEmpty()) {
             p.sendMessage(Utils.color("&c$syntax"))
         } else {
-            if (GroupUtils.validateGroupName(args[0]) && GroupManager.groupExists(args[0])) {
-                val group = GroupManager.getGroup(args[0])
+            if (PartyUtils.validateGroupName(args[0]) && PartyManager.groupExists(args[0])) {
+                val group = PartyManager.getGroup(args[0])
                 if (group!!.isInvited(p.uniqueId)) {
-                    GroupUtils.inviteToMember(p.uniqueId, group)
+                    PartyUtils.inviteToMember(p.uniqueId, group)
                     p.sendMessage(Messages.getGroupString("joined", group))
                 }
             }

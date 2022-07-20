@@ -4,7 +4,7 @@ import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.global.FormatType
 import me.cobble.rockwall.utils.global.GlobalChatUtils
-import me.cobble.rockwall.utils.groups.GroupUtils
+import me.cobble.rockwall.utils.parties.PartyUtils
 import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -30,7 +30,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
 
         event.isCancelled = true
 
-        if (GroupUtils.getCurrentSpeakingChat(event.player.uniqueId) == null) {
+        if (PartyUtils.getCurrentSpeakingChat(event.player.uniqueId) == null) {
 
             val permission = GlobalChatUtils.getFormatPermission(event.player)
 

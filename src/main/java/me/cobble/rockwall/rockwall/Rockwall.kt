@@ -1,7 +1,9 @@
 package me.cobble.rockwall.rockwall
 
+import me.cobble.rockwall.config.Config
+import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.Utils
-import me.cobble.rockwall.utils.groups.GroupManager
+import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
@@ -26,7 +28,7 @@ class Rockwall : JavaPlugin() {
 
         // Group timer registration
         Bukkit.getScheduler().runTaskTimer(this, Runnable {
-            GroupManager.tickTimers()
+            PartyManager.tickTimers()
         }, 20, 20)
 
         logger.info("Components registered!")
@@ -44,11 +46,12 @@ class Rockwall : JavaPlugin() {
         else logger.info("PlaceholderAPI found!")
     }
 
-    private fun initConfig() {
+    fun initConfig() {
         logger.info("Loading configs...")
         this.saveDefaultConfig()
         Config.setup()
         Messages.init(this)
+        Config.update(this)
         logger.info("Loaded configs...")
     }
 }

@@ -1,13 +1,13 @@
 package me.cobble.rockwall.cmds.groups.subcmds
 
-import me.cobble.rockwall.rockwall.Messages
+import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.groups.GroupManager
-import me.cobble.rockwall.utils.groups.GroupUtils
-import me.cobble.rockwall.utils.groups.models.AdminGroup
+import me.cobble.rockwall.utils.parties.PartyManager
+import me.cobble.rockwall.utils.parties.PartyUtils
+import me.cobble.rockwall.utils.parties.models.AdminParty
 import org.bukkit.entity.Player
 
-class MessageGroupSub : RockwallBaseCommand() {
+class MessagePartySub : RockwallBaseCommand() {
     override val name: String
         get() = "msg"
     override val descriptor: String
@@ -18,18 +18,18 @@ class MessageGroupSub : RockwallBaseCommand() {
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty() || (args.size == 1 && args[0].equals("global", ignoreCase = true))) {
             p.sendMessage(Messages.getGroupString("messaging-global"))
-            GroupUtils.changeChatSpeaker(p.uniqueId, null)
+            PartyUtils.changeChatSpeaker(p.uniqueId, null)
         } else {
             val groupName = args[0]
-            if (GroupUtils.validateGroupName(groupName)) {
-                val group = GroupManager.getGroup(groupName)
-                if (GroupManager.groupExists(groupName) && ((group is AdminGroup && p.hasPermission("rockwall.admin.join")) || group!!.isMember(
+            if (PartyUtils.validateGroupName(groupName)) {
+                val group = PartyManager.getGroup(groupName)
+                if (PartyManager.groupExists(groupName) && ((group is AdminParty && p.hasPermission("rockwall.admin.join")) || group!!.isMember(
                         p.uniqueId
                     ))
                 ) {
                     if (group.isSpeaking(p.uniqueId)) p.sendMessage(Messages.getGroupString("already-speaking")) else {
                         group.addSpeaker(p.uniqueId)
-                        GroupUtils.changeChatSpeaker(p.uniqueId, group)
+                        PartyUtils.changeChatSpeaker(p.uniqueId, group)
                         p.sendMessage(Messages.getGroupString("now-speaking", group))
                     }
                 } else {

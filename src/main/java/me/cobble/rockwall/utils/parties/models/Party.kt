@@ -1,8 +1,8 @@
-package me.cobble.rockwall.utils.groups.models
+package me.cobble.rockwall.utils.parties.models
 
 import java.util.*
 
-interface Group {
+interface Party {
     val members: ArrayList<UUID>
     val invites: ArrayList<UUID>
     val activeSpeakers: ArrayList<UUID>
