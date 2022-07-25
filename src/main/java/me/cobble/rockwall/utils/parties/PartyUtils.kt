@@ -54,8 +54,7 @@ object PartyUtils {
     }
 
     fun formatMaker(player: Player, party: Party?, partyType: PartyType, formatType: FormatType): TextComponent? {
-        val configSection =
-            Config.get()!!.getConfigurationSection("groups.formats.${partyType.getType()}") ?: return null
+        val configSection = Config.getSection("groups.formats.${partyType.getType()}") ?: return null
         val section = configSection.getConfigurationSection(formatType.getType())
         val format = TextComponent(
             *TextComponent.fromLegacyText(

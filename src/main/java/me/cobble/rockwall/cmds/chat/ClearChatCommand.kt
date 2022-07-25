@@ -1,4 +1,4 @@
-package me.cobble.rockwall.cmds.global
+package me.cobble.rockwall.cmds.chat
 
 import me.cobble.rockwall.utils.Utils
 import org.bukkit.Bukkit

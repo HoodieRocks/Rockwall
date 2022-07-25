@@ -16,12 +16,12 @@ permission-messages:
   no-create-admin-perm: "&cYou do not have permission to create an admin group"
   no-perm-group: "&cYou do not have permission to invite others to this chat"
 
-# Group related messages
+# Party related messages
 groups:
   # Placeholders
   # %group_alias% - the group alias
 
-  # Group interactions
+  # Party interactions
   creation: "&aGroup created with name %group_alias%."
   deletion: "&7The owner of %group_alias% has deleted the group"
   join: "&aYou are now a member of %group_alias%"
@@ -32,8 +32,8 @@ groups:
   now-speaking: "&aYou are now talking in %group_alias%"
 
 
-  # Errors related to groups
-  # Ex. you can't have 2 groups open, no special characters
+  # Errors related to the party system
+  # Ex. you can't have 2 parties open, no special characters
   errors:
     no-special-characters: "&cYou can not use special characters in the group name!"
     group-limit-reached: "&cYou can not have 2 groups open at the same time!"

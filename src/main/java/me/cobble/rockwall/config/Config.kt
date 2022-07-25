@@ -1,6 +1,7 @@
 package me.cobble.rockwall.config
 
 import me.cobble.rockwall.rockwall.Rockwall
+import org.bukkit.configuration.ConfigurationSection
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
@@ -30,6 +31,10 @@ object Config {
 
     fun get(): FileConfiguration? {
         return config
+    }
+
+    fun getSection(path: String): ConfigurationSection? {
+        return get()!!.getConfigurationSection(path)
     }
 
     fun getBool(path: String): Boolean {

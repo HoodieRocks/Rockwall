@@ -1,8 +1,8 @@
 package me.cobble.rockwall.rockwall
 
 import me.cobble.rockwall.cmds.admin.RockwallCommand
-import me.cobble.rockwall.cmds.global.ClearChatCommand
-import me.cobble.rockwall.cmds.groups.PartyCommand
+import me.cobble.rockwall.cmds.chat.ClearChatCommand
+import me.cobble.rockwall.cmds.parties.PartyCommand
 import me.cobble.rockwall.listeners.SendGloballyListener
 import me.cobble.rockwall.listeners.SendToPartyListener
 import me.cobble.rockwall.utils.chat.ChatUtils

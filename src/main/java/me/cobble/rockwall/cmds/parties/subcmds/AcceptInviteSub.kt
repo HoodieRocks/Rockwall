@@ -1,4 +1,4 @@
-package me.cobble.rockwall.cmds.groups.subcmds
+package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
@@ -7,13 +7,13 @@ import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyUtils
 import org.bukkit.entity.Player
 
-class DenyInviteSub : RockwallBaseCommand() {
+class AcceptInviteSub : RockwallBaseCommand() {
     override val name: String
-        get() = "deny"
+        get() = "accept"
     override val descriptor: String
-        get() = "Denies pending invites"
+        get() = "Accepts pending invites"
     override val syntax: String
-        get() = "/party deny <group name>"
+        get() = "/party accept <group name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
@@ -22,8 +22,8 @@ class DenyInviteSub : RockwallBaseCommand() {
             if (PartyUtils.validateGroupName(args[0]) && PartyManager.groupExists(args[0])) {
                 val group = PartyManager.getGroup(args[0])
                 if (group!!.isInvited(p.uniqueId)) {
-                    group.removeInvite(p.uniqueId)
-                    p.sendMessage(Messages.getGroupString("invite-denied"))
+                    PartyUtils.inviteToMember(p.uniqueId, group)
+                    p.sendMessage(Messages.getGroupString("joined", group))
                 }
             }
         }

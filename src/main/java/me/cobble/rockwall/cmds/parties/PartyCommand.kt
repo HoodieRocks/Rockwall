@@ -1,6 +1,6 @@
-package me.cobble.rockwall.cmds.groups
+package me.cobble.rockwall.cmds.parties
 
-import me.cobble.rockwall.cmds.groups.subcmds.*
+import me.cobble.rockwall.cmds.parties.subcmds.*
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils

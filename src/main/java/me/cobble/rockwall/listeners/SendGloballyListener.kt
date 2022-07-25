@@ -37,10 +37,10 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             val permission = ChatUtils.getFormatPermission(player)
 
             // config format components
-            val prefix = ChatUtils.formatMaker(player, permission, FormatType.PREFIX)
-            val prefixSeparator = ChatUtils.formatMaker(player, permission, FormatType.PREFIX_SEPARATOR)
-            val name = ChatUtils.formatMaker(player, permission, FormatType.NAME)
-            val nameSeparator = ChatUtils.formatMaker(player, permission, FormatType.NAME_SEPARATOR)
+            val prefix = ChatUtils.makeFormat(player, permission, FormatType.PREFIX)
+            val prefixSeparator = ChatUtils.makeFormat(player, permission, FormatType.PREFIX_SEPARATOR)
+            val name = ChatUtils.makeFormat(player, permission, FormatType.NAME)
+            val nameSeparator = ChatUtils.makeFormat(player, permission, FormatType.NAME_SEPARATOR)
 
             Bukkit.spigot().broadcast(
                 *ComponentBuilder()

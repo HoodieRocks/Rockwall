@@ -110,12 +110,6 @@ object PartyManager {
     fun getGroups(): HashMap<UUID, Party> {
         return groups
     }
-
-    /**
-     * ***For Internal Use Only***
-     * Ticks all normal group's timeTillDeath variable
-     * @see NormalParty.timeTillDeath
-     */
     fun tickTimers() {
         for (party: Party in groups.values) {
             if (party is NormalParty) {
