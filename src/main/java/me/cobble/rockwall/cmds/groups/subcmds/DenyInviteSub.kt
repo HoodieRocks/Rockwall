@@ -13,7 +13,7 @@ class DenyInviteSub : RockwallBaseCommand() {
     override val descriptor: String
         get() = "Denies pending invites"
     override val syntax: String
-        get() = "/g deny <group name>"
+        get() = "/party deny <group name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {

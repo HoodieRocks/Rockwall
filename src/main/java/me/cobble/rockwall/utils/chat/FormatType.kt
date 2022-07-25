@@ -1,4 +1,4 @@
-package me.cobble.rockwall.utils.global
+package me.cobble.rockwall.utils.chat
 
 enum class FormatType(private val type: String) {
     PREFIX("prefix"),

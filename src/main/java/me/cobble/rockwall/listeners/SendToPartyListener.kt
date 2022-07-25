@@ -3,7 +3,7 @@ package me.cobble.rockwall.listeners
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
-import me.cobble.rockwall.utils.global.FormatType
+import me.cobble.rockwall.utils.chat.FormatType
 import me.cobble.rockwall.utils.parties.PartyType
 import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.AdminParty
@@ -16,7 +16,7 @@ import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
 import java.util.*
 
-// Sends messages to Rockwall's group system
+// Sends messages to Rockwall's party system
 class SendToPartyListener(plugin: Rockwall) : Listener {
 
     init {
@@ -27,40 +27,42 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
     @EventHandler(priority = EventPriority.LOWEST)
     fun onSpeakToGroup(event: AsyncPlayerChatEvent) {
 
+        val player = event.player
+
         if (event.isCancelled) {
             return
         }
 
 
-        if (PartyUtils.getCurrentSpeakingChat(event.player.uniqueId) != null) {
+        if (PartyUtils.getCurrentSpeakingChat(player.uniqueId) != null) {
             event.isCancelled = true
 
-            val group = PartyUtils.getCurrentSpeakingChat(event.player.uniqueId)
+            val group = PartyUtils.getCurrentSpeakingChat(player.uniqueId)
             val type = if (group is AdminParty) PartyType.ADMIN else PartyType.NORMAL
 
 
             // various components from config formats
-            val prefix = PartyUtils.formatMaker(event.player, group, type, FormatType.PREFIX)
-            val prefixSeparator = PartyUtils.formatMaker(event.player, group, type, FormatType.PREFIX_SEPARATOR)
-            val name = PartyUtils.formatMaker(event.player, group, type, FormatType.NAME)
-            val nameSeparator = PartyUtils.formatMaker(event.player, group, type, FormatType.NAME_SEPARATOR)
+            val prefix = PartyUtils.formatMaker(player, group, type, FormatType.PREFIX)
+            val prefixSeparator = PartyUtils.formatMaker(player, group, type, FormatType.PREFIX_SEPARATOR)
+            val name = PartyUtils.formatMaker(player, group, type, FormatType.NAME)
+            val nameSeparator = PartyUtils.formatMaker(player, group, type, FormatType.NAME_SEPARATOR)
 
             val components = ComponentBuilder()
                 .append(prefix)
                 .append(prefixSeparator)
                 .append(name)
                 .append(nameSeparator)
-                .appendLegacy(Utils.color(event.message, event.player))
+                .appendLegacy(Utils.color(event.message, player))
 
-            event.player.spigot().sendMessage(*components.create())
+            player.spigot().sendMessage(*components.create())
 
             for (uuid: UUID in group!!.members) {
-                val player = Bukkit.getPlayer(uuid)!!
-                if (player.isOnline) {
+                val resolvedPlayer = Bukkit.getPlayer(uuid)!!
+                if (resolvedPlayer.isOnline) {
 
                     // we already sent the message to the event player, don't do it again
                     if (uuid != event.player.uniqueId) {
-                        player.spigot().sendMessage(*components.create())
+                        resolvedPlayer.spigot().sendMessage(*components.create())
                     }
                 } else {
                     group.removeMember(uuid)

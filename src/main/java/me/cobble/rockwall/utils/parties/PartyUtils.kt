@@ -2,7 +2,7 @@ package me.cobble.rockwall.utils.parties
 
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.Utils
-import me.cobble.rockwall.utils.global.FormatType
+import me.cobble.rockwall.utils.chat.FormatType
 import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -89,7 +89,7 @@ object PartyUtils {
      * Check if groups are enabled in config
      */
     fun arePartiesEnabled(): Boolean {
-        return Config.getBool("groups.enabled")
+        return Config.getBool("parties.enabled")
     }
 
     /**

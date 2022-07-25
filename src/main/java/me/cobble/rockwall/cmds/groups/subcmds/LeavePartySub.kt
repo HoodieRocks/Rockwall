@@ -13,7 +13,7 @@ class LeavePartySub : RockwallBaseCommand() {
     override val descriptor: String
         get() = "Allows members (but not owners) to leave the chat"
     override val syntax: String
-        get() = "/g leave <group name>"
+        get() = "/party leave <group name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {

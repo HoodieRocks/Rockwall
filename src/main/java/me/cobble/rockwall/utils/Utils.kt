@@ -54,11 +54,9 @@ object Utils {
                 if ("&".equals(texts[i], ignoreCase = true)) {
                     //get the next string
                     i++
-                    if (texts[i][0] == '#') {
-                        finalText.append(ChatColor.of(texts[i].substring(0, 7))).append(texts[i].substring(7))
-                    } else {
-                        finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]))
-                    }
+                    if (texts[i][0] == '#') finalText.append(ChatColor.of(texts[i].substring(0, 7)))
+                        .append(texts[i].substring(7))
+                    else finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]))
                 } else {
                     finalText.append(texts[i])
                 }
@@ -93,10 +91,8 @@ object Utils {
      */
     private fun addEvents(text: String?, hoverText: String?, command: String?): BaseComponent {
         val component = TextComponent(text)
-        component.hoverEvent =
-            HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(hoverText))
-        component.clickEvent =
-            ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)
+        component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(hoverText))
+        component.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)
         return component
     }
 

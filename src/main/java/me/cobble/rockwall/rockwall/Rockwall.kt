@@ -22,9 +22,7 @@ class Rockwall : JavaPlugin() {
 
         // Registers components
         logger.info("Registering components...")
-        registry.registerBukkitCommands()
-        registry.registerCommandExecutors()
-        registry.registerListeners()
+        registerComponents()
 
         // Group timer registration
         Bukkit.getScheduler().runTaskTimer(this, Runnable {
@@ -46,12 +44,19 @@ class Rockwall : JavaPlugin() {
         else logger.info("PlaceholderAPI found!")
     }
 
-    fun initConfig() {
+    private fun initConfig() {
         logger.info("Loading configs...")
         this.saveDefaultConfig()
-        Config.setup()
+        Config.setup(this)
         Messages.init(this)
-        Config.update(this)
         logger.info("Loaded configs...")
     }
+
+    private fun registerComponents() {
+        registry.registerBukkitCommands()
+        registry.registerCommandExecutors()
+        registry.registerListeners()
+    }
+
+
 }

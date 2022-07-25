@@ -11,7 +11,7 @@ class DeletePartySub : RockwallBaseCommand() {
     override val descriptor: String
         get() = "Deletes a group. \n(You must be the group owner to do this)"
     override val syntax: String
-        get() = "/g delete"
+        get() = "/party delete"
 
     override fun run(p: Player, args: Array<String>) {
         val group = PartyManager.getGroup(p.uniqueId)

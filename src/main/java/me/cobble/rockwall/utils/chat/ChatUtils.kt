@@ -1,6 +1,5 @@
-package me.cobble.rockwall.utils.global
+package me.cobble.rockwall.utils.chat
 
-import me.clip.placeholderapi.PlaceholderAPI
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.Utils
 import net.md_5.bungee.api.chat.ClickEvent
@@ -9,7 +8,7 @@ import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
 
-object GlobalChatUtils {
+object ChatUtils {
 
     /**
      * Creates string formats from config entries
@@ -22,13 +21,11 @@ object GlobalChatUtils {
         val format = TextComponent(
             *TextComponent.fromLegacyText(
                 Utils.color(
-                    PlaceholderAPI.setPlaceholders(
-                        player,
-                        section!!.getString("display")!!
-                    )
+                    Utils.setPlaceholders(player, section!!.getString("display")!!)
                 )
             )
         )
+
         format.hoverEvent = HoverEvent(
             HoverEvent.Action.SHOW_TEXT, Text(
                 TextComponent.fromLegacyText(

@@ -55,10 +55,8 @@ object PartyManager {
         val tag = (0 until 10000).random()
         var alias = "$name#${String.format("%04d", tag)}"
 
-        for (party: Party in groups.values) {
-            if (party.alias == alias) {
-                alias = "$name#${tag + 1}"
-            }
+        while (getGroup(alias) != null) {
+            alias = "$name#${tag + 1}"
         }
 
         val group = if (type == PartyType.NORMAL) NormalParty(owner, alias) else AdminParty(owner, alias)

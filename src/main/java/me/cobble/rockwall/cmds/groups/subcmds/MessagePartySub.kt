@@ -13,7 +13,7 @@ class MessagePartySub : RockwallBaseCommand() {
     override val descriptor: String
         get() = "Message your group"
     override val syntax: String
-        get() = "/g msg <group name>"
+        get() = "/party msg <group name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty() || (args.size == 1 && args[0].equals("global", ignoreCase = true))) {

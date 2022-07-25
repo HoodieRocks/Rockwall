@@ -14,7 +14,7 @@ class CreatePartySub : RockwallBaseCommand() {
     override val descriptor: String
         get() = "Creates a new group"
     override val syntax: String
-        get() = "/g create <name>"
+        get() = "/party create <name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {

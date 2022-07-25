@@ -16,7 +16,7 @@ class InviteToPartySub : RockwallBaseCommand() {
     override val descriptor: String
         get() = "Invites players to your group \n(you must be the owner of the group to do this)"
     override val syntax: String
-        get() = "/g invite <player>"
+        get() = "/party invite <player> <player> ..."
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
@@ -25,15 +25,9 @@ class InviteToPartySub : RockwallBaseCommand() {
         }
 
         val party: Party? = PartyManager.getGroup(p.uniqueId)
-        val target = Bukkit.getPlayer(args[0])
 
         if (party == null) {
             p.sendMessage(Messages.getGroupString("errors.no-group-for-invites"))
-            return
-        }
-
-        if (target == null) {
-            p.sendMessage(Messages.getGroupString("errors.offline-player"))
             return
         }
 
@@ -42,11 +36,20 @@ class InviteToPartySub : RockwallBaseCommand() {
             return
         }
 
-        if (party.owner == p.uniqueId) {
-            party.addInvite(target.uniqueId)
-            InviteSender.sendInvites(party.invites, party.alias)
-        } else {
-            p.sendMessage(Messages.getPermissionString("no-perm-group"))
+        for (targetName in args) {
+            val target = Bukkit.getPlayer(targetName)
+            if (target == null) {
+                p.sendMessage(Messages.getGroupString("errors.offline-player"))
+                return
+            }
+
+            if (party.owner == p.uniqueId) {
+                party.addInvite(target.uniqueId)
+                InviteSender.sendInvites(party.invites, party.alias)
+            } else {
+                p.sendMessage(Messages.getPermissionString("no-perm-group"))
+                return
+            }
         }
     }
 }

@@ -13,7 +13,7 @@ class AcceptInviteSub : RockwallBaseCommand() {
     override val descriptor: String
         get() = "Accepts pending invites"
     override val syntax: String
-        get() = "/g accept <group name>"
+        get() = "/party accept <group name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {

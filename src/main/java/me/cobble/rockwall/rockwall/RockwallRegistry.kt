@@ -5,7 +5,7 @@ import me.cobble.rockwall.cmds.global.ClearChatCommand
 import me.cobble.rockwall.cmds.groups.PartyCommand
 import me.cobble.rockwall.listeners.SendGloballyListener
 import me.cobble.rockwall.listeners.SendToPartyListener
-import me.cobble.rockwall.utils.global.GlobalChatUtils
+import me.cobble.rockwall.utils.chat.ChatUtils
 import me.cobble.rockwall.utils.parties.PartyUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
@@ -30,7 +30,7 @@ class RockwallRegistry(private val plugin: Rockwall) {
             plugin.logger.info("Registering group commands")
             map!!.register(PREFIX, PartyCommand())
         }
-        if (GlobalChatUtils.isGlobalChatEnabled()) {
+        if (ChatUtils.isGlobalChatEnabled()) {
             plugin.logger.info("Registering global chat commands")
             map!!.register(PREFIX, ClearChatCommand())
         }
@@ -41,7 +41,7 @@ class RockwallRegistry(private val plugin: Rockwall) {
     }
 
     fun registerListeners() {
-        if (GlobalChatUtils.isGlobalChatEnabled()) {
+        if (ChatUtils.isGlobalChatEnabled()) {
             plugin.logger.info("Registering global chat listeners")
             SendGloballyListener(plugin)
         }
