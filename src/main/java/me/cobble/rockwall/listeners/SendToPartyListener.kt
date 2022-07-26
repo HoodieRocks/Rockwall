@@ -4,6 +4,7 @@ import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.chat.FormatType
+import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyType
 import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.AdminParty
@@ -14,6 +15,7 @@ import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.player.AsyncPlayerChatEvent
+import org.bukkit.event.player.PlayerQuitEvent
 import java.util.*
 
 // Sends messages to Rockwall's party system

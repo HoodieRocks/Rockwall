@@ -23,7 +23,7 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
 
     private val subCommands = arrayListOf(
         ReloadConfigSub(),
-        CheckUpdateSub(),
+        CheckUpdateSub(plugin),
         RockwallInfoSub(plugin),
         ConfigUpdateSub()
     )

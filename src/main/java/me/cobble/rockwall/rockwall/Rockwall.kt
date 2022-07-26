@@ -7,9 +7,11 @@ import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
+
 class Rockwall : JavaPlugin() {
 
     private val registry = RockwallRegistry(this)
+    private val updateUtils = Utils.UpdateUtils(this)
 
     override fun onEnable() {
         // Plugin startup logic
@@ -30,6 +32,8 @@ class Rockwall : JavaPlugin() {
         }, 20, 20)
 
         logger.info("Components registered!")
+
+        updateUtils.setUpdates()
     }
 
     override fun onDisable() {
@@ -58,5 +62,7 @@ class Rockwall : JavaPlugin() {
         registry.registerListeners()
     }
 
-
+    fun getUpdateUtils(): Utils.UpdateUtils {
+        return updateUtils
+    }
 }

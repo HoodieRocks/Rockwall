@@ -1,7 +1,11 @@
 package me.cobble.rockwall.utils
 
+import com.google.gson.Gson
+import com.google.gson.JsonArray
+import com.vdurmont.semver4j.Semver
 import me.clip.placeholderapi.PlaceholderAPI
 import me.cobble.rockwall.config.Config
+import me.cobble.rockwall.rockwall.Rockwall
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.ClickEvent
@@ -9,10 +13,16 @@ import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
+import java.net.URI
+import java.net.http.HttpClient
+import java.net.http.HttpRequest
+import java.net.http.HttpResponse
+import java.time.Duration
 
 object Utils {
     private const val WITH_DELIMITER = "((?<=%1\$s)|(?=%1\$s))"
     var placeholderAPIPresent = false
+    private var updateVersion: String? = null
 
     fun color(text: String): String {
         val texts: Array<String> =
@@ -132,7 +142,52 @@ object Utils {
         else string
     }
 
-    fun format(player: Player, content: String): String {
-        return color(setPlaceholders(player, content))
+    class UpdateUtils(private val plugin: Rockwall) {
+        /**
+         * @return true if update available
+         */
+        fun setUpdates(): Boolean {
+            var updateAvailable = false
+            val gson = Gson()
+            val thisSemver = Semver(plugin.description.version, Semver.SemverType.LOOSE)
+
+            val client = HttpClient.newBuilder()
+                .version(HttpClient.Version.HTTP_2)
+                .connectTimeout(Duration.ofSeconds(10))
+                .build()
+
+            val request = HttpRequest.newBuilder()
+                .GET()
+                .uri(URI.create("https://api.spiget.org/v2/resources/103709/versions"))
+                .build()
+
+            client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept {
+                val array = gson.fromJson(it.body(), JsonArray::class.java)
+                val retrievedVersion = array[0].asJsonObject["name"].asString
+                println(plugin.description.version)
+                println(retrievedVersion)
+
+                updateAvailable = thisSemver.isLowerThan(retrievedVersion)
+                updateVersion = retrievedVersion
+            }
+
+            return updateAvailable
+        }
+
+        private fun getUpdateVersion(): String {
+            return if (updateVersion != null) updateVersion!!
+            else {
+                setUpdates()
+                updateVersion!!
+            }
+        }
+
+        fun sendUpdateAvailableMsg(player: Player) {
+            if(player.hasPermission("rockwall.admin")){
+                player.sendMessage(color("&e&lUpdate available!"))
+                player.sendMessage(color("&7There is an update available for Rockwall"))
+                player.sendMessage(color("&c${plugin.description.version} &8⏵ &a${getUpdateVersion()}"))
+            }
+        }
     }
 }

@@ -58,6 +58,8 @@ object Config {
 
         file!!.renameTo(oldFile)
 
+        file = File(plugin!!.dataFolder, "config.yml")
+
         plugin!!.saveDefaultConfig()
         setup(plugin!!)
     }

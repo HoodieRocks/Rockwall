@@ -3,7 +3,6 @@ package me.cobble.rockwall.config
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.parties.models.Party
-import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
@@ -16,7 +15,7 @@ object Messages {
 
     fun init(plugin: Rockwall) {
         Messages.plugin = plugin
-        file = File(Bukkit.getPluginManager().getPlugin("Rockwall")!!.dataFolder.toString() + "/messages.yml")
+        file = File(plugin.dataFolder.toString() + "/messages.yml")
         plugin.saveResource("messages.yml", false)
         config = YamlConfiguration.loadConfiguration(file!!)
     }
@@ -51,6 +50,8 @@ object Messages {
         val oldFile = File("${plugin!!.dataFolder}/old/messages-${LocalDate.now()}.yml.old")
 
         file!!.renameTo(oldFile)
+
+        file = File(plugin!!.dataFolder.toString() + "/messages.yml")
 
         plugin!!.saveDefaultConfig()
         init(plugin!!)

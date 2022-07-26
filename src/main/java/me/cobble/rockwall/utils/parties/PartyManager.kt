@@ -19,7 +19,9 @@ object PartyManager {
      * Deletes party
      * @param party party to delete
      */
-    fun deleteParty(party: Party) {
+    fun deleteParty(party: Party?) {
+
+        if(party == null) return
 
         val memberCopy = party.members
         for (member: UUID in party.members) {
