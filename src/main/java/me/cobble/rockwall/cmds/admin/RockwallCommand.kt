@@ -1,6 +1,7 @@
 package me.cobble.rockwall.cmds.admin
 
 import me.cobble.rockwall.cmds.admin.subcmds.CheckUpdateSub
+import me.cobble.rockwall.cmds.admin.subcmds.ConfigUpdateSub
 import me.cobble.rockwall.cmds.admin.subcmds.ReloadConfigSub
 import me.cobble.rockwall.cmds.admin.subcmds.RockwallInfoSub
 import me.cobble.rockwall.config.Messages
@@ -23,7 +24,8 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
     private val subCommands = arrayListOf(
         ReloadConfigSub(),
         CheckUpdateSub(),
-        RockwallInfoSub(plugin)
+        RockwallInfoSub(plugin),
+        ConfigUpdateSub()
     )
 
     override fun onTabComplete(

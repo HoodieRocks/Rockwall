@@ -6,6 +6,7 @@ import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
 import java.io.IOException
+import java.time.LocalDate
 import java.util.logging.Logger
 
 object Config {
@@ -48,5 +49,16 @@ object Config {
     fun reload() {
         config = YamlConfiguration.loadConfiguration(file!!)
         log!!.info("Rockwall Main Config reloaded")
+    }
+
+    fun moveAndUpdate() {
+        val folder = File("${plugin!!.dataFolder}/old/")
+        folder.mkdir()
+        val oldFile = File("${plugin!!.dataFolder}/old/config-${LocalDate.now()}.yml.old")
+
+        file!!.renameTo(oldFile)
+
+        plugin!!.saveDefaultConfig()
+        setup(plugin!!)
     }
 }

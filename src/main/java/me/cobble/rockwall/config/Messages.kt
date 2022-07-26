@@ -7,6 +7,7 @@ import org.bukkit.Bukkit
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
+import java.time.LocalDate
 
 object Messages {
     private var config: FileConfiguration? = null
@@ -42,5 +43,16 @@ object Messages {
     fun reload() {
         config = YamlConfiguration.loadConfiguration(file!!)
         plugin!!.logger.info("Rockwall Message Config reloaded")
+    }
+
+    fun moveAndUpdate() {
+        val folder = File("${plugin!!.dataFolder}/old/")
+        folder.mkdir()
+        val oldFile = File("${plugin!!.dataFolder}/old/messages-${LocalDate.now()}.yml.old")
+
+        file!!.renameTo(oldFile)
+
+        plugin!!.saveDefaultConfig()
+        init(plugin!!)
     }
 }
