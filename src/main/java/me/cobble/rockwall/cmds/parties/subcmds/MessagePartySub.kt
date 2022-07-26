@@ -17,26 +17,26 @@ class MessagePartySub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty() || (args.size == 1 && args[0].equals("global", ignoreCase = true))) {
-            p.sendMessage(Messages.getGroupString("messaging-global"))
-            PartyUtils.changeChatSpeaker(p.uniqueId, null)
+            p.sendMessage(Messages.getPartyMsg("messaging-global"))
+            PartyUtils.removeOldSpeakingParty(p.uniqueId, null)
         } else {
             val groupName = args[0]
-            if (PartyUtils.validateGroupName(groupName)) {
-                val group = PartyManager.getGroup(groupName)
-                if (PartyManager.groupExists(groupName) && ((group is AdminParty && p.hasPermission("rockwall.admin.join")) || group!!.isMember(
+            if (PartyUtils.validatePartyName(groupName)) {
+                val group = PartyManager.getParty(groupName)
+                if (PartyManager.partyExists(groupName) && ((group is AdminParty && p.hasPermission("rockwall.admin.join")) || group!!.isMember(
                         p.uniqueId
                     ))
                 ) {
-                    if (group.isSpeaking(p.uniqueId)) p.sendMessage(Messages.getGroupString("already-speaking")) else {
+                    if (group.isSpeaking(p.uniqueId)) p.sendMessage(Messages.getPartyMsg("already-speaking")) else {
                         group.addSpeaker(p.uniqueId)
-                        PartyUtils.changeChatSpeaker(p.uniqueId, group)
-                        p.sendMessage(Messages.getGroupString("now-speaking", group))
+                        PartyUtils.removeOldSpeakingParty(p.uniqueId, group)
+                        p.sendMessage(Messages.getPartyMsg("now-speaking", group))
                     }
                 } else {
-                    p.sendMessage(Messages.getGroupString("errors.404"))
+                    p.sendMessage(Messages.getPartyMsg("errors.404"))
                 }
             } else {
-                p.sendMessage(Messages.getGroupString("errors.invalid"))
+                p.sendMessage(Messages.getPartyMsg("errors.invalid"))
             }
         }
     }

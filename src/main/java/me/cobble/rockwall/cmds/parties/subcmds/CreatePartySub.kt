@@ -21,12 +21,12 @@ class CreatePartySub : RockwallBaseCommand() {
             p.sendMessage(Utils.color("&c$syntax"))
         } else {
             if (args[0].containsSpecialCharacters()) {
-                p.sendMessage(Messages.getGroupString("errors.no-special-characters"))
+                p.sendMessage(Messages.getPartyMsg("errors.no-special-characters"))
                 return
             }
 
-            if (PartyManager.groupExists(p.uniqueId)) {
-                p.sendMessage(Messages.getGroupString("errors.group-limit-reached"))
+            if (PartyManager.partyExists(p.uniqueId)) {
+                p.sendMessage(Messages.getPartyMsg("errors.group-limit-reached"))
                 return
             }
 
@@ -36,13 +36,13 @@ class CreatePartySub : RockwallBaseCommand() {
                     p.sendMessage(Messages.getPermissionString("no-admin-create-perm"))
                     return
                 }
-                PartyManager.createGroup(p.uniqueId, args[0], PartyType.valueOf(args[1].uppercase().trim()))
+                PartyManager.createParty(p.uniqueId, args[0], PartyType.valueOf(args[1].uppercase().trim()))
             } else {
-                PartyManager.createGroup(p.uniqueId, args[0], PartyType.NORMAL)
+                PartyManager.createParty(p.uniqueId, args[0], PartyType.NORMAL)
             }
-            PartyManager.getGroup(p.uniqueId)!!.addMember(p.uniqueId)
+            PartyManager.getParty(p.uniqueId)!!.addMember(p.uniqueId)
 
-            p.sendMessage(Messages.getGroupString("creation", PartyManager.getGroup(p.uniqueId)!!))
+            p.sendMessage(Messages.getPartyMsg("creation", PartyManager.getParty(p.uniqueId)!!))
         }
     }
 }

@@ -17,19 +17,19 @@ permission-messages:
   no-perm-group: "&cYou do not have permission to invite others to this chat"
 
 # Party related messages
-groups:
+parties:
   # Placeholders
-  # %group_alias% - the group alias
+  # %party_alias% - the group alias
 
   # Party interactions
-  creation: "&aGroup created with name %group_alias%."
-  deletion: "&7The owner of %group_alias% has deleted the group"
-  join: "&aYou are now a member of %group_alias%"
-  deny: "&cYou have denied being invited to %group_alias%"
+  creation: "&aGroup created with name %party_alias%."
+  deletion: "&7The owner of %party_alias% has deleted the group"
+  join: "&aYou are now a member of %party_alias%"
+  deny: "&cYou have denied being invited to %party_alias%"
   leave: "&aYou have now left this group, see you!"
   messaging-global: "&aYou are now speaking in the global chat"
   already-speaking: "&cYou are already talking in this group"
-  now-speaking: "&aYou are now talking in %group_alias%"
+  now-speaking: "&aYou are now talking in %party_alias%"
 
 
   # Errors related to the party system

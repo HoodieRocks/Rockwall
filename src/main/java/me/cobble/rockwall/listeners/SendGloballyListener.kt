@@ -32,7 +32,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
 
         event.isCancelled = true
 
-        if (PartyUtils.getCurrentSpeakingChat(player.uniqueId) == null) {
+        if (PartyUtils.getPartyBySpeaking(player.uniqueId) == null) {
 
             val permission = ChatUtils.getFormatPermission(player)
 

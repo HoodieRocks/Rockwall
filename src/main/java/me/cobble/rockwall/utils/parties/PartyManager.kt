@@ -7,24 +7,24 @@ import me.cobble.rockwall.utils.parties.models.Party
 import org.bukkit.Bukkit
 import java.util.*
 
-// Manages Rockwall groups
+// Manages Rockwall parties
 object PartyManager {
-    private val groups = hashMapOf<UUID, Party>()
+    private val parties = hashMapOf<UUID, Party>()
 
-    private fun addGroup(owner: UUID, party: Party) {
-        groups[owner] = party
+    private fun addParty(owner: UUID, party: Party) {
+        parties[owner] = party
     }
 
     /**
-     * Deletes group
-     * @param party group to delete
+     * Deletes party
+     * @param party party to delete
      */
-    fun deleteGroup(party: Party) {
+    fun deleteParty(party: Party) {
 
         val memberCopy = party.members
         for (member: UUID in party.members) {
             val player = Bukkit.getPlayer(member)
-            if (player!!.isOnline) player.sendMessage(Messages.getGroupString("deletion", party))
+            if (player!!.isOnline) player.sendMessage(Messages.getPartyMsg("deletion", party))
         }
 
         party.members.removeAll(memberCopy.toSet())
@@ -32,88 +32,89 @@ object PartyManager {
         val inviteCopy = party.invites
         for (member: UUID in party.invites) {
             val player = Bukkit.getPlayer(member)
-            if (player!!.isOnline) player.sendMessage(Messages.getGroupString("deletion", party))
+            if (player!!.isOnline) player.sendMessage(Messages.getPartyMsg("deletion", party))
         }
         party.invites.removeAll(inviteCopy.toSet())
 
         val speakerCopy = party.activeSpeakers
         party.activeSpeakers.removeAll(speakerCopy.toSet())
 
-        groups.remove(party.owner)
+        parties.remove(party.owner)
     }
 
     /**
-     * Creates a group
+     * Creates a party
      *
      * @param owner uuid of owner player
-     * @param name name of group
-     * @param type type of group
+     * @param name name of party
+     * @param type type of party
      * @see PartyType
      */
-    fun createGroup(owner: UUID, name: String, type: PartyType) {
+    fun createParty(owner: UUID, name: String, type: PartyType) {
 
         val tag = (0 until 10000).random()
         var alias = "$name#${String.format("%04d", tag)}"
 
-        while (getGroup(alias) != null) {
+        while (getParty(alias) != null) {
             alias = "$name#${tag + 1}"
         }
 
-        val group = if (type == PartyType.NORMAL) NormalParty(owner, alias) else AdminParty(owner, alias)
-        addGroup(owner, group)
+        val party = if (type == PartyType.NORMAL) NormalParty(owner, alias) else AdminParty(owner, alias)
+        addParty(owner, party)
     }
 
     /**
-     * Gets group by UUID
-     * @param uuid uuid of group owner
-     * @return group
+     * Gets party by UUID
+     * @param uuid uuid of party owner
+     * @return party
      */
-    fun getGroup(uuid: UUID): Party? {
-        if (!groupExists(uuid)) return null
-        return groups[uuid]
+    fun getParty(uuid: UUID): Party? {
+        if (!partyExists(uuid)) return null
+        return parties[uuid]
     }
 
     /**
-     * Gets group by group name
-     * @param name name of group, including tag
-     * @return group
+     * Gets party by party name
+     * @param name name of party, including tag
+     * @return party
      */
-    fun getGroup(name: String): Party? {
+    fun getParty(name: String): Party? {
         if (name.isBlank()) return null
-        return groups.values.find {
+        return parties.values.find {
             it.alias == name
         }
     }
 
     /**
-     * Check if group exists by owner UUID
+     * Check if party exists by owner UUID
      * @param uuid owner uuid
      * @return true if exists
      */
-    fun groupExists(uuid: UUID): Boolean {
-        return groups.containsKey(uuid)
+    fun partyExists(uuid: UUID): Boolean {
+        return parties.containsKey(uuid)
     }
 
     /**
-     * Check if group exists by group name
-     * @param name group name
+     * Check if party exists by party name
+     * @param name party name
      * @return true if exists
      */
-    fun groupExists(name: String): Boolean {
-        return getGroup(name) != null
+    fun partyExists(name: String): Boolean {
+        return getParty(name) != null
     }
 
     /**
-     * Gets all groups
-     * @return all groups
+     * Gets all parties
+     * @return all parties
      */
-    fun getGroups(): HashMap<UUID, Party> {
-        return groups
+    fun getParties(): HashMap<UUID, Party> {
+        return parties
     }
+
     fun tickTimers() {
-        for (party: Party in groups.values) {
+        for (party: Party in parties.values) {
             if (party is NormalParty) {
-                if (party.timeTillDeath == 0) deleteGroup(party)
+                if (party.timeTillDeath == 0) deleteParty(party)
                 party.decrementTimeTillDeath()
             }
         }

@@ -19,11 +19,11 @@ class AcceptInviteSub : RockwallBaseCommand() {
         if (args.isEmpty()) {
             p.sendMessage(Utils.color("&c$syntax"))
         } else {
-            if (PartyUtils.validateGroupName(args[0]) && PartyManager.groupExists(args[0])) {
-                val group = PartyManager.getGroup(args[0])
+            if (PartyUtils.validatePartyName(args[0]) && PartyManager.partyExists(args[0])) {
+                val group = PartyManager.getParty(args[0])
                 if (group!!.isInvited(p.uniqueId)) {
-                    PartyUtils.inviteToMember(p.uniqueId, group)
-                    p.sendMessage(Messages.getGroupString("joined", group))
+                    PartyUtils.convertInviteToMember(p.uniqueId, group)
+                    p.sendMessage(Messages.getPartyMsg("joined", group))
                 }
             }
         }

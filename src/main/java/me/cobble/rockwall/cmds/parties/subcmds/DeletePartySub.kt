@@ -14,15 +14,15 @@ class DeletePartySub : RockwallBaseCommand() {
         get() = "/party delete"
 
     override fun run(p: Player, args: Array<String>) {
-        val group = PartyManager.getGroup(p.uniqueId)
+        val group = PartyManager.getParty(p.uniqueId)
 
         if (group == null) {
-            p.sendMessage(Messages.getGroupString("errors.no-group-for-deletion"))
+            p.sendMessage(Messages.getPartyMsg("errors.no-group-for-deletion"))
             return
         }
 
         if (group.owner == p.uniqueId) {
-            PartyManager.deleteGroup(group)
+            PartyManager.deleteParty(group)
         }
     }
 }

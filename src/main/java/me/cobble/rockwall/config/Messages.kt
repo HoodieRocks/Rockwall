@@ -28,12 +28,15 @@ object Messages {
         return getString("permission-messages.$path")
     }
 
-    fun getGroupString(path: String, party: Party): String {
-        return getString("groups.$path").replace("%group_alias%", party.alias)
+    /**
+     * Gets string from group config section
+     */
+    fun getPartyMsg(path: String, party: Party): String {
+        return getString("parties.$path").replace("%party_alias%", party.alias)
     }
 
-    fun getGroupString(path: String): String {
-        return getString("groups.$path")
+    fun getPartyMsg(path: String): String {
+        return getString("parties.$path")
     }
 
     fun reload() {

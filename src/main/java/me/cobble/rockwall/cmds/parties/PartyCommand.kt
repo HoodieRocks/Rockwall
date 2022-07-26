@@ -67,11 +67,11 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
                 }
 
                 if (args[0].equals("msg", ignoreCase = true) || args[0].equals("leave", ignoreCase = true)) {
-                    PartyUtils.getUsersGroups(sender.uniqueId).forEach { list.add(it.alias) }
+                    PartyUtils.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
                 }
 
                 if (args[0].equals("accept", ignoreCase = true) || args[0].equals("deny", ignoreCase = true)) {
-                    for (party: Party in PartyManager.getGroups().values) {
+                    for (party: Party in PartyManager.getParties().values) {
                         if (party.isInvited(sender.uniqueId)) list.add(party.alias)
                     }
                 }

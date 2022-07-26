@@ -7,33 +7,27 @@
 # Main Config
 # Plugin created by Cbble_
 
-# Don't remove
-config-version: 1
-
 # General settings for the whole plugin
 settings:
-  # Reset the hover message color on new line or
-  # will the colours apply to the next line
+  # Applies to hover text
   reset-color-on-new-line: true
 
 # Settings for the default chat
 global-chat:
-  # Is the global chat enabled?
+  # Is the global party enabled?
   enabled: true
 
   # These formats are used when speaking globally
   # Higher the format is in the file, the higher the priority
   formats:
-    # Default format, more can be specified
-    # Default must be present, do not remove, only modify
+    # Default format must always be present, do not remove, only modify
     default:
       prefix:
         display: "%luckperms_prefix% " # Shown in chat
-        hover: # Shown when hovered
+        hover:
           - "%luckperms_prefix%"
           - "%player_name%"
-        on-click: "/suicide" # Ran when hovered
-        # This pattern is the same for every other entry here
+        on-click: "/suicide"
       name:
         display: "%player_name% "
         hover:
@@ -52,24 +46,22 @@ global-chat:
         on-click: ""
 
 # Settings for experimental party system
-# Refers to party-like messaging this plugin includes
 parties:
-  # Are groups enabled?
+  # Are parties enabled?
   enabled: true
 
-  # Time until normal groups get automatically delete
+  # Time until normal parties get automatically delete
   # In seconds
   timeout: 300
 
-  # formats, only normal and (WIP) admin (Admin groups do nothing right now)
+  # Multi format support coming soon-ish
   formats:
     normal:
       prefix:
-        display: "&7[%chat_alias%] " # Shown in chat
-        hover: # Shown when hovered
+        display: "&7[%party_alias%] " # Shown in party
+        hover:
           - "Boo"
-        on-click: "/g msg %chat_alias%" # Ran when hovered
-        # This pattern is the same for every other entry here
+        on-click: "/g msg %party_alias%"
       name:
         display: "%player_name% "
         hover:
@@ -88,11 +80,10 @@ parties:
         on-click: ""
     admin:
       prefix:
-        display: "&7[%chat_alias%] &c[Admin] " # Shown in chat
-        hover: # Shown when hovered
+        display: "&7[%party_alias%] &c[Admin] " # Shown in party
+        hover:
           - "Boo"
-        on-click: "/g msg %chat_alias%" # Ran when hovered
-        # This pattern is the same for every other entry here
+        on-click: "/g msg %party_alias%"
       name:
         display: "%player_name% "
         hover:

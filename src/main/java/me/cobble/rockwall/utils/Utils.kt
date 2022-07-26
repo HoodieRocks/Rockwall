@@ -112,7 +112,7 @@ object Utils {
      * Flattens a string list to a single string
      * @return string list as string
      */
-    fun flattenStringList(list: List<String>): String {
+    fun flattenList(list: List<String>): String {
         val builder: StringBuilder = StringBuilder()
         list.forEach {
             builder.append(it)
@@ -130,5 +130,9 @@ object Utils {
     fun setPlaceholders(player: Player, string: String): String {
         return if (placeholderAPIPresent) PlaceholderAPI.setPlaceholders(player, string)
         else string
+    }
+
+    fun format(player: Player, content: String): String {
+        return color(setPlaceholders(player, content))
     }
 }

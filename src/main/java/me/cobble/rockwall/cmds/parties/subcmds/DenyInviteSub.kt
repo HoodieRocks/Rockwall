@@ -19,11 +19,11 @@ class DenyInviteSub : RockwallBaseCommand() {
         if (args.isEmpty()) {
             p.sendMessage(Utils.color("&c$syntax"))
         } else {
-            if (PartyUtils.validateGroupName(args[0]) && PartyManager.groupExists(args[0])) {
-                val group = PartyManager.getGroup(args[0])
+            if (PartyUtils.validatePartyName(args[0]) && PartyManager.partyExists(args[0])) {
+                val group = PartyManager.getParty(args[0])
                 if (group!!.isInvited(p.uniqueId)) {
                     group.removeInvite(p.uniqueId)
-                    p.sendMessage(Messages.getGroupString("invite-denied"))
+                    p.sendMessage(Messages.getPartyMsg("invite-denied"))
                 }
             }
         }

@@ -14,38 +14,26 @@ import java.util.*
 
 object PartyUtils {
 
-    /**
-     * Check to see if the group name is valid
-     */
-    fun validateGroupName(string: String): Boolean {
+    fun validatePartyName(string: String): Boolean {
         return Regex("[A-z]+#[0-9]+").matches(string)
     }
 
-    /**
-     * Converts invited players to a group member
-     */
-    fun inviteToMember(uuid: UUID, party: Party?) {
+    fun convertInviteToMember(uuid: UUID, party: Party?) {
         if (party == null) return
         party.addMember(uuid)
         party.removeInvite(uuid)
     }
 
-    /**
-     * Change what chat the player is in
-     */
-    fun changeChatSpeaker(player: UUID, party: Party?) {
-        PartyManager.getGroups().values.forEach {
+    fun removeOldSpeakingParty(player: UUID, party: Party?) {
+        PartyManager.getParties().values.forEach {
             if (party == null || it != party) {
                 it.removeSpeaker(player)
             }
         }
     }
 
-    /**
-     * Get chat player is speaking in
-     */
-    fun getCurrentSpeakingChat(player: UUID): Party? {
-        for (party: Party in PartyManager.getGroups().values) {
+    fun getPartyBySpeaking(player: UUID): Party? {
+        for (party: Party in PartyManager.getParties().values) {
             if (party.isSpeaking(player)) {
                 return party
             }
@@ -54,14 +42,14 @@ object PartyUtils {
     }
 
     fun formatMaker(player: Player, party: Party?, partyType: PartyType, formatType: FormatType): TextComponent? {
-        val configSection = Config.getSection("groups.formats.${partyType.getType()}") ?: return null
-        val section = configSection.getConfigurationSection(formatType.getType())
+        val formatRoot = Config.getSection("parties.formats.${partyType.getType()}") ?: return null
+        val section = formatRoot.getConfigurationSection(formatType.getType())
         val format = TextComponent(
             *TextComponent.fromLegacyText(
                 Utils.color(
                     Utils.setPlaceholders(
                         player,
-                        section!!.getString("display")!!.replace("%chat_alias%", party!!.alias)
+                        customPlaceholders(section!!.getString("display")!!, party!!)
                     )
                 )
             )
@@ -71,14 +59,14 @@ object PartyUtils {
                 Utils.color(
                     Utils.setPlaceholders(
                         player,
-                        Utils.flattenStringList(section.getStringList("hover"))
+                        customPlaceholders(Utils.flattenList(section.getStringList("hover")), party)
                     )
                 )
             )
         )
         format.clickEvent = ClickEvent(
             ClickEvent.Action.SUGGEST_COMMAND,
-            Utils.setPlaceholders(player, section.getString("on-click")!!)
+            Utils.setPlaceholders(player, customPlaceholders(section.getString("on-click")!!, party))
         )
 
         return format
@@ -95,18 +83,22 @@ object PartyUtils {
      * Gets the user's groups
      * @return all groups the user is a member in
      */
-    fun getUsersGroups(uuid: UUID): List<Party> {
+    fun getUserParties(uuid: UUID): List<Party> {
         val player = Bukkit.getPlayer(uuid)
         val parties = ArrayList<Party>()
 
         if (player!!.hasPermission("rockwall.admin.join")) {
-            return PartyManager.getGroups().values.toList()
+            return PartyManager.getParties().values.toList()
         }
 
-        for (party: Party in PartyManager.getGroups().values) {
+        for (party: Party in PartyManager.getParties().values) {
             if (party.isMember(uuid)) parties.add(party)
         }
 
         return parties
+    }
+
+    private fun customPlaceholders(string: String, party: Party): String {
+        return string.replace("%party_alias%", party.alias)
     }
 }

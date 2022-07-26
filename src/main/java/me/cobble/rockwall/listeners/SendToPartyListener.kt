@@ -34,10 +34,10 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
         }
 
 
-        if (PartyUtils.getCurrentSpeakingChat(player.uniqueId) != null) {
+        if (PartyUtils.getPartyBySpeaking(player.uniqueId) != null) {
             event.isCancelled = true
 
-            val group = PartyUtils.getCurrentSpeakingChat(player.uniqueId)
+            val group = PartyUtils.getPartyBySpeaking(player.uniqueId)
             val type = if (group is AdminParty) PartyType.ADMIN else PartyType.NORMAL
 
 

@@ -16,7 +16,7 @@ object ChatUtils {
      */
     fun makeFormat(player: Player, formatName: String, type: FormatType): TextComponent? {
         if (formatName.isBlank()) return null
-        val configSection = Config.get()!!.getConfigurationSection("global-chat.formats.$formatName") ?: return null
+        val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
         val section = configSection.getConfigurationSection(type.getType())
         val format = TextComponent(
             *TextComponent.fromLegacyText(
@@ -30,7 +30,7 @@ object ChatUtils {
             HoverEvent.Action.SHOW_TEXT, Text(
                 TextComponent.fromLegacyText(
                     Utils.color(
-                        Utils.setPlaceholders(player, Utils.flattenStringList(section.getStringList("hover")))
+                        Utils.setPlaceholders(player, Utils.flattenList(section.getStringList("hover")))
                     )
                 )
             )
@@ -42,13 +42,13 @@ object ChatUtils {
 
         return format
     }
-    
+
     fun isGlobalChatEnabled(): Boolean {
         return Config.getBool("global-chat.enabled")
     }
 
     fun getFormatPermission(p: Player): String {
-        val keys = Config.get()!!.getConfigurationSection("global-chat.formats")!!.getKeys(false)
+        val keys = Config.getSection("global-chat.formats")!!.getKeys(false)
         for (key in keys) {
             if (p.hasPermission("rockwall.format.$key") && key != "default") {
                 return key

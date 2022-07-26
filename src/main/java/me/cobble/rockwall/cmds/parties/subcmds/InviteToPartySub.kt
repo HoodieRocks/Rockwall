@@ -24,22 +24,22 @@ class InviteToPartySub : RockwallBaseCommand() {
             return
         }
 
-        val party: Party? = PartyManager.getGroup(p.uniqueId)
+        val party: Party? = PartyManager.getParty(p.uniqueId)
 
         if (party == null) {
-            p.sendMessage(Messages.getGroupString("errors.no-group-for-invites"))
+            p.sendMessage(Messages.getPartyMsg("errors.no-group-for-invites"))
             return
         }
 
         if (party is AdminParty) {
-            p.sendMessage(Messages.getGroupString("errors.cant-invite-to-admin-group"))
+            p.sendMessage(Messages.getPartyMsg("errors.cant-invite-to-admin-group"))
             return
         }
 
         for (targetName in args) {
             val target = Bukkit.getPlayer(targetName)
             if (target == null) {
-                p.sendMessage(Messages.getGroupString("errors.offline-player"))
+                p.sendMessage(Messages.getPartyMsg("errors.offline-player"))
                 return
             }
 

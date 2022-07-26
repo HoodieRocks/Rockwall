@@ -21,34 +21,34 @@ class LeavePartySub : RockwallBaseCommand() {
             return
         }
 
-        if (!PartyUtils.validateGroupName(args[0])) {
-            p.sendMessage(Messages.getGroupString("errors.invalid"))
+        if (!PartyUtils.validatePartyName(args[0])) {
+            p.sendMessage(Messages.getPartyMsg("errors.invalid"))
             return
         }
 
-        val group = PartyManager.getGroup(args[0])
+        val group = PartyManager.getParty(args[0])
 
         if (group == null) {
-            p.sendMessage(Messages.getGroupString("errors.404"))
+            p.sendMessage(Messages.getPartyMsg("errors.404"))
             return
         }
 
         if (!group.isMember(p.uniqueId)) {
-            p.sendMessage(Messages.getGroupString("errors.leave-group-not-in"))
+            p.sendMessage(Messages.getPartyMsg("errors.leave-group-not-in"))
             return
         }
 
         if (group.owner == p.uniqueId) {
-            p.sendMessage(Messages.getGroupString("owner-leave-group"))
+            p.sendMessage(Messages.getPartyMsg("owner-leave-group"))
             return
         }
 
         group.members.remove(p.uniqueId)
         group.activeSpeakers.remove(p.uniqueId)
-        p.sendMessage(Messages.getGroupString("leave"))
+        p.sendMessage(Messages.getPartyMsg("leave"))
 
         if (group.members.size == 0) {
-            PartyManager.deleteGroup(group)
+            PartyManager.deleteParty(group)
         }
     }
 }
