@@ -21,7 +21,7 @@ object PartyManager {
      */
     fun deleteParty(party: Party?) {
 
-        if(party == null) return
+        if (party == null) return
 
         val memberCopy = party.members
         for (member: UUID in party.members) {

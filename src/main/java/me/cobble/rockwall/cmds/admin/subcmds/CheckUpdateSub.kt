@@ -14,8 +14,10 @@ class CheckUpdateSub(private val plugin: Rockwall) : RockwallBaseCommand() {
         get() = "/rockwall $name"
 
     override fun run(p: Player, args: Array<String>) {
-        if(plugin.getUpdateUtils().setUpdates()) {
+        if (plugin.getUpdateUtils().updateAvailable()) {
             plugin.getUpdateUtils().sendUpdateAvailableMsg(p)
+        } else {
+            p.sendMessage(Utils.color("&7No updates available!"))
         }
     }
 }

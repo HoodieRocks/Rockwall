@@ -2,7 +2,6 @@ package me.cobble.rockwall.utils
 
 import com.google.gson.Gson
 import com.google.gson.JsonArray
-import com.vdurmont.semver4j.Semver
 import me.clip.placeholderapi.PlaceholderAPI
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.rockwall.Rockwall
@@ -146,10 +145,9 @@ object Utils {
         /**
          * @return true if update available
          */
-        fun setUpdates(): Boolean {
+        fun retrieveUpdateData(): Boolean {
             var updateAvailable = false
             val gson = Gson()
-            val thisSemver = Semver(plugin.description.version, Semver.SemverType.LOOSE)
 
             val client = HttpClient.newBuilder()
                 .version(HttpClient.Version.HTTP_2)
@@ -158,35 +156,32 @@ object Utils {
 
             val request = HttpRequest.newBuilder()
                 .GET()
-                .uri(URI.create("https://api.spiget.org/v2/resources/103709/versions"))
+                .uri(URI.create("https://api.spiget.org/v2/resources/103709/versions?size=20"))
                 .build()
 
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept {
                 val array = gson.fromJson(it.body(), JsonArray::class.java)
-                val retrievedVersion = array[0].asJsonObject["name"].asString
+                val retrievedVersion = array[array.size() - 1].asJsonObject["name"].asString
                 println(plugin.description.version)
                 println(retrievedVersion)
 
-                updateAvailable = thisSemver.isLowerThan(retrievedVersion)
+                updateAvailable = retrievedVersion != plugin.description.version
                 updateVersion = retrievedVersion
             }
 
             return updateAvailable
         }
 
-        private fun getUpdateVersion(): String {
-            return if (updateVersion != null) updateVersion!!
-            else {
-                setUpdates()
-                updateVersion!!
-            }
+        fun updateAvailable(): Boolean {
+            return updateVersion != plugin.description.version
         }
 
         fun sendUpdateAvailableMsg(player: Player) {
-            if(player.hasPermission("rockwall.admin")){
+            if (player.hasPermission("rockwall.admin")) {
                 player.sendMessage(color("&e&lUpdate available!"))
                 player.sendMessage(color("&7There is an update available for Rockwall"))
-                player.sendMessage(color("&c${plugin.description.version} &8⏵ &a${getUpdateVersion()}"))
+                player.sendMessage(color("&7Your version: &c${plugin.description.version} &8→ &7Newest version: &a${updateVersion}"))
+                player.sendMessage(color("&7Download at &6&nhttps://www.spigotmc.org/resources/rockwall.103709/"))
             }
         }
     }

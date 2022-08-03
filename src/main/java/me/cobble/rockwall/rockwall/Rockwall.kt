@@ -33,7 +33,7 @@ class Rockwall : JavaPlugin() {
 
         logger.info("Components registered!")
 
-        updateUtils.setUpdates()
+        updateUtils.retrieveUpdateData()
     }
 
     override fun onDisable() {
