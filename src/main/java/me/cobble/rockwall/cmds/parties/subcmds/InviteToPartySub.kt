@@ -10,29 +10,29 @@ import me.cobble.rockwall.utils.parties.models.Party
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
-class InviteToPartySub : RockwallBaseCommand() {
+class InviteToPartySub(private val label: String) : RockwallBaseCommand() {
     override val name: String
         get() = "invite"
     override val descriptor: String
-        get() = "Invites players to your group \n(you must be the owner of the group to do this)"
+        get() = "Invites players to your party (Must be party owner)"
     override val syntax: String
-        get() = "/party invite <player> <player> ..."
+        get() = "[label] invite <name> <name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
-            p.sendMessage(Utils.color("&c$syntax"))
+            p.sendMessage(Utils.color("&c$syntax").replace("[label]", label))
             return
         }
 
         val party: Party? = PartyManager.getParty(p.uniqueId)
 
         if (party == null) {
-            p.sendMessage(Messages.getPartyMsg("errors.no-group-for-invites"))
+            p.sendMessage(Messages.getPartyMsg("errors.no-party-for-invites"))
             return
         }
 
         if (party is AdminParty) {
-            p.sendMessage(Messages.getPartyMsg("errors.cant-invite-to-admin-group"))
+            p.sendMessage(Messages.getPartyMsg("errors.cant-invite-to-admin-party"))
             return
         }
 
@@ -47,7 +47,7 @@ class InviteToPartySub : RockwallBaseCommand() {
                 party.addInvite(target.uniqueId)
                 InviteSender.sendInvites(party.invites, party.alias)
             } else {
-                p.sendMessage(Messages.getPermissionString("no-perm-group"))
+                p.sendMessage(Messages.getPermissionString("no-perm-party"))
                 return
             }
         }
