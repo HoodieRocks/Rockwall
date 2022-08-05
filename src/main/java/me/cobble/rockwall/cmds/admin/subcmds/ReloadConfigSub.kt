@@ -12,7 +12,7 @@ class ReloadConfigSub : RockwallBaseCommand() {
     override val descriptor: String
         get() = "Reloads the config"
     override val syntax: String
-        get() = "[label] reload"
+        get() = "/rockwall reload"
 
     override fun run(p: Player, args: Array<String>) {
         Config.reload()

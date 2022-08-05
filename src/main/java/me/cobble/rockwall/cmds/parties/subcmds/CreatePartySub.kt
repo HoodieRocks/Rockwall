@@ -8,17 +8,17 @@ import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyType
 import org.bukkit.entity.Player
 
-class CreatePartySub(private val label: String) : RockwallBaseCommand() {
+class CreatePartySub : RockwallBaseCommand() {
     override val name: String
         get() = "create"
     override val descriptor: String
-        get() = "Creates a new party"
+        get() = "Creates a new group"
     override val syntax: String
-        get() = "[label] create <name>"
+        get() = "/party create <name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
-            p.sendMessage(Utils.color("&c$syntax").replace("[label]", label))
+            p.sendMessage(Utils.color("&c$syntax"))
         } else {
             if (args[0].containsSpecialCharacters()) {
                 p.sendMessage(Messages.getPartyMsg("errors.no-special-characters"))
@@ -26,7 +26,7 @@ class CreatePartySub(private val label: String) : RockwallBaseCommand() {
             }
 
             if (PartyManager.partyExists(p.uniqueId)) {
-                p.sendMessage(Messages.getPartyMsg("errors.party-limit-reached"))
+                p.sendMessage(Messages.getPartyMsg("errors.group-limit-reached"))
                 return
             }
 

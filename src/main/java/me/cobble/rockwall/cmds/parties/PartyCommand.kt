@@ -1,6 +1,7 @@
 package me.cobble.rockwall.cmds.parties
 
 import me.cobble.rockwall.cmds.parties.subcmds.*
+import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.parties.PartyManager
@@ -12,26 +13,25 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
 import org.bukkit.entity.Player
 
-class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("par", "p", "part", "group", "g")) {
+class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("par", "p", "part")) {
 
     private val subCommands = arrayListOf(
-        CreatePartySub(label),
-        InviteToPartySub(label),
-        MessagePartySub(label),
-        AcceptInviteSub(label),
-        DenyInviteSub(label),
-        DeletePartySub(label),
-        LeavePartySub(label)
+        CreatePartySub(),
+        InviteToPartySub(),
+        MessagePartySub(),
+        AcceptInviteSub(),
+        DenyInviteSub(),
+        DeletePartySub(),
+        LeavePartySub()
     )
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-        if (!PartyUtils.arePartiesEnabled()) return false
+        if (!Config.getBool("groups.enabled")) return false
 
         if (sender is Player) {
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
                 sender.sendMessage(Utils.color("&e\n\n&lRockwall &7Party Commands\n\n"))
-                val components: Array<BaseComponent> =
-                    Utils.formatAsFileStructure("/$commandLabel", subCommands.toList())
+                val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands)
 
                 sender.spigot().sendMessage(*components)
                 sender.sendMessage("\n\n")
@@ -58,7 +58,6 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
                 for (element: RockwallBaseCommand in subCommands) {
                     list.add(subCommands.indexOf(element), element.name)
                 }
-                list.add("help")
             }
             if (args.size == 2) {
                 if (args[0].equals("invite", ignoreCase = true)) {
