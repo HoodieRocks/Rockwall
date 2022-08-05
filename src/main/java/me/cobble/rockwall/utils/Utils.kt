@@ -41,7 +41,7 @@ object Utils {
                     val colorCode = texts[i].substring(1, 7).toInt(16)
                     finalText.append(Component.text(texts[i].substring(7)).color(TextColor.color(colorCode)))
                 } else {
-                    finalText.append(LegacyComponentSerializer.legacy('&').deserialize("&${texts[i]}"))
+                    finalText.append(LegacyComponentSerializer.legacy(LegacyComponentSerializer.AMPERSAND_CHAR).deserialize("&${texts[i]}"))
                 }
             } else {
                 finalText.content(texts[i])
