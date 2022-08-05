@@ -20,14 +20,12 @@ object ChatUtils {
         val format = Utils.colorAndComponent(Utils.setPlaceholders(player, section!!.getString("display")!!))
 
         format.hoverEvent(
-            Utils.color(
-                Component.text(
-                    Utils.setPlaceholders(
-                        player,
-                        Utils.flattenList(section.getStringList("hover"))
-                    )
+            Utils.colorAndComponent(
+                Utils.setPlaceholders(
+                    player,
+                    Utils.flattenList(section.getStringList("hover"))
                 )
-            ).asHoverEvent()
+            )
         )
 
         format.clickEvent(ClickEvent.suggestCommand(Utils.setPlaceholders(player, section.getString("on-click")!!)))
