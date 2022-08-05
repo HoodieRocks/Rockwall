@@ -8,7 +8,6 @@ import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
-import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
@@ -51,10 +50,10 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
         if (sender is Player) {
             if (sender.hasPermission("rockwall.admin")) {
                 if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
-                    sender.sendMessage(Utils.color("&e\n\n&lRockwall &cAdmin &7Commands\n\n"))
-                    val components: Array<BaseComponent> = Utils.formatAsFileStructure("/$label", subCommands.toList())
+                    sender.sendMessage(Utils.colorAndComponent("&e\n\n&lRockwall &cAdmin &7Commands\n\n"))
+                    val components = Utils.formatAsFileStructure("/$label", subCommands.toList())
 
-                    sender.spigot().sendMessage(*components)
+                    sender.sendMessage(components)
                     sender.sendMessage("\n\n")
                 } else {
                     for (subCommand in subCommands) {
@@ -68,7 +67,7 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
                     }
                 }
             } else {
-                sender.sendMessage(Utils.color(Messages.getPermissionString("no-perm-general")))
+                sender.sendMessage(Utils.colorAndComponent(Messages.getPermissionString("no-perm-general")))
             }
         }
         return false

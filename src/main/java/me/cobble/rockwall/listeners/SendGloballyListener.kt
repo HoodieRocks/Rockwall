@@ -7,6 +7,7 @@ import me.cobble.rockwall.utils.chat.ChatUtils
 import me.cobble.rockwall.utils.chat.FormatType
 import me.cobble.rockwall.utils.parties.PartyUtils
 import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -24,6 +25,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
     @EventHandler(priority = EventPriority.LOW)
     fun onGlobalMessageSent(event: AsyncChatEvent) {
         val player = event.player
+        val msg: TextComponent = event.message() as TextComponent
 
         // player is muted
         if (event.isCancelled) {
@@ -42,13 +44,15 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             val name = ChatUtils.makeFormat(player, permission, FormatType.NAME)
             val nameSeparator = ChatUtils.makeFormat(player, permission, FormatType.NAME_SEPARATOR)
 
-            Bukkit.broadcast(Component.text()
-                .append(prefix)
-                .append(prefixSeparator)
-                .append(name)
-                .append(nameSeparator)
-                .append(event.message())
-                .asComponent())
+            Bukkit.broadcast(
+                Component.text()
+                    .append(prefix)
+                    .append(prefixSeparator)
+                    .append(name)
+                    .append(nameSeparator)
+                    .append(Utils.color(msg, player))
+                    .asComponent()
+            )
         }
     }
 }

@@ -17,9 +17,16 @@ object ChatUtils {
         if (formatName.isBlank()) return Component.empty()
         val configSection = Config.getSection("global-chat.formats.$formatName") ?: return Component.empty()
         val section = configSection.getConfigurationSection(type.getType())
-        val format = Component.text(Utils.color(Utils.setPlaceholders(player, section!!.getString("display")!!)))
+        val format = Utils.colorAndComponent(Utils.setPlaceholders(player, section!!.getString("display")!!))
 
-        format.hoverEvent(Component.text(Utils.color(Utils.setPlaceholders(player, Utils.flattenList(section.getStringList("hover"))))))
+        format.hoverEvent(
+            Utils.colorAndComponent(
+                Utils.setPlaceholders(
+                    player,
+                    Utils.flattenList(section.getStringList("hover"))
+                )
+            )
+        )
 
         format.clickEvent(ClickEvent.runCommand(Utils.setPlaceholders(player, section.getString("on-click")!!)))
 
