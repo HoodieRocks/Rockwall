@@ -11,7 +11,7 @@ class RockwallInfoSub(private val plugin: Rockwall) : RockwallBaseCommand() {
     override val descriptor: String
         get() = "Information about Rockwall"
     override val syntax: String
-        get() = "/rockwall $name"
+        get() = "[label] $name"
 
     override fun run(p: Player, args: Array<String>) {
         val description = plugin.description

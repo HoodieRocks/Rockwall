@@ -1,39 +1,38 @@
 package me.cobble.rockwall.cmds.parties
 
 import me.cobble.rockwall.cmds.parties.subcmds.*
-import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.Party
-import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
 import org.bukkit.entity.Player
 
-class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("par", "p", "part")) {
+class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("par", "p", "part", "group", "g")) {
 
     private val subCommands = arrayListOf(
-        CreatePartySub(),
-        InviteToPartySub(),
-        MessagePartySub(),
-        AcceptInviteSub(),
-        DenyInviteSub(),
-        DeletePartySub(),
-        LeavePartySub()
+        CreatePartySub(label),
+        InviteToPartySub(label),
+        MessagePartySub(label),
+        AcceptInviteSub(label),
+        DenyInviteSub(label),
+        DeletePartySub(label),
+        LeavePartySub(label)
     )
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-        if (!Config.getBool("groups.enabled")) return false
+        if (!PartyUtils.arePartiesEnabled()) return false
 
         if (sender is Player) {
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
-                sender.sendMessage(Utils.color("&e\n\n&lRockwall &7Party Commands\n\n"))
-                val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands)
+                sender.sendMessage(Utils.colorAndComponent("\n\n&e&lRockwall &7Party Commands\n"))
+                val components =
+                    Utils.formatAsFileStructure("/$commandLabel", subCommands.toList())
 
-                sender.spigot().sendMessage(*components)
+                sender.sendMessage(components)
                 sender.sendMessage("\n\n")
             } else {
                 for (subCommand in subCommands) {
@@ -58,6 +57,7 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
                 for (element: RockwallBaseCommand in subCommands) {
                     list.add(subCommands.indexOf(element), element.name)
                 }
+                list.add("help")
             }
             if (args.size == 2) {
                 if (args[0].equals("invite", ignoreCase = true)) {

@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
 import org.bukkit.entity.Player
 
-class ClearChatCommand : BukkitCommand("clearchat", "Clears chat", "", listOf("cc")) {
+class ClearChatCommand : BukkitCommand("clearchat", "Clears chat", "", listOf("cc", "chatclear", "chatc", "cchat")) {
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
         if (sender.hasPermission("rockwall.clearchat")) {

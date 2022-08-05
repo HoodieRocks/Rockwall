@@ -12,7 +12,7 @@ class ConfigUpdateSub : RockwallBaseCommand() {
     override val descriptor: String
         get() = "Update your config to a newer version (this will reset your previous settings)"
     override val syntax: String
-        get() = "/rockwall updateconfig [confirm]"
+        get() = "[label] updateconfig [confirm]"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
