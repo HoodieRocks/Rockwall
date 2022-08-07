@@ -18,7 +18,6 @@ object ChatUtils {
         if (formatName.isBlank()) return null
         val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
         val section = configSection.getConfigurationSection(type.getType())
-
         val format = TextComponent(
             *TextComponent.fromLegacyText(
                 Utils.color(
