@@ -6,9 +6,12 @@ import me.clip.placeholderapi.PlaceholderAPI
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.rockwall.Rockwall
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 import net.kyori.adventure.text.Component
 >>>>>>> parent of d7d1460 (added basic support for adventure api)
+=======
+>>>>>>> parent of c2e1b4b (adventure api support?)
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.ClickEvent
