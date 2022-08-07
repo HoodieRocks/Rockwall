@@ -12,6 +12,10 @@ repositories {
         name = 'spigotmc-repo'
         url = 'https://hub.spigotmc.org/nexus/content/repositories/snapshots/'
     }
+<<<<<<< HEAD
+=======
+    maven { url = uri("https://repo.papermc.io/repository/maven-public/") }
+>>>>>>> parent of d7d1460 (added basic support for adventure api)
     maven {
         name = 'sonatype'
         url = 'https://oss.sonatype.org/content/groups/public/'
