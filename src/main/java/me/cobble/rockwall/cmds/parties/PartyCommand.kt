@@ -31,12 +31,7 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
         if (sender is Player) {
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
                 sender.sendMessage(Utils.color("&e\n\n&lRockwall &7Party Commands\n\n"))
-<<<<<<< HEAD
                 val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands)
-=======
-                val components: Array<BaseComponent> =
-                    Utils.formatAsFileStructure("/$commandLabel", subCommands.toList())
->>>>>>> parent of d7d1460 (added basic support for adventure api)
 
                 sender.spigot().sendMessage(*components)
                 sender.sendMessage("\n\n")

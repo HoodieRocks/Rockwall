@@ -5,10 +5,6 @@ import com.google.gson.JsonArray
 import me.clip.placeholderapi.PlaceholderAPI
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.rockwall.Rockwall
-<<<<<<< HEAD
-=======
-import net.kyori.adventure.text.Component
->>>>>>> parent of d7d1460 (added basic support for adventure api)
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.BaseComponent
 import net.md_5.bungee.api.chat.ClickEvent
@@ -26,10 +22,6 @@ object Utils {
     private const val WITH_DELIMITER = "((?<=%1\$s)|(?=%1\$s))"
     var placeholderAPIPresent = false
     private var updateVersion: String? = null
-
-    fun color(component: net.kyori.adventure.text.TextComponent):net.kyori.adventure.text.TextComponent {
-        return Component.text(color(component.content()))
-    }
 
     fun color(text: String): String {
         val texts: Array<String> =
