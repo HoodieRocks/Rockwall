@@ -79,13 +79,13 @@ object Utils {
     /**
      * Formats sub commands as a file structure display
      */
-    fun formatAsFileStructure(label: String, list: List<RockwallBaseCommand>): Component {
-        val components = Component.text()
+    fun formatAsFileStructure(list: List<RockwallBaseCommand>): Array<BaseComponent> {
+        val components = ArrayList<BaseComponent>()
         val sortedList = list.sortedBy { it.name }
 
         for (i in sortedList.indices) {
             val sc: RockwallBaseCommand = sortedList[i]
-            val format = "&e${sc.syntax.replace("[label]", label)} &7- ${sc.descriptor}"
+            val format = "&e${sc.syntax} &7- ${sc.descriptor}"
             when (i) {
                 0 -> components.add(addEvents(formatCmd("┌ ", format), sc.descriptor, sc.syntax))
                 list.size - 1 -> components.add(addEvents(formatCmd("└ ", format), sc.descriptor, sc.syntax))
@@ -141,13 +141,7 @@ object Utils {
         else string
     }
 
-    // END OF UTILS FILE
-
-    /**
-     * Utils relating to update checking
-     */
     class UpdateUtils(private val plugin: Rockwall) {
-
         /**
          * @return true if update available
          */

@@ -51,8 +51,8 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
         if (sender is Player) {
             if (sender.hasPermission("rockwall.admin")) {
                 if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
-                    sender.sendMessage(Utils.colorAndComponent("&e\n\n&lRockwall &cAdmin &7Commands\n\n"))
-                    val components = Utils.formatAsFileStructure("/$label", subCommands.toList())
+                    sender.sendMessage(Utils.color("&e\n\n&lRockwall &cAdmin &7Commands\n\n"))
+                    val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands.toList())
 
                     sender.spigot().sendMessage(*components)
                     sender.sendMessage("\n\n")
