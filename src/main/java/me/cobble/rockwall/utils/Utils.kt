@@ -5,11 +5,12 @@ import com.google.gson.JsonArray
 import me.clip.placeholderapi.PlaceholderAPI
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.rockwall.Rockwall
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextComponent
-import net.kyori.adventure.text.format.TextColor
-import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer
 import net.md_5.bungee.api.ChatColor
+import net.md_5.bungee.api.chat.BaseComponent
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.HoverEvent
+import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
 import java.net.URI
 import java.net.http.HttpClient
@@ -22,45 +23,11 @@ object Utils {
     var placeholderAPIPresent = false
     private var updateVersion: String? = null
 
-    fun colorAndComponent(str: String): TextComponent {
-        val component = Component.text(str)
-        return color(component)
-    }
-
-    fun color(component: TextComponent): TextComponent {
-        val texts: Array<String> =
-            component.content().split(String.format(WITH_DELIMITER, "&").toRegex()).dropLastWhile { it.isEmpty() }
-                .toTypedArray()
-        val finalText = Component.text()
-        var i = 0
-        while (i < texts.size) {
-            if ("&".equals(texts[i], ignoreCase = true)) {
-                //get the next string
-                i++
-                if (texts[i][0] == '#') {
-                    val colorCode = texts[i].substring(1, 7).toInt(16)
-
-                    finalText.append(Component.text(texts[i].substring(7)).color(TextColor.color(colorCode)))
-                } else {
-                    finalText.LegacyComponentSerializer.legacyAmpersand().deserialize("&${texts[i]}").style())
-                }
-            } else {
-                finalText.content(texts[i])
-            }
-            i++
-        }
-        return finalText.build()
-    }
-
-    fun color(component: TextComponent, player: Player): TextComponent {
-        if (!player.hasPermission("rockwall.color")) return component
-        return color(component)
-    }
-
-    @Deprecated(message = "Use Adventure Components")
     fun color(text: String): String {
         val texts: Array<String> =
-            text.split(String.format(WITH_DELIMITER, "&").toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+            text.split(String.format(WITH_DELIMITER, "&").toRegex())
+                .dropLastWhile { it.isEmpty() }
+                .toTypedArray()
         val finalText = StringBuilder()
         var i = 0
         while (i < texts.size) {
@@ -82,12 +49,31 @@ object Utils {
 
     /**
      * Same as Utils#color(text), but requires permission to use color
-     * @see Utils.colorAndComponent
+     * @see Utils.color
      */
-    @Deprecated(message = "Use Adventure Components")
     fun color(text: String, player: Player): String {
-        if (!player.hasPermission("rockwall.color")) return text
-        return color(text)
+        if (player.hasPermission("rockwall.color")) {
+            val texts: Array<String> =
+                text.split(String.format(WITH_DELIMITER, "&").toRegex())
+                    .dropLastWhile { it.isEmpty() }
+                    .toTypedArray()
+            val finalText = StringBuilder()
+            var i = 0
+            while (i < texts.size) {
+                if ("&".equals(texts[i], ignoreCase = true)) {
+                    //get the next string
+                    i++
+                    if (texts[i][0] == '#') finalText.append(ChatColor.of(texts[i].substring(0, 7)))
+                        .append(texts[i].substring(7))
+                    else finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]))
+                } else {
+                    finalText.append(texts[i])
+                }
+                i++
+            }
+            return finalText.toString()
+        }
+        return text
     }
 
     /**
@@ -101,26 +87,26 @@ object Utils {
             val sc: RockwallBaseCommand = sortedList[i]
             val format = "&e${sc.syntax.replace("[label]", label)} &7- ${sc.descriptor}"
             when (i) {
-                0 -> components.append(addEvents(formatCmd("┌ ", format), sc.descriptor, sc.syntax))
-                list.size - 1 -> components.append(addEvents(formatCmd("└ ", format), sc.descriptor, sc.syntax))
-                else -> components.append(addEvents(formatCmd("├ ", format), sc.descriptor, sc.syntax))
+                0 -> components.add(addEvents(formatCmd("┌ ", format), sc.descriptor, sc.syntax))
+                list.size - 1 -> components.add(addEvents(formatCmd("└ ", format), sc.descriptor, sc.syntax))
+                else -> components.add(addEvents(formatCmd("├ ", format), sc.descriptor, sc.syntax))
             }
         }
-        return components.build()
+        return components.toTypedArray()
     }
 
     /**
      * Adds click and hover events
      */
-    private fun addEvents(text: TextComponent?, hoverText: String?, command: String?): Component {
-        val component = text!!
-        component.hoverEvent(Component.text(hoverText!!))
-        component.clickEvent(net.kyori.adventure.text.event.ClickEvent.runCommand(command!!))
+    private fun addEvents(text: String?, hoverText: String?, command: String?): BaseComponent {
+        val component = TextComponent(text)
+        component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(hoverText))
+        component.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)
         return component
     }
 
-    private fun formatCmd(prefix: String, cmd: String): TextComponent {
-        return colorAndComponent("&e$prefix&7$cmd\n")
+    private fun formatCmd(prefix: String, cmd: String): String {
+        return color("&e$prefix&7$cmd\n")
     }
 
     /**
@@ -198,10 +184,10 @@ object Utils {
 
         fun sendUpdateAvailableMsg(player: Player) {
             if (player.hasPermission("rockwall.admin")) {
-                player.sendMessage(colorAndComponent("&e&lUpdate available!"))
-                player.sendMessage(colorAndComponent("&7There is an update available for Rockwall"))
-                player.sendMessage(colorAndComponent("&7Your version: &c${plugin.description.version} &8→ &7Newest version: &a${updateVersion}"))
-                player.sendMessage(colorAndComponent("&7Download at &6&nhttps://www.spigotmc.org/resources/rockwall.103709/"))
+                player.sendMessage(color("&e&lUpdate available!"))
+                player.sendMessage(color("&7There is an update available for Rockwall"))
+                player.sendMessage(color("&7Your version: &c${plugin.description.version} &8→ &7Newest version: &a${updateVersion}"))
+                player.sendMessage(color("&7Download at &6&nhttps://www.spigotmc.org/resources/rockwall.103709/"))
             }
         }
     }

@@ -2,9 +2,10 @@ package me.cobble.rockwall.utils.chat
 
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.Utils
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextComponent
-import net.kyori.adventure.text.event.ClickEvent
+import net.md_5.bungee.api.chat.ClickEvent
+import net.md_5.bungee.api.chat.HoverEvent
+import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
 
 object ChatUtils {
@@ -13,19 +14,34 @@ object ChatUtils {
      * Creates string formats from config entries
      * @return component with click, hover event and display text
      */
-    fun makeFormat(player: Player, formatName: String, type: FormatType): TextComponent {
-        if (formatName.isBlank()) return Component.empty()
-        val configSection = Config.getSection("global-chat.formats.$formatName") ?: return Component.empty()
+    fun makeFormat(player: Player, formatName: String, type: FormatType): TextComponent? {
+        if (formatName.isBlank()) return null
+        val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
         val section = configSection.getConfigurationSection(type.getType())
 
-        return Utils.colorAndComponent(Utils.setPlaceholders(player, section!!.getString("display")!!)).hoverEvent(
-            Utils.colorAndComponent(
-                Utils.setPlaceholders(
-                    player,
-                    Utils.flattenList(section.getStringList("hover"))
+        val format = TextComponent(
+            *TextComponent.fromLegacyText(
+                Utils.color(
+                    Utils.setPlaceholders(player, section!!.getString("display")!!)
                 )
-            ).asHoverEvent()
-        ).clickEvent(ClickEvent.suggestCommand(Utils.setPlaceholders(player, section.getString("on-click")!!)))
+            )
+        )
+
+        format.hoverEvent = HoverEvent(
+            HoverEvent.Action.SHOW_TEXT, Text(
+                TextComponent.fromLegacyText(
+                    Utils.color(
+                        Utils.setPlaceholders(player, Utils.flattenList(section.getStringList("hover")))
+                    )
+                )
+            )
+        )
+        format.clickEvent = ClickEvent(
+            ClickEvent.Action.SUGGEST_COMMAND,
+            Utils.setPlaceholders(player, section.getString("on-click")!!)
+        )
+
+        return format
     }
 
     fun isGlobalChatEnabled(): Boolean {

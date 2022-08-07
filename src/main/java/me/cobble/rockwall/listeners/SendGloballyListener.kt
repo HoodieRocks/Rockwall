@@ -1,17 +1,16 @@
 package me.cobble.rockwall.listeners
 
-import io.papermc.paper.event.player.AsyncChatEvent
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.chat.ChatUtils
 import me.cobble.rockwall.utils.chat.FormatType
 import me.cobble.rockwall.utils.parties.PartyUtils
-import net.kyori.adventure.text.Component
-import net.kyori.adventure.text.TextComponent
+import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
+import org.bukkit.event.player.AsyncPlayerChatEvent
 
 /**
  * Sends message to the regular Minecraft Chat
@@ -23,9 +22,8 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
     }
 
     @EventHandler(priority = EventPriority.LOW)
-    fun onGlobalMessageSent(event: AsyncChatEvent) {
+    fun onGlobalMessageSent(event: AsyncPlayerChatEvent) {
         val player = event.player
-        val msg: TextComponent = event.message() as TextComponent
 
         // player is muted
         if (event.isCancelled) {
@@ -44,14 +42,14 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             val name = ChatUtils.makeFormat(player, permission, FormatType.NAME)
             val nameSeparator = ChatUtils.makeFormat(player, permission, FormatType.NAME_SEPARATOR)
 
-            Bukkit.broadcast(
-                Component.text()
+            Bukkit.spigot().broadcast(
+                *ComponentBuilder()
                     .append(prefix)
                     .append(prefixSeparator)
                     .append(name)
                     .append(nameSeparator)
-                    .append(Utils.color(msg, player))
-                    .asComponent()
+                    .appendLegacy(Utils.color(event.message, player))
+                    .create()
             )
         }
     }
