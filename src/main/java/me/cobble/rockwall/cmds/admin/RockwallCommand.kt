@@ -52,7 +52,11 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
             if (sender.hasPermission("rockwall.admin")) {
                 if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
                     sender.sendMessage(Utils.color("&e\n\n&lRockwall &cAdmin &7Commands\n\n"))
+<<<<<<< HEAD
                     val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands.toList())
+=======
+                    val components: Array<BaseComponent> = Utils.formatAsFileStructure("/$label", subCommands.toList())
+>>>>>>> parent of d7d1460 (added basic support for adventure api)
 
                     sender.spigot().sendMessage(*components)
                     sender.sendMessage("\n\n")

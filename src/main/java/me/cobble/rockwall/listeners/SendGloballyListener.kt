@@ -5,7 +5,11 @@ import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.chat.ChatUtils
 import me.cobble.rockwall.utils.chat.FormatType
 import me.cobble.rockwall.utils.parties.PartyUtils
+<<<<<<< HEAD
 import net.md_5.bungee.api.chat.ComponentBuilder
+=======
+import net.kyori.adventure.text.Component
+>>>>>>> parent of d7d1460 (added basic support for adventure api)
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -42,6 +46,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             val name = ChatUtils.makeFormat(player, permission, FormatType.NAME)
             val nameSeparator = ChatUtils.makeFormat(player, permission, FormatType.NAME_SEPARATOR)
 
+<<<<<<< HEAD
             Bukkit.spigot().broadcast(
                 *ComponentBuilder()
                     .append(prefix)
@@ -51,6 +56,15 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
                     .appendLegacy(Utils.color(event.message, player))
                     .create()
             )
+=======
+            Bukkit.broadcast(Component.text()
+                .append(prefix)
+                .append(prefixSeparator)
+                .append(name)
+                .append(nameSeparator)
+                .append(event.message())
+                .asComponent())
+>>>>>>> parent of d7d1460 (added basic support for adventure api)
         }
     }
 }
