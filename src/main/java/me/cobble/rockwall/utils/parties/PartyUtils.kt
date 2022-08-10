@@ -1,7 +1,7 @@
 package me.cobble.rockwall.utils.parties
 
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.utils.Utils
+import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.chat.FormatType
 import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.ClickEvent
@@ -46,8 +46,8 @@ object PartyUtils {
         val section = formatRoot.getConfigurationSection(formatType.getType())
         val format = TextComponent(
             *TextComponent.fromLegacyText(
-                Utils.color(
-                    Utils.setPlaceholders(
+                Formats.color(
+                    Formats.setPlaceholders(
                         player,
                         customPlaceholders(section!!.getString("display")!!, party!!)
                     )
@@ -57,17 +57,17 @@ object PartyUtils {
         format.hoverEvent = HoverEvent(
             HoverEvent.Action.SHOW_TEXT,
             Text(
-                Utils.color(
-                    Utils.setPlaceholders(
+                Formats.color(
+                    Formats.setPlaceholders(
                         player,
-                        customPlaceholders(Utils.flattenList(section.getStringList("hover")), party)
+                        customPlaceholders(Formats.flattenList(section.getStringList("hover")), party)
                     )
                 )
             )
         )
         format.clickEvent = ClickEvent(
             ClickEvent.Action.SUGGEST_COMMAND,
-            Utils.setPlaceholders(player, customPlaceholders(section.getString("on-click")!!, party))
+            Formats.setPlaceholders(player, customPlaceholders(section.getString("on-click")!!, party))
         )
 
         return format

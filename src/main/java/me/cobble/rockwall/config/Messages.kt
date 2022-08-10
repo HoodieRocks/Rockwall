@@ -1,7 +1,7 @@
 package me.cobble.rockwall.config
 
 import me.cobble.rockwall.rockwall.Rockwall
-import me.cobble.rockwall.utils.Utils
+import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.parties.models.Party
 import org.bukkit.configuration.file.FileConfiguration
 import org.bukkit.configuration.file.YamlConfiguration
@@ -21,7 +21,7 @@ object Messages {
     }
 
     private fun getString(path: String): String {
-        return Utils.color(config!!.getString(path)!!)
+        return Formats.color(config!!.getString(path)!!)
     }
 
     fun getPermissionString(path: String): String {

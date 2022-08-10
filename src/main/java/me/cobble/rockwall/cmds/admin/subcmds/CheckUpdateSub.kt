@@ -1,8 +1,8 @@
 package me.cobble.rockwall.cmds.admin.subcmds
 
 import me.cobble.rockwall.rockwall.Rockwall
+import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.Utils
 import org.bukkit.entity.Player
 
 class CheckUpdateSub(private val plugin: Rockwall) : RockwallBaseCommand() {
@@ -17,7 +17,7 @@ class CheckUpdateSub(private val plugin: Rockwall) : RockwallBaseCommand() {
         if (plugin.getUpdateUtils().updateAvailable()) {
             plugin.getUpdateUtils().sendUpdateAvailableMsg(p)
         } else {
-            p.sendMessage(Utils.color("&7No updates available!"))
+            p.sendMessage(Formats.color("&7No updates available!"))
         }
     }
 }

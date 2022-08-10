@@ -2,7 +2,7 @@ package me.cobble.rockwall.listeners
 
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.rockwall.Rockwall
-import me.cobble.rockwall.utils.Utils
+import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.chat.ChatUtils
 import me.cobble.rockwall.utils.chat.FormatType
 import me.cobble.rockwall.utils.parties.PartyUtils
@@ -50,7 +50,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
                     .append(prefixSeparator)
                     .append(name)
                     .append(nameSeparator)
-                    .appendLegacy(Utils.color(processMessageFeatures(event.message, player), player))
+                    .appendLegacy(Formats.color(processMessageFeatures(event.message, player), player))
                     .create()
             )
         }
@@ -61,6 +61,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
     }
 
     private fun processMentions(msg: String, player: Player): String {
+        if (!Config.getBool("global-chat.features.mentions.enabled")) return msg
         val mentionExpression = Regex("@[A-z]+")
         if (mentionExpression.containsMatchIn(msg)) {
             mentionExpression.findAll(msg).forEach {
@@ -75,7 +76,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
 
                 return msg.replace(
                     it.value,
-                    Config.getString("global-chat.mentions.format").replace("%format%", it.value)
+                    Config.getString("global-chat.features.mentions.format").replace("%format%", it.value)
                 )
             }
         }

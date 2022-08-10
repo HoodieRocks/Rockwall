@@ -1,8 +1,8 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.Messages
+import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.parties.InviteSender
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.models.AdminParty
@@ -20,7 +20,7 @@ class InviteToPartySub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
-            p.sendMessage(Utils.color("&c$syntax"))
+            p.sendMessage(Formats.color("&c$syntax"))
             return
         }
 

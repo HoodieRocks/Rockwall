@@ -1,7 +1,7 @@
 package me.cobble.rockwall.utils.chat
 
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.utils.Utils
+import me.cobble.rockwall.utils.Formats
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -21,8 +21,8 @@ object ChatUtils {
 
         val format = TextComponent(
             *TextComponent.fromLegacyText(
-                Utils.color(
-                    Utils.setPlaceholders(player, section!!.getString("display")!!)
+                Formats.color(
+                    Formats.setPlaceholders(player, section!!.getString("display")!!)
                 )
             )
         )
@@ -31,15 +31,15 @@ object ChatUtils {
             HoverEvent.Action.SHOW_TEXT,
             Text(
                 TextComponent.fromLegacyText(
-                    Utils.color(
-                        Utils.setPlaceholders(player, Utils.flattenList(section.getStringList("hover")))
+                    Formats.color(
+                        Formats.setPlaceholders(player, Formats.flattenList(section.getStringList("hover")))
                     )
                 )
             )
         )
         format.clickEvent = ClickEvent(
             ClickEvent.Action.SUGGEST_COMMAND,
-            Utils.setPlaceholders(player, section.getString("on-click")!!)
+            Formats.setPlaceholders(player, section.getString("on-click")!!)
         )
 
         return format

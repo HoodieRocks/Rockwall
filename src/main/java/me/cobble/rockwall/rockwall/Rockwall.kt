@@ -2,7 +2,8 @@ package me.cobble.rockwall.rockwall
 
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.Messages
-import me.cobble.rockwall.utils.Utils
+import me.cobble.rockwall.utils.Formats
+import me.cobble.rockwall.utils.UpdateUtils
 import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
@@ -10,7 +11,7 @@ import org.bukkit.plugin.java.JavaPlugin
 class Rockwall : JavaPlugin() {
 
     private val registry = RockwallRegistry(this)
-    private val updateUtils = Utils.UpdateUtils(this)
+    private val updateUtils = UpdateUtils(this)
 
     override fun onEnable() {
         // Plugin startup logic
@@ -47,7 +48,7 @@ class Rockwall : JavaPlugin() {
     private fun setPlaceholderAPIPresent() {
         logger.info("Checking if PlaceholderAPI is present...")
         val present = (Bukkit.getServer().pluginManager.getPlugin("PlaceholderAPI") != null)
-        Utils.placeholderAPIPresent = present
+        Formats.placeholderAPIPresent = present
         if (!present) logger.warning("Placeholder support disabled due to missing PlaceholderAPI, please install PlaceholderAPI to use placeholders")
         else logger.info("PlaceholderAPI found!")
     }
@@ -66,7 +67,7 @@ class Rockwall : JavaPlugin() {
         registry.registerListeners()
     }
 
-    fun getUpdateUtils(): Utils.UpdateUtils {
+    fun getUpdateUtils(): UpdateUtils {
         return updateUtils
     }
 }

@@ -1,8 +1,8 @@
 package me.cobble.rockwall.cmds.parties
 
 import me.cobble.rockwall.cmds.parties.subcmds.*
+import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.Party
@@ -30,8 +30,8 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
 
         if (sender is Player) {
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
-                sender.sendMessage(Utils.color("&e\n\n&lRockwall &7Party Commands\n\n"))
-                val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands, "/$commandLabel")
+                sender.sendMessage(Formats.color("&e\n\n&lRockwall &7Party Commands\n\n"))
+                val components: Array<BaseComponent> = Formats.formatAsFileStructure(subCommands, "/$commandLabel")
 
                 sender.spigot().sendMessage(*components)
                 sender.sendMessage("\n\n")

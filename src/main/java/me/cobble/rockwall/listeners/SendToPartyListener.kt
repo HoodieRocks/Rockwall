@@ -2,7 +2,7 @@ package me.cobble.rockwall.listeners
 
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.rockwall.Rockwall
-import me.cobble.rockwall.utils.Utils
+import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.chat.FormatType
 import me.cobble.rockwall.utils.parties.PartyType
 import me.cobble.rockwall.utils.parties.PartyUtils
@@ -49,7 +49,7 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
                 .append(prefixSeparator)
                 .append(name)
                 .append(nameSeparator)
-                .appendLegacy(Utils.color(event.message, player))
+                .appendLegacy(Formats.color(event.message, player))
 
             player.spigot().sendMessage(*components.create())
 

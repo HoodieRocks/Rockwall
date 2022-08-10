@@ -1,6 +1,6 @@
 package me.cobble.rockwall.utils.parties
 
-import me.cobble.rockwall.utils.Utils
+import me.cobble.rockwall.utils.Formats
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -15,10 +15,10 @@ object InviteSender {
         for (id: UUID in invites) {
             val player = Bukkit.getPlayer(id)
             val inviteComponent =
-                TextComponent(Utils.color("&eYou've been invited to join party &7$name. \n&eClick accept to join, or click deny to decline.\n"))
-            val accept = TextComponent(Utils.color("&a&lAccept"))
-            val separator = TextComponent(Utils.color(" &8| "))
-            val deny = TextComponent(Utils.color("&c&lDeny"))
+                TextComponent(Formats.color("&eYou've been invited to join party &7$name. \n&eClick accept to join, or click deny to decline.\n"))
+            val accept = TextComponent(Formats.color("&a&lAccept"))
+            val separator = TextComponent(Formats.color(" &8| "))
+            val deny = TextComponent(Formats.color("&c&lDeny"))
 
             accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to join $name"))
             deny.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to decline"))

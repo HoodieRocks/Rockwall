@@ -1,9 +1,9 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.Messages
+import me.cobble.rockwall.utils.Formats
+import me.cobble.rockwall.utils.Formats.containsSpecialCharacters
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.Utils
-import me.cobble.rockwall.utils.Utils.containsSpecialCharacters
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyType
 import org.bukkit.entity.Player
@@ -18,7 +18,7 @@ class CreatePartySub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
-            p.sendMessage(Utils.color("&c$syntax"))
+            p.sendMessage(Formats.color("&c$syntax"))
         } else {
             if (args[0].containsSpecialCharacters()) {
                 p.sendMessage(Messages.getPartyMsg("errors.no-special-characters"))

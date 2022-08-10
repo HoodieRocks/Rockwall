@@ -1,8 +1,8 @@
 package me.cobble.rockwall.cmds.admin.subcmds
 
 import me.cobble.rockwall.rockwall.Rockwall
+import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.Utils
 import org.bukkit.entity.Player
 
 class RockwallInfoSub(private val plugin: Rockwall) : RockwallBaseCommand() {
@@ -15,8 +15,8 @@ class RockwallInfoSub(private val plugin: Rockwall) : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         val description = plugin.description
-        p.sendMessage(Utils.color("\n&e&lRockwall &7Information\n\n&7Version: &f${description.version}\n&7Authors: &f${description.authors}"))
-        p.sendMessage(Utils.color("&7PAPI Support: ${if (Utils.placeholderAPIPresent) "&d" else "&c"}${Utils.placeholderAPIPresent}"))
+        p.sendMessage(Formats.color("\n&e&lRockwall &7Information\n\n&7Version: &f${description.version}\n&7Authors: &f${description.authors}"))
+        p.sendMessage(Formats.color("&7PAPI Support: ${if (Formats.placeholderAPIPresent) "&d" else "&c"}${Formats.placeholderAPIPresent}"))
         p.sendMessage("\n")
     }
 }
