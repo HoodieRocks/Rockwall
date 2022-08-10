@@ -28,7 +28,7 @@ class RockwallRegistry(private val plugin: Rockwall) {
 
     fun registerBukkitCommands() {
         if (PartyUtils.arePartiesEnabled()) {
-            plugin.logger.info("Registering group commands")
+            plugin.logger.info("Registering party commands")
             map!!.register(PREFIX, PartyCommand())
         }
         if (ChatUtils.isGlobalChatEnabled()) {
@@ -48,7 +48,7 @@ class RockwallRegistry(private val plugin: Rockwall) {
         }
 
         if (PartyUtils.arePartiesEnabled()) {
-            plugin.logger.info("Registering group listeners")
+            plugin.logger.info("Registering party listeners")
             SendToPartyListener(plugin)
             JoinLeaveListeners(plugin)
         }

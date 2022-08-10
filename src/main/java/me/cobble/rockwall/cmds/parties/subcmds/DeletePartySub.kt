@@ -9,20 +9,20 @@ class DeletePartySub : RockwallBaseCommand() {
     override val name: String
         get() = "delete"
     override val descriptor: String
-        get() = "Deletes a group. \n(You must be the group owner to do this)"
+        get() = "Deletes a party. (Requires Ownership)"
     override val syntax: String
-        get() = "/party delete"
+        get() = "[label] delete"
 
     override fun run(p: Player, args: Array<String>) {
-        val group = PartyManager.getParty(p.uniqueId)
+        val party = PartyManager.getParty(p.uniqueId)
 
-        if (group == null) {
-            p.sendMessage(Messages.getPartyMsg("errors.no-group-for-deletion"))
+        if (party == null) {
+            p.sendMessage(Messages.getPartyMsg("errors.no-party-for-deletion"))
             return
         }
 
-        if (group.owner == p.uniqueId) {
-            PartyManager.deleteParty(group)
+        if (party.owner == p.uniqueId) {
+            PartyManager.deleteParty(party)
         }
     }
 }

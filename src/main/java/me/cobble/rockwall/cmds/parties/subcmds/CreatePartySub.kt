@@ -12,9 +12,9 @@ class CreatePartySub : RockwallBaseCommand() {
     override val name: String
         get() = "create"
     override val descriptor: String
-        get() = "Creates a new group"
+        get() = "Creates a new party"
     override val syntax: String
-        get() = "/party create <name>"
+        get() = "[label] create <name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
@@ -26,7 +26,7 @@ class CreatePartySub : RockwallBaseCommand() {
             }
 
             if (PartyManager.partyExists(p.uniqueId)) {
-                p.sendMessage(Messages.getPartyMsg("errors.group-limit-reached"))
+                p.sendMessage(Messages.getPartyMsg("errors.party-limit-reached"))
                 return
             }
 

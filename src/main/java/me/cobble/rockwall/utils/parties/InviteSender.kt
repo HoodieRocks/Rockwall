@@ -8,7 +8,6 @@ import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import java.util.*
 
-
 // sends invites to player
 object InviteSender {
 
@@ -16,7 +15,7 @@ object InviteSender {
         for (id: UUID in invites) {
             val player = Bukkit.getPlayer(id)
             val inviteComponent =
-                TextComponent(Utils.color("&eYou've been invited to join group &7$name. \n&eClick accept to join, or click deny to decline.\n"))
+                TextComponent(Utils.color("&eYou've been invited to join party &7$name. \n&eClick accept to join, or click deny to decline.\n"))
             val accept = TextComponent(Utils.color("&a&lAccept"))
             val separator = TextComponent(Utils.color(" &8| "))
             val deny = TextComponent(Utils.color("&c&lDeny"))

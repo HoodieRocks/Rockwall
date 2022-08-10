@@ -1,7 +1,6 @@
 package me.cobble.rockwall.cmds.parties
 
 import me.cobble.rockwall.cmds.parties.subcmds.*
-import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.Utils
 import me.cobble.rockwall.utils.parties.PartyManager
@@ -22,16 +21,17 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
         AcceptInviteSub(),
         DenyInviteSub(),
         DeletePartySub(),
-        LeavePartySub()
+        LeavePartySub(),
+        PartyMembersSub()
     )
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-        if (!Config.getBool("groups.enabled")) return false
+        if (!PartyUtils.arePartiesEnabled()) return false
 
         if (sender is Player) {
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
                 sender.sendMessage(Utils.color("&e\n\n&lRockwall &7Party Commands\n\n"))
-                val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands)
+                val components: Array<BaseComponent> = Utils.formatAsFileStructure(subCommands, "/$commandLabel")
 
                 sender.spigot().sendMessage(*components)
                 sender.sendMessage("\n\n")

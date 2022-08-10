@@ -14,9 +14,9 @@ class InviteToPartySub : RockwallBaseCommand() {
     override val name: String
         get() = "invite"
     override val descriptor: String
-        get() = "Invites players to your group \n(you must be the owner of the group to do this)"
+        get() = "Invite players (Requires ownership)"
     override val syntax: String
-        get() = "/party invite <player> <player> ..."
+        get() = "[label] invite <player> <player> ..."
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
@@ -27,12 +27,12 @@ class InviteToPartySub : RockwallBaseCommand() {
         val party: Party? = PartyManager.getParty(p.uniqueId)
 
         if (party == null) {
-            p.sendMessage(Messages.getPartyMsg("errors.no-group-for-invites"))
+            p.sendMessage(Messages.getPartyMsg("errors.no-party-for-invites"))
             return
         }
 
         if (party is AdminParty) {
-            p.sendMessage(Messages.getPartyMsg("errors.cant-invite-to-admin-group"))
+            p.sendMessage(Messages.getPartyMsg("errors.cant-invite-to-admin-party"))
             return
         }
 
@@ -47,7 +47,7 @@ class InviteToPartySub : RockwallBaseCommand() {
                 party.addInvite(target.uniqueId)
                 InviteSender.sendInvites(party.invites, party.alias)
             } else {
-                p.sendMessage(Messages.getPermissionString("no-perm-group"))
+                p.sendMessage(Messages.getPermissionString("no-perm-party"))
                 return
             }
         }

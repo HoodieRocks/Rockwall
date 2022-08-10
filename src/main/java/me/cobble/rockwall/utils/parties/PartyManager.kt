@@ -20,7 +20,6 @@ object PartyManager {
      * @param party party to delete
      */
     fun deleteParty(party: Party?) {
-
         if (party == null) return
 
         val memberCopy = party.members
@@ -53,7 +52,6 @@ object PartyManager {
      * @see PartyType
      */
     fun createParty(owner: UUID, name: String, type: PartyType) {
-
         val tag = (0 until 10000).random()
         var alias = "$name#${String.format("%04d", tag)}"
 

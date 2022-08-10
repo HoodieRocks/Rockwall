@@ -17,6 +17,9 @@ global-chat:
   # Is the global party enabled?
   enabled: true
 
+  features:
+    mentions: true
+
   # These formats are used when speaking globally
   # Higher the format is in the file, the higher the priority
   formats:
@@ -44,6 +47,12 @@ global-chat:
         hover:
           -
         on-click: ""
+
+  # Social media like mentioning/pinging
+  mentions:
+    format: "&9%format%&f"
+    sound: "block_note_block_pling" # Must match Bukkit Sound values
+
 
 # Settings for experimental party system
 parties:

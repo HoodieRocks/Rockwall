@@ -55,7 +55,8 @@ object PartyUtils {
             )
         )
         format.hoverEvent = HoverEvent(
-            HoverEvent.Action.SHOW_TEXT, Text(
+            HoverEvent.Action.SHOW_TEXT,
+            Text(
                 Utils.color(
                     Utils.setPlaceholders(
                         player,
@@ -73,15 +74,15 @@ object PartyUtils {
     }
 
     /**
-     * Check if groups are enabled in config
+     * Check if partys are enabled in config
      */
     fun arePartiesEnabled(): Boolean {
         return Config.getBool("parties.enabled")
     }
 
     /**
-     * Gets the user's groups
-     * @return all groups the user is a member in
+     * Gets the user's partys
+     * @return all partys the user is a member in
      */
     fun getUserParties(uuid: UUID): List<Party> {
         val player = Bukkit.getPlayer(uuid)

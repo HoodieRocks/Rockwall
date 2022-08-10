@@ -25,27 +25,24 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
 
     // for some reason, this is required to be the lowest priority
     @EventHandler(priority = EventPriority.LOWEST)
-    fun onSpeakToGroup(event: AsyncPlayerChatEvent) {
-
+    fun onSpeakToparty(event: AsyncPlayerChatEvent) {
         val player = event.player
 
         if (event.isCancelled) {
             return
         }
 
-
         if (PartyUtils.getPartyBySpeaking(player.uniqueId) != null) {
             event.isCancelled = true
 
-            val group = PartyUtils.getPartyBySpeaking(player.uniqueId)
-            val type = if (group is AdminParty) PartyType.ADMIN else PartyType.NORMAL
-
+            val party = PartyUtils.getPartyBySpeaking(player.uniqueId)
+            val type = if (party is AdminParty) PartyType.ADMIN else PartyType.NORMAL
 
             // various components from config formats
-            val prefix = PartyUtils.formatMaker(player, group, type, FormatType.PREFIX)
-            val prefixSeparator = PartyUtils.formatMaker(player, group, type, FormatType.PREFIX_SEPARATOR)
-            val name = PartyUtils.formatMaker(player, group, type, FormatType.NAME)
-            val nameSeparator = PartyUtils.formatMaker(player, group, type, FormatType.NAME_SEPARATOR)
+            val prefix = PartyUtils.formatMaker(player, party, type, FormatType.PREFIX)
+            val prefixSeparator = PartyUtils.formatMaker(player, party, type, FormatType.PREFIX_SEPARATOR)
+            val name = PartyUtils.formatMaker(player, party, type, FormatType.NAME)
+            val nameSeparator = PartyUtils.formatMaker(player, party, type, FormatType.NAME_SEPARATOR)
 
             val components = ComponentBuilder()
                 .append(prefix)
@@ -56,21 +53,20 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
 
             player.spigot().sendMessage(*components.create())
 
-            for (uuid: UUID in group!!.members) {
+            for (uuid: UUID in party!!.members) {
                 val resolvedPlayer = Bukkit.getPlayer(uuid)!!
                 if (resolvedPlayer.isOnline) {
-
                     // we already sent the message to the event player, don't do it again
                     if (uuid != event.player.uniqueId) {
                         resolvedPlayer.spigot().sendMessage(*components.create())
                     }
                 } else {
-                    group.removeMember(uuid)
+                    party.removeMember(uuid)
                 }
             }
 
             // reset time until auto-deletion
-            if (group is NormalParty) group.timeTillDeath = Config.getInt("groups.timeout")
+            if (party is NormalParty) party.timeTillDeath = Config.getInt("partys.timeout")
         }
     }
 }

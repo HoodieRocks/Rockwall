@@ -29,7 +29,7 @@ object Messages {
     }
 
     /**
-     * Gets string from group config section
+     * Gets string from party config section
      */
     fun getPartyMsg(path: String, party: Party): String {
         return getString("parties.$path").replace("%party_alias%", party.alias)

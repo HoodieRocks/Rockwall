@@ -7,7 +7,6 @@ import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.Bukkit
 import org.bukkit.plugin.java.JavaPlugin
 
-
 class Rockwall : JavaPlugin() {
 
     private val registry = RockwallRegistry(this)
@@ -26,10 +25,15 @@ class Rockwall : JavaPlugin() {
         logger.info("Registering components...")
         registerComponents()
 
-        // Group timer registration
-        Bukkit.getScheduler().runTaskTimer(this, Runnable {
-            PartyManager.tickTimers()
-        }, 20, 20)
+        // party timer registration
+        Bukkit.getScheduler().runTaskTimer(
+            this,
+            Runnable {
+                PartyManager.tickTimers()
+            },
+            20,
+            20
+        )
 
         logger.info("Components registered!")
 

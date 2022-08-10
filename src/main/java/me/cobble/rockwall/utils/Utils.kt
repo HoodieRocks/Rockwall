@@ -32,7 +32,7 @@ object Utils {
         var i = 0
         while (i < texts.size) {
             if ("&".equals(texts[i], ignoreCase = true)) {
-                //get the next string
+                // get the next string
                 i++
                 if (texts[i][0] == '#') {
                     finalText.append(ChatColor.of(texts[i].substring(0, 7))).append(texts[i].substring(7))
@@ -52,40 +52,20 @@ object Utils {
      * @see Utils.color
      */
     fun color(text: String, player: Player): String {
-        if (player.hasPermission("rockwall.color")) {
-            val texts: Array<String> =
-                text.split(String.format(WITH_DELIMITER, "&").toRegex())
-                    .dropLastWhile { it.isEmpty() }
-                    .toTypedArray()
-            val finalText = StringBuilder()
-            var i = 0
-            while (i < texts.size) {
-                if ("&".equals(texts[i], ignoreCase = true)) {
-                    //get the next string
-                    i++
-                    if (texts[i][0] == '#') finalText.append(ChatColor.of(texts[i].substring(0, 7)))
-                        .append(texts[i].substring(7))
-                    else finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]))
-                } else {
-                    finalText.append(texts[i])
-                }
-                i++
-            }
-            return finalText.toString()
-        }
+        if (player.hasPermission("rockwall.color")) return color(text)
         return text
     }
 
     /**
      * Formats sub commands as a file structure display
      */
-    fun formatAsFileStructure(list: List<RockwallBaseCommand>): Array<BaseComponent> {
+    fun formatAsFileStructure(list: List<RockwallBaseCommand>, label: String): Array<BaseComponent> {
         val components = ArrayList<BaseComponent>()
         val sortedList = list.sortedBy { it.name }
 
         for (i in sortedList.indices) {
             val sc: RockwallBaseCommand = sortedList[i]
-            val format = "&e${sc.syntax} &7- ${sc.descriptor}"
+            val format = "&e${sc.syntax.replace("[label]", label)} &7- ${sc.descriptor}"
             when (i) {
                 0 -> components.add(addEvents(formatCmd("┌ ", format), sc.descriptor, sc.syntax))
                 list.size - 1 -> components.add(addEvents(formatCmd("└ ", format), sc.descriptor, sc.syntax))
@@ -162,8 +142,6 @@ object Utils {
             client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept {
                 val array = gson.fromJson(it.body(), JsonArray::class.java)
                 val retrievedVersion = array[array.size() - 1].asJsonObject["name"].asString
-                println(plugin.description.version)
-                println(retrievedVersion)
 
                 updateAvailable = retrievedVersion != plugin.description.version
                 updateVersion = retrievedVersion
@@ -180,8 +158,8 @@ object Utils {
             if (player.hasPermission("rockwall.admin")) {
                 player.sendMessage(color("&e&lUpdate available!"))
                 player.sendMessage(color("&7There is an update available for Rockwall"))
-                player.sendMessage(color("&7Your version: &c${plugin.description.version} &8→ &7Newest version: &a${updateVersion}"))
-                player.sendMessage(color("&7Download at &6&nhttps://www.spigotmc.org/resources/rockwall.103709/"))
+                player.sendMessage(color("&7Your version: &c${plugin.description.version} &8→ &7Newest version: &a$updateVersion"))
+                player.sendMessage(color("&7Download at&6&n https://www.spigotmc.org/resources/rockwall.103709/"))
             }
         }
     }

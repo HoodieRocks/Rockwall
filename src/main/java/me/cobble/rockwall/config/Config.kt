@@ -46,6 +46,10 @@ object Config {
         return get()!!.getInt(path)
     }
 
+    fun getString(path: String): String {
+        return get()!!.getString(path)!!
+    }
+
     fun reload() {
         config = YamlConfiguration.loadConfiguration(file!!)
         log!!.info("Rockwall Main Config reloaded")
