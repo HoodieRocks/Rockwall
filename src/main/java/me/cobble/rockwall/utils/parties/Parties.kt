@@ -4,6 +4,7 @@ import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.chat.FormatType
 import me.cobble.rockwall.utils.parties.models.Party
+import me.cobble.rockwall.utils.parties.models.PartyType
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -12,7 +13,7 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
 
-object PartyUtils {
+object Parties {
 
     fun validatePartyName(string: String): Boolean {
         return Regex("[A-z]+#[0-9]+").matches(string)
@@ -43,7 +44,7 @@ object PartyUtils {
 
     fun formatMaker(player: Player, party: Party?, partyType: PartyType, formatType: FormatType): TextComponent? {
         val formatRoot = Config.getSection("parties.formats.${partyType.getType()}") ?: return null
-        val section = formatRoot.getConfigurationSection(formatType.getType())
+        val section = formatRoot.getSection(formatType.getType())
         val format = TextComponent(
             *TextComponent.fromLegacyText(
                 Formats.color(
@@ -74,15 +75,15 @@ object PartyUtils {
     }
 
     /**
-     * Check if partys are enabled in config
+     * Check if parties are enabled in config
      */
     fun arePartiesEnabled(): Boolean {
         return Config.getBool("parties.enabled")
     }
 
     /**
-     * Gets the user's partys
-     * @return all partys the user is a member in
+     * Gets the user's parties
+     * @return all parties the user is a member in
      */
     fun getUserParties(uuid: UUID): List<Party> {
         val player = Bukkit.getPlayer(uuid)

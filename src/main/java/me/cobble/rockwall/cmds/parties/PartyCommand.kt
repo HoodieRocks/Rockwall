@@ -3,8 +3,8 @@ package me.cobble.rockwall.cmds.parties
 import me.cobble.rockwall.cmds.parties.subcmds.*
 import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.RockwallBaseCommand
+import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.Bukkit
@@ -26,7 +26,7 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
     )
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-        if (!PartyUtils.arePartiesEnabled()) return false
+        if (!Parties.arePartiesEnabled()) return false
 
         if (sender is Player) {
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
@@ -67,7 +67,7 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
                 }
 
                 if (args[0].equals("msg", ignoreCase = true) || args[0].equals("leave", ignoreCase = true)) {
-                    PartyUtils.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
+                    Parties.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
                 }
 
                 if (args[0].equals("accept", ignoreCase = true) || args[0].equals("deny", ignoreCase = true)) {

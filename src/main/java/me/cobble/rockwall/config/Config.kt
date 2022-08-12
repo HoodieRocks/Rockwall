@@ -1,41 +1,38 @@
 package me.cobble.rockwall.config
 
+import dev.dejvokep.boostedyaml.YamlDocument
+import dev.dejvokep.boostedyaml.block.implementation.Section
+import dev.dejvokep.boostedyaml.dvs.versioning.BasicVersioning
+import dev.dejvokep.boostedyaml.settings.dumper.DumperSettings
+import dev.dejvokep.boostedyaml.settings.general.GeneralSettings
+import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings
+import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings
 import me.cobble.rockwall.rockwall.Rockwall
-import org.bukkit.configuration.ConfigurationSection
-import org.bukkit.configuration.file.FileConfiguration
-import org.bukkit.configuration.file.YamlConfiguration
 import java.io.File
-import java.io.IOException
-import java.time.LocalDate
+import java.util.*
 import java.util.logging.Logger
 
 object Config {
-    private var plugin: Rockwall? = null
+
     private var log: Logger? = null
-    private var file: File? = null
-    private var config: YamlConfiguration? = null
+    var document: YamlDocument? = null
     fun setup(plugin: Rockwall) {
-        this.plugin = plugin
-        this.log = plugin.logger
-        file = File(plugin.dataFolder, "config.yml")
-
-        if (!file!!.exists()) {
-            log!!.info("No config found, Generating...")
-            try {
-                file!!.createNewFile()
-            } catch (e: IOException) {
-                e.printStackTrace()
-            }
-        }
-        config = YamlConfiguration.loadConfiguration(file!!)
+        document = YamlDocument.create(
+            File(plugin.dataFolder, "config.yml"),
+            plugin.getResource("config.yml")!!,
+            GeneralSettings.DEFAULT,
+            LoaderSettings.builder().setAutoUpdate(true).build(),
+            DumperSettings.DEFAULT,
+            UpdaterSettings.builder().setVersioning(BasicVersioning("version")).build()
+        )
     }
 
-    fun get(): FileConfiguration? {
-        return config
+    fun get(): YamlDocument? {
+        return document
     }
 
-    fun getSection(path: String): ConfigurationSection? {
-        return get()!!.getConfigurationSection(path)
+    fun getSection(path: String): Section? {
+        return get()!!.getSection(path)
     }
 
     fun getBool(path: String): Boolean {
@@ -46,25 +43,12 @@ object Config {
         return get()!!.getInt(path)
     }
 
-    fun getString(path: String): String {
-        return get()!!.getString(path)!!
+    fun getString(path: String): Optional<String> {
+        return get()!!.getOptionalString(path)
     }
 
     fun reload() {
-        config = YamlConfiguration.loadConfiguration(file!!)
+        document!!.reload()
         log!!.info("Rockwall Main Config reloaded")
-    }
-
-    fun moveAndUpdate() {
-        val folder = File("${plugin!!.dataFolder}/old/")
-        folder.mkdir()
-        val oldFile = File("${plugin!!.dataFolder}/old/config-${LocalDate.now()}.yml.old")
-
-        file!!.renameTo(oldFile)
-
-        file = File(plugin!!.dataFolder, "config.yml")
-
-        plugin!!.saveDefaultConfig()
-        setup(plugin!!)
     }
 }

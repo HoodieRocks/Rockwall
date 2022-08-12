@@ -1,11 +1,11 @@
-package me.cobble.rockwall.utils.parties
+package me.cobble.rockwall.utils.parties.models
 
 /**
- * *Types of partys.*
+ * *Types of parties.*
  *
- * NORMAL - normal player partys.
+ * NORMAL - normal player parties.
  *
- * ADMIN - partys that only admins can create and join.
+ * ADMIN - parties that only admins can create and join.
  * admins can join any admin party without invites
  */
 enum class PartyType(private val type: String) {

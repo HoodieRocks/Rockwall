@@ -9,7 +9,7 @@ import org.bukkit.Bukkit
 import java.util.*
 
 // sends invites to player
-object InviteSender {
+object Invites {
 
     fun sendInvites(invites: ArrayList<UUID>, name: String) {
         for (id: UUID in invites) {

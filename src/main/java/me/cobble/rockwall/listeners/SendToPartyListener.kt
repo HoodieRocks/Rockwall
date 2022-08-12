@@ -4,10 +4,10 @@ import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.chat.FormatType
-import me.cobble.rockwall.utils.parties.PartyType
-import me.cobble.rockwall.utils.parties.PartyUtils
+import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.models.AdminParty
 import me.cobble.rockwall.utils.parties.models.NormalParty
+import me.cobble.rockwall.utils.parties.models.PartyType
 import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -25,24 +25,24 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
 
     // for some reason, this is required to be the lowest priority
     @EventHandler(priority = EventPriority.LOWEST)
-    fun onSpeakToparty(event: AsyncPlayerChatEvent) {
+    fun onSpeakToParty(event: AsyncPlayerChatEvent) {
         val player = event.player
 
         if (event.isCancelled) {
             return
         }
 
-        if (PartyUtils.getPartyBySpeaking(player.uniqueId) != null) {
+        if (Parties.getPartyBySpeaking(player.uniqueId) != null) {
             event.isCancelled = true
 
-            val party = PartyUtils.getPartyBySpeaking(player.uniqueId)
+            val party = Parties.getPartyBySpeaking(player.uniqueId)
             val type = if (party is AdminParty) PartyType.ADMIN else PartyType.NORMAL
 
             // various components from config formats
-            val prefix = PartyUtils.formatMaker(player, party, type, FormatType.PREFIX)
-            val prefixSeparator = PartyUtils.formatMaker(player, party, type, FormatType.PREFIX_SEPARATOR)
-            val name = PartyUtils.formatMaker(player, party, type, FormatType.NAME)
-            val nameSeparator = PartyUtils.formatMaker(player, party, type, FormatType.NAME_SEPARATOR)
+            val prefix = Parties.formatMaker(player, party, type, FormatType.PREFIX)
+            val prefixSeparator = Parties.formatMaker(player, party, type, FormatType.PREFIX_SEPARATOR)
+            val name = Parties.formatMaker(player, party, type, FormatType.NAME)
+            val nameSeparator = Parties.formatMaker(player, party, type, FormatType.NAME_SEPARATOR)
 
             val components = ComponentBuilder()
                 .append(prefix)
@@ -66,7 +66,7 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
             }
 
             // reset time until auto-deletion
-            if (party is NormalParty) party.timeTillDeath = Config.getInt("partys.timeout")
+            if (party is NormalParty) party.timeTillDeath = Config.getInt("parties.timeout")
         }
     }
 }

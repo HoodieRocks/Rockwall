@@ -3,7 +3,7 @@ package me.cobble.rockwall.cmds.parties.subcmds
 import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.parties.InviteSender
+import me.cobble.rockwall.utils.parties.Invites
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.models.AdminParty
 import me.cobble.rockwall.utils.parties.models.Party
@@ -20,7 +20,7 @@ class InviteToPartySub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
-            p.sendMessage(Formats.color("&c$syntax"))
+            p.sendMessage(Formats.color("&c${syntax.replace("[label]","/party")}"))
             return
         }
 
@@ -45,7 +45,7 @@ class InviteToPartySub : RockwallBaseCommand() {
 
             if (party.owner == p.uniqueId) {
                 party.addInvite(target.uniqueId)
-                InviteSender.sendInvites(party.invites, party.alias)
+                Invites.sendInvites(party.invites, party.alias)
             } else {
                 p.sendMessage(Messages.getPermissionString("no-perm-party"))
                 return

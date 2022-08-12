@@ -51,7 +51,7 @@ object Formats {
      * Formats sub commands as a file structure display
      */
     fun formatAsFileStructure(list: List<RockwallBaseCommand>, label: String): Array<BaseComponent> {
-        val components = ArrayList<BaseComponent>()
+        val components = arrayListOf<BaseComponent>()
         val sortedList = list.sortedBy { it.name }
 
         for (i in sortedList.indices) {

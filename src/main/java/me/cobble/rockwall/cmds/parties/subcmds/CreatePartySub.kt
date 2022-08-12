@@ -5,7 +5,7 @@ import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.Formats.containsSpecialCharacters
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.PartyType
+import me.cobble.rockwall.utils.parties.models.PartyType
 import org.bukkit.entity.Player
 
 class CreatePartySub : RockwallBaseCommand() {
@@ -18,7 +18,7 @@ class CreatePartySub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
-            p.sendMessage(Formats.color("&c$syntax"))
+            p.sendMessage(Formats.color("&c${syntax.replace("[label]","/party")}"))
         } else {
             if (args[0].containsSpecialCharacters()) {
                 p.sendMessage(Messages.getPartyMsg("errors.no-special-characters"))

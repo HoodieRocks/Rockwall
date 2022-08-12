@@ -7,11 +7,17 @@
 # Main Config
 # Plugin created by Cbble_
 
+# Do not change!
+version: 1
+
 # General settings for the whole plugin
 settings:
   # Applies to hover text
   reset-color-on-new-line: true
 
+# ---------------------
+#     Global Chat
+# ---------------------
 # Settings for the default chat
 global-chat:
   # Is the global party enabled?
@@ -22,7 +28,10 @@ global-chat:
     mentions:
       enabled: true
       format: "&9%format%&f"
+      play-sound: true
       sound: "block_note_block_pling" # Must match Bukkit Sound values
+    emojis:
+      enabled: true
 
   # These formats are used when speaking globally
   # Higher the format is in the file, the higher the priority
@@ -52,7 +61,9 @@ global-chat:
           -
         on-click: ""
 
-
+# ---------------------
+#       Parties
+# ---------------------
 # Settings for experimental party system
 parties:
   # Are parties enabled?
@@ -108,3 +119,59 @@ parties:
         hover:
           -
         on-click: ""
+
+# ---------------------
+#        Emojis
+# ---------------------
+emojis:
+  # Emojis
+  # The name here will be the same in chat
+  star: "⭐"
+  sword: "🗡"
+  shrug: "¯\_(ツ)_/¯"
+
+# ---------------------
+#       Messages
+# ---------------------
+messages:
+  # Permission related messages
+  permission-messages:
+
+    # Used for when the player doesn't have a permission
+    # Ex. rockwall.admin
+    no-perm-general: "&aYou do not have permission to run this command"
+    no-create-admin-perm: "&cYou do not have permission to create an admin party"
+    no-perm-party: "&cYou do not have permission to invite others to this chat"
+
+  # Party related messages
+  parties:
+    # Placeholders
+    # %party_alias% - the party alias
+
+    # Party interactions
+    creation: "&aParty created with name %party_alias%."
+    deletion: "&7The owner of %party_alias% has deleted the party"
+    join: "&aYou are now a member of %party_alias%"
+    deny: "&cYou have denied being invited to %party_alias%"
+    leave: "&aYou have now left this party, see you!"
+    messaging-global: "&aYou are now speaking in the global chat"
+    already-speaking: "&cYou are already talking in this party"
+    now-speaking: "&aYou are now talking in %party_alias%"
+
+
+    # Errors related to the party system
+    # Ex. you can't have 2 parties open, no special characters
+    errors:
+      no-special-characters: "&cYou can not use special characters in the party name!"
+      party-limit-reached: "&cYou can not have 2 parties open at the same time!"
+      no-party-for-deletion: "&cThere is no party owned by you to delete"
+      no-party-for-invites: "&cYou do not have a party to invite people to!"
+      offline-player: "&cThat player does not exist or is offline"
+      cant-invite-to-admin-party: "&cYou can't invite people to an admin party, only admins can join!"
+      invalid: "&cInvalid party name"
+      # does not exist
+      404: "&cThat party does not exist"
+      not-in-a-party: "&cYou are not in a party"
+      leave-party-not-in: "&cYou can't leave a party you aren't in, silly!"
+      owner-leave-party: "&cYou can't leave your own party, to delete this party use /party delete"
+      not-speaking-in-party: "&cYou aren't speaking in a party yet!"

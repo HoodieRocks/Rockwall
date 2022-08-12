@@ -54,11 +54,10 @@ class Rockwall : JavaPlugin() {
     }
 
     private fun initConfig() {
-        logger.info("Loading configs...")
+        logger.info("Loading config...")
         this.saveDefaultConfig()
         Config.setup(this)
-        Messages.init(this)
-        logger.info("Loaded configs...")
+        logger.info("Config has been loaded!")
     }
 
     private fun registerComponents() {

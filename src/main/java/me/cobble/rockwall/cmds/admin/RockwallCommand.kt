@@ -1,7 +1,6 @@
 package me.cobble.rockwall.cmds.admin
 
 import me.cobble.rockwall.cmds.admin.subcmds.CheckUpdateSub
-import me.cobble.rockwall.cmds.admin.subcmds.ConfigUpdateSub
 import me.cobble.rockwall.cmds.admin.subcmds.ReloadConfigSub
 import me.cobble.rockwall.cmds.admin.subcmds.RockwallInfoSub
 import me.cobble.rockwall.config.Messages
@@ -25,7 +24,6 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
         ReloadConfigSub(),
         CheckUpdateSub(plugin),
         RockwallInfoSub(plugin),
-        ConfigUpdateSub()
     )
 
     override fun onTabComplete(

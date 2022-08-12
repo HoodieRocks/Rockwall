@@ -17,7 +17,7 @@ object ChatUtils {
     fun makeFormat(player: Player, formatName: String, type: FormatType): TextComponent? {
         if (formatName.isBlank()) return null
         val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
-        val section = configSection.getConfigurationSection(type.getType())
+        val section = configSection.getSection(type.getType())
 
         val format = TextComponent(
             *TextComponent.fromLegacyText(
@@ -50,10 +50,10 @@ object ChatUtils {
     }
 
     fun getFormatPermission(p: Player): String {
-        val keys = Config.getSection("global-chat.formats")!!.getKeys(false)
+        val keys = Config.getSection("global-chat.formats")!!.keys
         for (key in keys) {
             if (p.hasPermission("rockwall.format.$key") && key != "default") {
-                return key
+                return key as String
             }
         }
         return "default"

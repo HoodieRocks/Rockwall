@@ -16,7 +16,6 @@ class ReloadConfigSub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         Config.reload()
-        Messages.reload()
         p.sendMessage(Formats.color("&aConfig reloaded"))
     }
 }

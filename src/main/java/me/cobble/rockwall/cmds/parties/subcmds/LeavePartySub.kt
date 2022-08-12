@@ -3,8 +3,8 @@ package me.cobble.rockwall.cmds.parties.subcmds
 import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.RockwallBaseCommand
+import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.PartyUtils
 import org.bukkit.entity.Player
 
 class LeavePartySub : RockwallBaseCommand() {
@@ -17,11 +17,11 @@ class LeavePartySub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
-            p.sendMessage(Formats.color("&c$syntax"))
+            p.sendMessage(Formats.color("&c${syntax.replace("[label]","/party")}"))
             return
         }
 
-        if (!PartyUtils.validatePartyName(args[0])) {
+        if (!Parties.validatePartyName(args[0])) {
             p.sendMessage(Messages.getPartyMsg("errors.invalid"))
             return
         }

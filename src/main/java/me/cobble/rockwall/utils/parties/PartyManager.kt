@@ -4,6 +4,7 @@ import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.parties.models.AdminParty
 import me.cobble.rockwall.utils.parties.models.NormalParty
 import me.cobble.rockwall.utils.parties.models.Party
+import me.cobble.rockwall.utils.parties.models.PartyType
 import org.bukkit.Bukkit
 import java.util.*
 
