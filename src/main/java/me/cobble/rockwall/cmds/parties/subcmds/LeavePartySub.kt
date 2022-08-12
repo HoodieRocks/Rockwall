@@ -39,7 +39,7 @@ class LeavePartySub : RockwallBaseCommand() {
         }
 
         if (party.owner == p.uniqueId) {
-            p.sendMessage(Messages.getPartyMsg("owner-leave-party"))
+            p.sendMessage(Messages.getPartyMsg("errors.owner-leave-party"))
             return
         }
 

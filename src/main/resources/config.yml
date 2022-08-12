@@ -141,7 +141,7 @@ messages:
     # Ex. rockwall.admin
     no-perm-general: "&aYou do not have permission to run this command"
     no-create-admin-perm: "&cYou do not have permission to create an admin party"
-    no-perm-party: "&cYou do not have permission to invite others to this chat"
+    no-perm-party: "&cYou do not have permission to do this"
 
   # Party related messages
   parties:
@@ -174,4 +174,3 @@ messages:
       not-in-a-party: "&cYou are not in a party"
       leave-party-not-in: "&cYou can't leave a party you aren't in, silly!"
       owner-leave-party: "&cYou can't leave your own party, to delete this party use /party delete"
-      not-speaking-in-party: "&cYou aren't speaking in a party yet!"

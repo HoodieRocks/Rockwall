@@ -92,7 +92,8 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
                     it.value,
                     Config.getString("global-chat.features.mentions.format")
                         .orElse("block_note_block_pling")
-                        .replace("%format%", it.value)
+                        .replace("%format%", it.value, true),
+                    true
                 )
             }
         }

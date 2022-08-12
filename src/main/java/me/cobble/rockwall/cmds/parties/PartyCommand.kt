@@ -66,7 +66,12 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
                     }
                 }
 
-                if (args[0].equals("msg", ignoreCase = true) || args[0].equals("leave", ignoreCase = true)) {
+                if (args[0].equals("msg", ignoreCase = true)) {
+                    Parties.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
+                    list.add("global")
+                }
+
+                if(args[0].equals("leave", ignoreCase = true)) {
                     Parties.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
                 }
 

@@ -15,8 +15,9 @@ import java.util.logging.Logger
 object Config {
 
     private var log: Logger? = null
-    var document: YamlDocument? = null
+    private var document: YamlDocument? = null
     fun setup(plugin: Rockwall) {
+        log = plugin.logger
         document = YamlDocument.create(
             File(plugin.dataFolder, "config.yml"),
             plugin.getResource("config.yml")!!,

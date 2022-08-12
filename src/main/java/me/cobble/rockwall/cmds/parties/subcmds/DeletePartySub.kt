@@ -23,6 +23,8 @@ class DeletePartySub : RockwallBaseCommand() {
 
         if (party.owner == p.uniqueId) {
             PartyManager.deleteParty(party)
+        } else {
+            p.sendMessage(Messages.getPartyMsg("no-perm-party"))
         }
     }
 }

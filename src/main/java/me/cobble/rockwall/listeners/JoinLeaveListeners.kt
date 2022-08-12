@@ -22,10 +22,8 @@ class JoinLeaveListeners(private val plugin: Rockwall) : Listener {
     @EventHandler
     fun onJoin(event: PlayerJoinEvent) {
         val player = event.player
-        if (player.hasPermission("rockwall.admin") || player.isOp) {
-            if (plugin.getUpdateUtils().updateAvailable()) {
-                plugin.getUpdateUtils().sendUpdateAvailableMsg(player)
-            }
+        if ((player.hasPermission("rockwall.admin") || player.isOp) && plugin.getUpdateUtils().updateAvailable()) {
+            plugin.getUpdateUtils().sendUpdateAvailableMsg(player)
         }
     }
 }

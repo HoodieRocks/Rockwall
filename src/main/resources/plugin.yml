@@ -4,7 +4,7 @@ main: me.cobble.rockwall.rockwall.Rockwall
 api-version: 1.19
 softdepend: [ PlaceholderAPI ]
 authors: [ Cbble_ ]
-description: An advanced, highly-configurable and powerful chat system
+description: A highly configurable, feature-rich chat plugin
 libraries:
   - 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.0'
   - 'dev.dejvokep:boosted-yaml:1.3'

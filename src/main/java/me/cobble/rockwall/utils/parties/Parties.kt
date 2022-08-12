@@ -101,6 +101,6 @@ object Parties {
     }
 
     private fun customPlaceholders(string: String, party: Party): String {
-        return string.replace("%party_alias%", party.alias)
+        return string.replace("%party_alias%", party.alias, true)
     }
 }

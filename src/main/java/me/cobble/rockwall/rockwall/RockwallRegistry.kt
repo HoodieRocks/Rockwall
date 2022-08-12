@@ -2,6 +2,7 @@ package me.cobble.rockwall.rockwall
 
 import me.cobble.rockwall.cmds.admin.RockwallCommand
 import me.cobble.rockwall.cmds.chat.ClearChatCommand
+import me.cobble.rockwall.cmds.chat.EmojisCommand
 import me.cobble.rockwall.cmds.parties.PartyCommand
 import me.cobble.rockwall.listeners.JoinLeaveListeners
 import me.cobble.rockwall.listeners.SendGloballyListener
@@ -34,6 +35,7 @@ class RockwallRegistry(private val plugin: Rockwall) {
         if (ChatUtils.isGlobalChatEnabled()) {
             plugin.logger.info("Registering global chat commands")
             map!!.register(PREFIX, ClearChatCommand())
+            map!!.register(PREFIX, EmojisCommand())
         }
     }
 

@@ -23,6 +23,11 @@ class MessagePartySub : RockwallBaseCommand() {
             val partyName = args[0]
             if (Parties.validatePartyName(partyName)) {
                 val party = PartyManager.getParty(partyName)
+
+                if(!party!!.isMember(p.uniqueId)) {
+                    p.sendMessage(Messages.getPermissionString("no-perm-party"))
+                }
+
                 if (PartyManager.partyExists(partyName) && ((party is AdminParty && p.hasPermission("rockwall.admin.join")) || party!!.isMember(
                         p.uniqueId
                     ))
