@@ -23,7 +23,10 @@ object Config {
             GeneralSettings.DEFAULT,
             LoaderSettings.builder().setAutoUpdate(true).build(),
             DumperSettings.DEFAULT,
-            UpdaterSettings.builder().setVersioning(BasicVersioning("version")).build()
+            UpdaterSettings
+                .builder()
+                .setVersioning(BasicVersioning("version"))
+                .build()
         )
     }
 

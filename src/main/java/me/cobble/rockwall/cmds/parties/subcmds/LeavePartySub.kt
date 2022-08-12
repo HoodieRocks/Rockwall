@@ -17,7 +17,7 @@ class LeavePartySub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
-            p.sendMessage(Formats.color("&c${syntax.replace("[label]","/party")}"))
+            p.sendMessage(Formats.color("&c${syntax.replace("[label]", "/party")}"))
             return
         }
 

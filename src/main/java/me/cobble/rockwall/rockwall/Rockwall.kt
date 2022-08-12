@@ -1,7 +1,6 @@
 package me.cobble.rockwall.rockwall
 
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.UpdateUtils
 import me.cobble.rockwall.utils.parties.PartyManager

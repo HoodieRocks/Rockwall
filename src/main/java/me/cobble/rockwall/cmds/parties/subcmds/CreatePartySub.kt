@@ -18,7 +18,7 @@ class CreatePartySub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
-            p.sendMessage(Formats.color("&c${syntax.replace("[label]","/party")}"))
+            p.sendMessage(Formats.color("&c${syntax.replace("[label]", "/party")}"))
         } else {
             if (args[0].containsSpecialCharacters()) {
                 p.sendMessage(Messages.getPartyMsg("errors.no-special-characters"))

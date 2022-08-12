@@ -17,7 +17,7 @@ class AcceptInviteSub : RockwallBaseCommand() {
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {
-            p.sendMessage(Formats.color("&c${syntax.replace("[label]","/party")}"))
+            p.sendMessage(Formats.color("&c${syntax.replace("[label]", "/party")}"))
         } else {
             if (Parties.validatePartyName(args[0]) && PartyManager.partyExists(args[0])) {
                 val party = PartyManager.getParty(args[0])
