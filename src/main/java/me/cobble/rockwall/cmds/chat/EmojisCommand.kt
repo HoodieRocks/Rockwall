@@ -12,7 +12,12 @@ class EmojisCommand : BukkitCommand("emojis", "Shows all the available emojis fo
         if (sender is Player) {
             sender.sendMessage(Formats.color("&e&lEmojis"))
             for (emoji in Emojis.getAllEmojis()) {
-                sender.sendMessage(Formats.color("&7${(emoji as String).replaceFirstChar { it.uppercaseChar() }}: ${Emojis.getEmoji(emoji as String)}"))
+                sender.sendMessage(Formats.color("&7${
+                    (emoji as String)
+                        .replaceFirstChar { it.uppercaseChar() }
+                }: ${Emojis.getEmoji(emoji)}"
+                )
+                )
             }
             return true
         }

@@ -24,7 +24,7 @@ class MessagePartySub : RockwallBaseCommand() {
             if (Parties.validatePartyName(partyName)) {
                 val party = PartyManager.getParty(partyName)
 
-                if(!party!!.isMember(p.uniqueId)) {
+                if (!party!!.isMember(p.uniqueId)) {
                     p.sendMessage(Messages.getPermissionString("no-perm-party"))
                 }
 

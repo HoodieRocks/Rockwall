@@ -38,7 +38,7 @@ class UpdateUtils(private val plugin: Rockwall) {
             updateVersion = retrievedVersion
         }
 
-        if(updateAvailable) {
+        if (updateAvailable) {
             plugin.logger.info("Update available! Please update Rockwall to the latest version!")
         } else {
             plugin.logger.info("No update available!")

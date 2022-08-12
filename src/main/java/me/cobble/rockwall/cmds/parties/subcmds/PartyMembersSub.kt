@@ -17,13 +17,13 @@ class PartyMembersSub : RockwallBaseCommand() {
         get() = "[label] members"
 
     override fun run(p: Player, args: Array<String>) {
-        if(args.isEmpty()) {
-            p.sendMessage(Formats.color("&c${syntax.replace("[label]","/party")}"))
+        if (args.isEmpty()) {
+            p.sendMessage(Formats.color("&c${syntax.replace("[label]", "/party")}"))
             return
         }
 
         if (args.size == 1) {
-            if(!Parties.validatePartyName(args[0])) {
+            if (!Parties.validatePartyName(args[0])) {
                 p.sendMessage(Messages.getPartyMsg("errors.invalid"))
                 return
             }
@@ -35,7 +35,7 @@ class PartyMembersSub : RockwallBaseCommand() {
                 return
             }
 
-            if(!party.isMember(p.uniqueId)) {
+            if (!party.isMember(p.uniqueId)) {
                 p.sendMessage(Messages.getPermissionString("no-perm-party"))
                 return
             }
