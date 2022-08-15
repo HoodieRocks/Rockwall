@@ -24,6 +24,8 @@ class AcceptInviteSub : RockwallBaseCommand() {
                 if (party!!.isInvited(p.uniqueId)) {
                     Parties.convertInviteToMember(p.uniqueId, party)
                     p.sendMessage(Messages.getPartyMsg("joined", party))
+                } else {
+                    p.sendMessage(Messages.getPartyMsg("errors.not-invited"))
                 }
             }
         }

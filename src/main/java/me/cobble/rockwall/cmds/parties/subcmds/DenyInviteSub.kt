@@ -23,7 +23,9 @@ class DenyInviteSub : RockwallBaseCommand() {
                 val party = PartyManager.getParty(args[0])
                 if (party!!.isInvited(p.uniqueId)) {
                     party.removeInvite(p.uniqueId)
-                    p.sendMessage(Messages.getPartyMsg("invite-denied"))
+                    p.sendMessage(Messages.getPartyMsg("deny"))
+                } else {
+                    p.sendMessage(Messages.getPartyMsg("errors.not-invited"))
                 }
             }
         }
