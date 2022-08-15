@@ -19,7 +19,7 @@ class AcceptInviteSub : RockwallBaseCommand() {
         if (args.isEmpty()) {
             p.sendMessage(Formats.color("&c${syntax.replace("[label]", "/party")}"))
         } else {
-            if (Parties.validatePartyName(args[0]) && PartyManager.partyExists(args[0])) {
+            if (Parties.isPartyNameValid(args[0]) && PartyManager.partyExists(args[0])) {
                 val party = PartyManager.getParty(args[0])
                 if (party!!.isInvited(p.uniqueId)) {
                     Parties.convertInviteToMember(p.uniqueId, party)

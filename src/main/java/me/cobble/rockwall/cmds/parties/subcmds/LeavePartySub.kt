@@ -21,7 +21,7 @@ class LeavePartySub : RockwallBaseCommand() {
             return
         }
 
-        if (!Parties.validatePartyName(args[0])) {
+        if (!Parties.isPartyNameValid(args[0])) {
             p.sendMessage(Messages.getPartyMsg("errors.invalid"))
             return
         }

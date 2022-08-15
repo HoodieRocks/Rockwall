@@ -21,7 +21,7 @@ class MessagePartySub : RockwallBaseCommand() {
             Parties.removeOldSpeakingParty(p.uniqueId, null)
         } else {
             val partyName = args[0]
-            if (Parties.validatePartyName(partyName)) {
+            if (Parties.isPartyNameValid(partyName)) {
                 val party = PartyManager.getParty(partyName)
 
                 if (!party!!.isMember(p.uniqueId)) {

@@ -23,7 +23,7 @@ class PartyMembersSub : RockwallBaseCommand() {
         }
 
         if (args.size == 1) {
-            if (!Parties.validatePartyName(args[0])) {
+            if (!Parties.isPartyNameValid(args[0])) {
                 p.sendMessage(Messages.getPartyMsg("errors.invalid"))
                 return
             }
