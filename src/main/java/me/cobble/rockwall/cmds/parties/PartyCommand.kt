@@ -5,7 +5,7 @@ import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.models.Party
+import me.cobble.rockwall.utils.parties.parties.Party
 import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender

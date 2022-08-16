@@ -3,10 +3,10 @@ package me.cobble.rockwall.cmds.parties.subcmds
 import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.RockwallBaseCommand
-import me.cobble.rockwall.utils.parties.Invites
+import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.models.AdminParty
-import me.cobble.rockwall.utils.parties.models.Party
+import me.cobble.rockwall.utils.parties.parties.AdminParty
+import me.cobble.rockwall.utils.parties.parties.Party
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -45,7 +45,7 @@ class InviteToPartySub : RockwallBaseCommand() {
 
             if (party.owner == p.uniqueId) {
                 party.addInvite(target.uniqueId)
-                Invites.sendInvites(party.invites, party.alias)
+                Parties.sendInvites(party.invites, party.alias)
             } else {
                 p.sendMessage(Messages.getPermissionString("no-perm-party"))
                 return

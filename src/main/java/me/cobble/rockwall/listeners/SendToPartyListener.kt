@@ -1,13 +1,13 @@
 package me.cobble.rockwall.listeners
 
 import me.cobble.rockwall.config.Config
+import me.cobble.rockwall.config.models.ChatFormatType
+import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.Formats
-import me.cobble.rockwall.utils.chat.FormatType
 import me.cobble.rockwall.utils.parties.Parties
-import me.cobble.rockwall.utils.parties.models.AdminParty
-import me.cobble.rockwall.utils.parties.models.NormalParty
-import me.cobble.rockwall.utils.parties.models.PartyType
+import me.cobble.rockwall.utils.parties.parties.AdminParty
+import me.cobble.rockwall.utils.parties.parties.NormalParty
 import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -39,10 +39,10 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
             val type = if (party is AdminParty) PartyType.ADMIN else PartyType.NORMAL
 
             // various components from config formats
-            val prefix = Parties.formatMaker(player, party, type, FormatType.PREFIX)
-            val prefixSeparator = Parties.formatMaker(player, party, type, FormatType.PREFIX_SEPARATOR)
-            val name = Parties.formatMaker(player, party, type, FormatType.NAME)
-            val nameSeparator = Parties.formatMaker(player, party, type, FormatType.NAME_SEPARATOR)
+            val prefix = Parties.formatMaker(player, party, type, ChatFormatType.PREFIX)
+            val prefixSeparator = Parties.formatMaker(player, party, type, ChatFormatType.PREFIX_SEPARATOR)
+            val name = Parties.formatMaker(player, party, type, ChatFormatType.NAME)
+            val nameSeparator = Parties.formatMaker(player, party, type, ChatFormatType.NAME_SEPARATOR)
 
             val components = ComponentBuilder()
                 .append(prefix)

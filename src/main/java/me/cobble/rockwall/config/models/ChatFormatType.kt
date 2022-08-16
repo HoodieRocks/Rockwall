@@ -1,6 +1,6 @@
-package me.cobble.rockwall.utils.chat
+package me.cobble.rockwall.config.models
 
-enum class FormatType(private val type: String) {
+enum class ChatFormatType(private val type: String) {
     PREFIX("prefix"),
     NAME("name"),
     PREFIX_SEPARATOR("prefix-separator"),

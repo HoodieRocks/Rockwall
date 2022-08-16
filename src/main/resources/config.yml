@@ -175,3 +175,4 @@ messages:
       leave-party-not-in: "&cYou can't leave a party you aren't in, silly!"
       owner-leave-party: "&cYou can't leave your own party, to delete this party use /party delete"
       not-invited: "&cYou were not invited to join this party"
+      in-a-party: "&cYou can't use this when you're in a party"

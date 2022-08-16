@@ -22,7 +22,7 @@ class AcceptInviteSub : RockwallBaseCommand() {
             if (Parties.isPartyNameValid(args[0]) && PartyManager.partyExists(args[0])) {
                 val party = PartyManager.getParty(args[0])
                 if (party!!.isInvited(p.uniqueId)) {
-                    Parties.convertInviteToMember(p.uniqueId, party)
+                    Parties.inviteToMember(p.uniqueId, party)
                     p.sendMessage(Messages.getPartyMsg("joined", party))
                 } else {
                     p.sendMessage(Messages.getPartyMsg("errors.not-invited"))

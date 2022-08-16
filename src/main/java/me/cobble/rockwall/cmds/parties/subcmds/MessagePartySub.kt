@@ -4,7 +4,7 @@ import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.models.AdminParty
+import me.cobble.rockwall.utils.parties.parties.AdminParty
 import org.bukkit.entity.Player
 
 class MessagePartySub : RockwallBaseCommand() {

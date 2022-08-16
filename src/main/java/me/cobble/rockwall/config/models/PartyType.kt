@@ -1,4 +1,4 @@
-package me.cobble.rockwall.utils.parties.models
+package me.cobble.rockwall.config.models
 
 /**
  * *Types of parties.*

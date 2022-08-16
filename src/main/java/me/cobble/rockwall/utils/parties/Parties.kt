@@ -1,10 +1,10 @@
 package me.cobble.rockwall.utils.parties
 
 import me.cobble.rockwall.config.Config
+import me.cobble.rockwall.config.models.ChatFormatType
+import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.Formats
-import me.cobble.rockwall.utils.chat.FormatType
-import me.cobble.rockwall.utils.parties.models.Party
-import me.cobble.rockwall.utils.parties.models.PartyType
+import me.cobble.rockwall.utils.parties.parties.Party
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
@@ -19,7 +19,7 @@ object Parties {
         return Regex("[A-z]+#[0-9]+").matches(string)
     }
 
-    fun convertInviteToMember(uuid: UUID, party: Party?) {
+    fun inviteToMember(uuid: UUID, party: Party?) {
         if (party == null) return
         party.addMember(uuid)
         party.removeInvite(uuid)
@@ -42,9 +42,14 @@ object Parties {
         return null
     }
 
-    fun formatMaker(player: Player, party: Party?, partyType: PartyType, formatType: FormatType): TextComponent? {
+    fun formatMaker(
+        player: Player,
+        party: Party?,
+        partyType: PartyType,
+        chatFormatType: ChatFormatType
+    ): TextComponent? {
         val formatRoot = Config.getSection("parties.formats.${partyType.getType()}") ?: return null
-        val section = formatRoot.getSection(formatType.getType())
+        val section = formatRoot.getSection(chatFormatType.getType())
         val format = TextComponent(
             *TextComponent.fromLegacyText(
                 Formats.color(
@@ -102,5 +107,28 @@ object Parties {
 
     private fun customPlaceholders(string: String, party: Party): String {
         return string.replace("%party_alias%", party.alias, true)
+    }
+
+    fun sendInvites(invites: ArrayList<UUID>, name: String) {
+        for (id: UUID in invites) {
+            val player = Bukkit.getPlayer(id)
+            val inviteComponent =
+                TextComponent(Formats.color("&eYou've been invited to join party &7$name. \n&eClick accept to join, or click deny to decline.\n"))
+            val accept = TextComponent(Formats.color("&a&lAccept"))
+            val separator = TextComponent(Formats.color(" &8| "))
+            val deny = TextComponent(Formats.color("&c&lDeny"))
+
+            accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to join $name"))
+            deny.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to decline"))
+
+            accept.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/g accept $name")
+            deny.clickEvent = ClickEvent(ClickEvent.Action.RUN_COMMAND, "/g deny $name")
+
+            inviteComponent.addExtra(accept)
+            inviteComponent.addExtra(separator)
+            inviteComponent.addExtra(deny)
+
+            player!!.spigot().sendMessage(inviteComponent)
+        }
     }
 }

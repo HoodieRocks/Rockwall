@@ -1,4 +1,4 @@
-package me.cobble.rockwall.utils.parties.models
+package me.cobble.rockwall.utils.parties.parties
 
 import me.cobble.rockwall.config.Config
 import java.util.*

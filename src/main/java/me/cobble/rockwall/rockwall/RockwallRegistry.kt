@@ -7,13 +7,14 @@ import me.cobble.rockwall.cmds.parties.PartyCommand
 import me.cobble.rockwall.listeners.JoinLeaveListeners
 import me.cobble.rockwall.listeners.SendGloballyListener
 import me.cobble.rockwall.listeners.SendToPartyListener
-import me.cobble.rockwall.utils.chat.ChatUtils
+import me.cobble.rockwall.utils.ChatUtils
 import me.cobble.rockwall.utils.parties.Parties
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
 
 class RockwallRegistry(private val plugin: Rockwall) {
     private var map: CommandMap? = null
+    private val prefix = "rockwall"
 
     init {
         try {
@@ -30,12 +31,12 @@ class RockwallRegistry(private val plugin: Rockwall) {
     fun registerBukkitCommands() {
         if (Parties.arePartiesEnabled()) {
             plugin.logger.info("Registering party commands")
-            map!!.register(PREFIX, PartyCommand())
+            map!!.register(prefix, PartyCommand())
         }
         if (ChatUtils.isGlobalChatEnabled()) {
             plugin.logger.info("Registering global chat commands")
-            map!!.register(PREFIX, ClearChatCommand())
-            map!!.register(PREFIX, EmojisCommand())
+            map!!.register(prefix, ClearChatCommand())
+            map!!.register(prefix, EmojisCommand())
         }
     }
 
@@ -54,9 +55,5 @@ class RockwallRegistry(private val plugin: Rockwall) {
             SendToPartyListener(plugin)
             JoinLeaveListeners(plugin)
         }
-    }
-
-    companion object {
-        const val PREFIX = "rockwall"
     }
 }

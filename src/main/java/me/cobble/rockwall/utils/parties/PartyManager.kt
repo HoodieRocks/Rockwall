@@ -1,19 +1,19 @@
 package me.cobble.rockwall.utils.parties
 
 import me.cobble.rockwall.config.Messages
-import me.cobble.rockwall.utils.parties.models.AdminParty
-import me.cobble.rockwall.utils.parties.models.NormalParty
-import me.cobble.rockwall.utils.parties.models.Party
-import me.cobble.rockwall.utils.parties.models.PartyType
+import me.cobble.rockwall.config.models.PartyType
+import me.cobble.rockwall.utils.Manager
+import me.cobble.rockwall.utils.parties.parties.AdminParty
+import me.cobble.rockwall.utils.parties.parties.NormalParty
+import me.cobble.rockwall.utils.parties.parties.Party
 import org.bukkit.Bukkit
 import java.util.*
 
 // Manages Rockwall parties
-object PartyManager {
-    private val parties = hashMapOf<UUID, Party>()
+object PartyManager : Manager<UUID, Party>() {
 
     private fun addParty(owner: UUID, party: Party) {
-        parties[owner] = party
+        addOrUpdate(owner, party)
     }
 
     /**
@@ -41,7 +41,7 @@ object PartyManager {
         val speakerCopy = party.activeSpeakers
         party.activeSpeakers.removeAll(speakerCopy.toSet())
 
-        parties.remove(party.owner)
+        remove(party.owner)
     }
 
     /**
@@ -70,8 +70,7 @@ object PartyManager {
      * @return party
      */
     fun getParty(uuid: UUID): Party? {
-        if (!partyExists(uuid)) return null
-        return parties[uuid]
+        return get(uuid)
     }
 
     /**
@@ -81,7 +80,7 @@ object PartyManager {
      */
     fun getParty(name: String): Party? {
         if (name.isBlank()) return null
-        return parties.values.find {
+        return getAll().values.find {
             it.alias == name
         }
     }
@@ -92,7 +91,7 @@ object PartyManager {
      * @return true if exists
      */
     fun partyExists(uuid: UUID): Boolean {
-        return parties.containsKey(uuid)
+        return containsKey(uuid)
     }
 
     /**
@@ -109,11 +108,11 @@ object PartyManager {
      * @return all parties
      */
     fun getParties(): HashMap<UUID, Party> {
-        return parties
+        return getAll()
     }
 
     fun tickTimers() {
-        for (party: Party in parties.values) {
+        for (party: Party in getAll().values) {
             if (party is NormalParty) {
                 if (party.timeTillDeath == 0) deleteParty(party)
                 party.decrementTimeTillDeath()

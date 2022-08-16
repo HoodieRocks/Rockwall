@@ -1,7 +1,7 @@
 package me.cobble.rockwall.config
 
 import me.cobble.rockwall.utils.Formats
-import me.cobble.rockwall.utils.parties.models.Party
+import me.cobble.rockwall.utils.parties.parties.Party
 
 /**
  * Utility class that gets messages from config
