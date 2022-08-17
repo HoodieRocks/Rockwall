@@ -30,7 +30,7 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
 
         if (sender is Player) {
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
-                sender.sendMessage(Formats.color("&e\n\n&lRockwall &7Party Commands \n<param> = required [param] = optional\n\n"))
+                sender.sendMessage(Formats.color("&e\n\n&lRockwall &7Party Commands"))
                 val components: Array<BaseComponent> = Formats.formatAsFileStructure(subCommands, "/$commandLabel")
 
                 sender.spigot().sendMessage(*components)

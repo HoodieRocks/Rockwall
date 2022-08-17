@@ -4,17 +4,12 @@ import com.google.gson.Gson
 import com.google.gson.JsonArray
 import me.cobble.rockwall.rockwall.Rockwall
 import org.bukkit.entity.Player
-import java.io.FileWriter
-import java.io.InputStream
-import java.io.Writer
 import java.net.URI
 import java.net.http.HttpClient
 import java.net.http.HttpRequest
 import java.net.http.HttpResponse
-import java.nio.file.Files
 import java.nio.file.Path
 import java.time.Duration
-import java.util.concurrent.Future
 
 
 /**
@@ -81,19 +76,10 @@ class UpdateUtils(private val plugin: Rockwall) {
             .uri(URI.create("https://api.spiget.org/v2/resources/$id/download"))
             .build()
 
-        val path = Path.of(plugin.dataFolder.toString(), "../", "Rockwall-${generateAntiDupeString()}.jar")
+        val path = Path.of(plugin.dataFolder.toString(), "../", "Rockwall.jar")
 
         client.send(request, HttpResponse.BodyHandlers.ofFile(path))
 
         player.sendMessage(Formats.color("&aUpdate downloaded, this will be applied on next restart"))
-    }
-
-    private fun generateAntiDupeString(): String {
-        val string = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
-        val stringBuilder = StringBuilder()
-        for (i in 0..10) {
-            stringBuilder.append(string.random())
-        }
-        return stringBuilder.toString()
     }
 }

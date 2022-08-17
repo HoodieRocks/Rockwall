@@ -40,6 +40,12 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
                     list.add(subCommands.indexOf(element), element.name)
                 }
             }
+
+            if (args.size == 2) {
+                if (args[0].equals("update", true)) {
+                    list.add("download")
+                }
+            }
         }
 
         return list
@@ -49,7 +55,7 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
         if (sender is Player) {
             if (sender.hasPermission("rockwall.admin")) {
                 if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
-                    sender.sendMessage(Formats.color("&e\n\n&lRockwall &cAdmin &7Commands \n<param> = required [param] = optional\n\n"))
+                    sender.sendMessage(Formats.color("&e\n\n&lRockwall &cAdmin &7Commands"))
                     val components: Array<BaseComponent> =
                         Formats.formatAsFileStructure(subCommands.toList(), "/$label")
 
