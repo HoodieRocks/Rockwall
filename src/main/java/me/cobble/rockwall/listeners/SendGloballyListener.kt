@@ -6,6 +6,7 @@ import me.cobble.rockwall.utils.ChatUtils
 import me.cobble.rockwall.utils.Formats
 import me.cobble.rockwall.utils.parties.Parties
 import net.md_5.bungee.api.chat.ComponentBuilder
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -41,12 +42,15 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             val name = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME)
             val nameSeparator = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME_SEPARATOR)
 
+            val msg = TextComponent(Formats.color(ChatUtils.processMessageFeatures(event.message, player), player))
+            msg.retain(ComponentBuilder.FormatRetention.NONE)
+
             val completedMessage = ComponentBuilder()
                 .append(prefix)
                 .append(prefixSeparator)
                 .append(name)
                 .append(nameSeparator)
-                .appendLegacy(Formats.color(ChatUtils.processMessageFeatures(event.message, player), player))
+                .append(msg)
                 .create()
 
             Bukkit.spigot().broadcast(*completedMessage)
