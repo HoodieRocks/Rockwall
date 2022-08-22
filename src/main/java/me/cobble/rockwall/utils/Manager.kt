@@ -18,10 +18,9 @@ abstract class Manager<K, V> {
 
     fun getByValue(value: V): K? {
         if (!containsValue(value)) return null
-        map.values.find {
-            it == value
+        return map.keys.find {
+            map[it] == value
         }
-        return null
     }
 
     fun containsValue(value: V): Boolean {

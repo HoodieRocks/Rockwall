@@ -16,7 +16,9 @@ class Rockwall : JavaPlugin() {
         // Plugin startup logic
 
         // Config Logic
-        initConfig()
+        logger.info("Loading config...")
+        Config.setup(this)
+        logger.info("Config has been loaded!")
 
         // Is PlaceholderAPI present?
         setPlaceholderAPIPresent()
@@ -50,13 +52,6 @@ class Rockwall : JavaPlugin() {
         Formats.placeholderAPIPresent = present
         if (!present) logger.warning("Placeholder support disabled due to missing PlaceholderAPI, please install PlaceholderAPI to use placeholders")
         else logger.info("PlaceholderAPI found!")
-    }
-
-    private fun initConfig() {
-        logger.info("Loading config...")
-        this.saveDefaultConfig()
-        Config.setup(this)
-        logger.info("Config has been loaded!")
     }
 
     private fun registerComponents() {
