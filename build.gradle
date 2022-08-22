@@ -24,7 +24,7 @@ repositories {
 dependencies {
     // Note to self, never use the Paper API for this plugin, Adventure components suck for this application
     // They are pretty revolutionary but a pain in the ass to use for this type of plugin
-    compileOnly 'org.spigotmc:spigot-api:1.19.1-R0.1-SNAPSHOT'
+    compileOnly 'org.spigotmc:spigot-api:1.19-R0.1-SNAPSHOT'
     compileOnly "org.jetbrains.kotlin:kotlin-stdlib-jdk8"
     compileOnly 'me.clip:placeholderapi:2.11.2'
     compileOnly 'dev.dejvokep:boosted-yaml:1.3'

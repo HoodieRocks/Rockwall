@@ -1,6 +1,5 @@
 package me.cobble.rockwall.cmds.chat
 
-import me.cobble.rockwall.config.Emojis
 import me.cobble.rockwall.utils.Formats
 import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
