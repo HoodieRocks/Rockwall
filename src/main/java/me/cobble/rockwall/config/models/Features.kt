@@ -1,4 +1,4 @@
-package me.cobble.rockwall.utils.parties.parties
+package me.cobble.rockwall.config.models
 
 import me.cobble.rockwall.config.Config
 import org.bukkit.Sound

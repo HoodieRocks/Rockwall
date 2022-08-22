@@ -9,6 +9,7 @@ import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.parties.AdminParty
 import me.cobble.rockwall.utils.parties.parties.NormalParty
 import net.md_5.bungee.api.chat.ComponentBuilder
+import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -23,11 +24,12 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
         Bukkit.getPluginManager().registerEvents(this, plugin)
     }
 
-    // for some reason, this is required to be the lowest priority
+    // this is required to be the lowest priority, because muting
     @EventHandler(priority = EventPriority.LOWEST)
     fun onSpeakToParty(event: AsyncPlayerChatEvent) {
         val player = event.player
 
+        // is the player muted by other plugins?
         if (event.isCancelled) {
             return
         }
@@ -44,21 +46,26 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
             val name = Parties.formatMaker(player, party, type, ChatFormatType.NAME)
             val nameSeparator = Parties.formatMaker(player, party, type, ChatFormatType.NAME_SEPARATOR)
 
+            // hacky-but-not way to fix format codes being non-overridable
+            val msg = TextComponent(Formats.color(event.message, player))
+            msg.retain(ComponentBuilder.FormatRetention.NONE)
+
             val components = ComponentBuilder()
                 .append(prefix)
                 .append(prefixSeparator)
                 .append(name)
                 .append(nameSeparator)
-                .appendLegacy(Formats.color(event.message, player))
+                .append(msg)
+                .create()
 
-            player.spigot().sendMessage(*components.create())
+            player.spigot().sendMessage(*components)
 
             for (uuid: UUID in party!!.members) {
                 val resolvedPlayer = Bukkit.getPlayer(uuid)!!
                 if (resolvedPlayer.isOnline) {
                     // we already sent the message to the event player, don't do it again
                     if (uuid != event.player.uniqueId) {
-                        resolvedPlayer.spigot().sendMessage(*components.create())
+                        resolvedPlayer.spigot().sendMessage(*components)
                     }
                 } else {
                     party.removeMember(uuid)

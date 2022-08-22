@@ -14,10 +14,8 @@ import java.util.logging.Logger
 
 object Config {
 
-    private var log: Logger? = null
     private var document: YamlDocument? = null
     fun setup(plugin: Rockwall) {
-        log = plugin.logger
         document = YamlDocument.create(
             File(plugin.dataFolder, "config.yml"),
             plugin.getResource("config.yml")!!,
@@ -31,28 +29,27 @@ object Config {
         )
     }
 
-    fun get(): YamlDocument? {
-        return document
+    fun get(): YamlDocument {
+        return document!!
     }
 
     fun getSection(path: String): Section? {
-        return get()!!.getSection(path)
+        return get().getSection(path)
     }
 
     fun getBool(path: String): Boolean {
-        return get()!!.getBoolean(path)
+        return get().getBoolean(path)
     }
 
     fun getInt(path: String): Int {
-        return get()!!.getInt(path)
+        return get().getInt(path)
     }
 
     fun getString(path: String): Optional<String> {
-        return get()!!.getOptionalString(path)
+        return get().getOptionalString(path)
     }
 
     fun reload() {
         document!!.reload()
-        log!!.info("Rockwall Main Config reloaded")
     }
 }

@@ -2,7 +2,7 @@ package me.cobble.rockwall.utils
 
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.ChatFormatType
-import me.cobble.rockwall.utils.parties.parties.Features
+import me.cobble.rockwall.config.models.Features
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.chat.HoverEvent

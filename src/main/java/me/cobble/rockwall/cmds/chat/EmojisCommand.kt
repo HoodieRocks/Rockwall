@@ -1,7 +1,7 @@
 package me.cobble.rockwall.cmds.chat
 
 import me.cobble.rockwall.utils.Formats
-import me.cobble.rockwall.utils.parties.parties.Features
+import me.cobble.rockwall.config.models.Features
 import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
 import org.bukkit.entity.Player

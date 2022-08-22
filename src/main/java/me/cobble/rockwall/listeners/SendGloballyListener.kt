@@ -31,6 +31,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             return
         }
 
+        // player is not muted by other plugins, override message
         event.isCancelled = true
 
         if (Parties.getPartyBySpeaking(player.uniqueId) == null) {
@@ -42,6 +43,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             val name = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME)
             val nameSeparator = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME_SEPARATOR)
 
+            // hacky way to fix format codes being non-overridable
             val msg = TextComponent(Formats.color(ChatUtils.processMessageFeatures(event.message, player), player))
             msg.retain(ComponentBuilder.FormatRetention.NONE)
 
@@ -53,6 +55,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
                 .append(msg)
                 .create()
 
+            // send to everyone
             Bukkit.spigot().broadcast(*completedMessage)
 
             // Specific exception so console can see chat
