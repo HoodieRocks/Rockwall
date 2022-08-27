@@ -63,10 +63,10 @@ class UpdateUtils(private val plugin: Rockwall) {
 
     fun sendUpdateAvailableMsg(player: Player) {
         if (player.hasPermission("rockwall.admin")) {
-            player.sendMessage(Formats.color("&e&lUpdate available!"))
-            player.sendMessage(Formats.color("&7There is an update available for Rockwall"))
-            player.sendMessage(Formats.color("&7Your version: &c${plugin.description.version} &8→ &7Newest version: &a$updateVersion"))
-            player.sendMessage(Formats.color("&7Download at&6&n https://www.spigotmc.org/resources/rockwall.103709/"))
+            player.sendMessage(TextUtils.color("&e&lUpdate available!"))
+            player.sendMessage(TextUtils.color("&7There is an update available for Rockwall"))
+            player.sendMessage(TextUtils.color("&7Your version: &c${plugin.description.version} &8→ &7Newest version: &a$updateVersion"))
+            player.sendMessage(TextUtils.color("&7Download at&6&n https://www.spigotmc.org/resources/rockwall.103709/"))
         }
     }
 
@@ -80,6 +80,6 @@ class UpdateUtils(private val plugin: Rockwall) {
 
         client.send(request, HttpResponse.BodyHandlers.ofFile(path))
 
-        player.sendMessage(Formats.color("&aUpdate downloaded, this will be applied on next restart"))
+        player.sendMessage(TextUtils.color("&aUpdate downloaded, this will be applied on next restart"))
     }
 }

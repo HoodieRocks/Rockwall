@@ -3,7 +3,7 @@ package me.cobble.rockwall.utils.parties
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.PartyType
-import me.cobble.rockwall.utils.Formats
+import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.parties.parties.Party
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
@@ -52,28 +52,36 @@ object Parties {
         val section = formatRoot.getSection(chatFormatType.getType())
         val format = TextComponent(
             *TextComponent.fromLegacyText(
-                Formats.color(
-                    Formats.setPlaceholders(
+                TextUtils.color(
+                    TextUtils.setPlaceholders(
                         player,
                         customPlaceholders(section!!.getString("display")!!, party!!)
                     )
                 )
             )
         )
+        format.font = section.getOptionalString("font").orElse("minecraft:default")
         format.hoverEvent = HoverEvent(
             HoverEvent.Action.SHOW_TEXT,
             Text(
-                Formats.color(
-                    Formats.setPlaceholders(
+                TextUtils.color(
+                    TextUtils.setPlaceholders(
                         player,
-                        customPlaceholders(Formats.flattenList(section.getStringList("hover")), party)
+                        customPlaceholders(
+                            TextComponent.toPlainText(
+                                *TextUtils.formatStringList(
+                                    section.getStringList("hover"),
+                                    player
+                                ).create()
+                            ), party
+                        )
                     )
                 )
             )
         )
         format.clickEvent = ClickEvent(
             ClickEvent.Action.SUGGEST_COMMAND,
-            Formats.setPlaceholders(player, customPlaceholders(section.getString("on-click")!!, party))
+            TextUtils.setPlaceholders(player, customPlaceholders(section.getString("on-click")!!, party))
         )
 
         return format
@@ -113,10 +121,10 @@ object Parties {
         for (id: UUID in invites) {
             val player = Bukkit.getPlayer(id)
             val inviteComponent =
-                TextComponent(Formats.color("&eYou've been invited to join party &7$name. \n&eClick accept to join, or click deny to decline.\n"))
-            val accept = TextComponent(Formats.color("&a&lAccept"))
-            val separator = TextComponent(Formats.color(" &8| "))
-            val deny = TextComponent(Formats.color("&c&lDeny"))
+                TextComponent(TextUtils.color("&eYou've been invited to join party &7$name. \n&eClick accept to join, or click deny to decline.\n"))
+            val accept = TextComponent(TextUtils.color("&a&lAccept"))
+            val separator = TextComponent(TextUtils.color(" &8| "))
+            val deny = TextComponent(TextUtils.color("&c&lDeny"))
 
             accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to join $name"))
             deny.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to decline"))

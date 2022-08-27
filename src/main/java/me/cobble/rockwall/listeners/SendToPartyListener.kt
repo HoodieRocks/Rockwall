@@ -4,7 +4,7 @@ import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.rockwall.Rockwall
-import me.cobble.rockwall.utils.Formats
+import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.parties.AdminParty
 import me.cobble.rockwall.utils.parties.parties.NormalParty
@@ -47,7 +47,7 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
             val nameSeparator = Parties.formatMaker(player, party, type, ChatFormatType.NAME_SEPARATOR)
 
             // hacky-but-not way to fix format codes being non-overridable
-            val msg = TextComponent(Formats.color(event.message, player))
+            val msg = TextComponent(TextUtils.color(event.message, player))
             msg.retain(ComponentBuilder.FormatRetention.NONE)
 
             val components = ComponentBuilder()

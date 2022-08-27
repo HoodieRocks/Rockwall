@@ -1,6 +1,6 @@
 package me.cobble.rockwall.cmds.chat
 
-import me.cobble.rockwall.utils.Formats
+import me.cobble.rockwall.utils.TextUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
 import org.bukkit.command.defaults.BukkitCommand
@@ -16,7 +16,7 @@ class ClearChatCommand : BukkitCommand("clearchat", "Clears chat", "", listOf("c
                 }
             }
         } else {
-            sender.sendMessage(Formats.color("&cYou do not have permission to use this command"))
+            sender.sendMessage(TextUtils.color("&cYou do not have permission to use this command"))
             return false
         }
         return false

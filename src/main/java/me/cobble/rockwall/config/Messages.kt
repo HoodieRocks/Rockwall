@@ -1,6 +1,6 @@
 package me.cobble.rockwall.config
 
-import me.cobble.rockwall.utils.Formats
+import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.parties.parties.Party
 
 /**
@@ -10,7 +10,7 @@ object Messages {
     private var config = Config.getSection("messages")
 
     private fun getString(path: String): String {
-        return Formats.color(config!!.getString(path)!!)
+        return TextUtils.color(config!!.getString(path)!!)
     }
 
     /**

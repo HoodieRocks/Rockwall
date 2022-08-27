@@ -4,7 +4,6 @@ import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.Features
 import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
@@ -21,25 +20,22 @@ object ChatUtils {
         if (formatName.isBlank()) return null
         val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
         val section = configSection.getSection(type.getType())
-        val hover = ComponentBuilder().append(
-            TextComponent(
-                Formats.color(
-                    Formats.setPlaceholders(player, Formats.flattenList(section.getStringList("hover")))
-                )
-            )
-        )
         val format = TextComponent(
             *TextComponent.fromLegacyText(
-                Formats.color(
-                    Formats.setPlaceholders(player, section!!.getString("display")!!)
+                TextUtils.color(
+                    TextUtils.setPlaceholders(player, section!!.getString("display")!!)
                 )
             )
         )
 
-        format.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(hover.create()))
+        format.font = section.getOptionalString("font").orElse("minecraft:default")
+        format.hoverEvent = HoverEvent(
+            HoverEvent.Action.SHOW_TEXT,
+            Text(TextUtils.formatStringList(section.getStringList("hover"), player).create())
+        )
         format.clickEvent = ClickEvent(
             ClickEvent.Action.SUGGEST_COMMAND,
-            Formats.setPlaceholders(player, section.getString("on-click")!!)
+            TextUtils.setPlaceholders(player, section.getString("on-click")!!)
         )
 
         return format

@@ -10,7 +10,6 @@ import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings
 import me.cobble.rockwall.rockwall.Rockwall
 import java.io.File
 import java.util.*
-import java.util.logging.Logger
 
 object Config {
 

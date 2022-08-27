@@ -3,14 +3,11 @@ package me.cobble.rockwall.utils
 import me.clip.placeholderapi.PlaceholderAPI
 import me.cobble.rockwall.config.Config
 import net.md_5.bungee.api.ChatColor
-import net.md_5.bungee.api.chat.BaseComponent
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.HoverEvent
-import net.md_5.bungee.api.chat.TextComponent
+import net.md_5.bungee.api.chat.*
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
 
-object Formats {
+object TextUtils {
     private const val WITH_DELIMITER = "((?<=%1\$s)|(?=%1\$s))"
     var placeholderAPIPresent = false
 
@@ -28,7 +25,7 @@ object Formats {
                 if (texts[i][0] == '#') {
                     finalText.append(ChatColor.of(texts[i].substring(0, 7))).append(texts[i].substring(7))
                 } else {
-                    finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]))
+                    finalText.append(ChatColor.translateAlternateColorCodes('&', "&${texts[i]}"))
                 }
             } else {
                 finalText.append(texts[i])
@@ -39,8 +36,8 @@ object Formats {
     }
 
     /**
-     * Same as Utils#color(text), but requires permission to use color
-     * @see Formats.color
+     * Same as Formats#color(text), but requires permission to use color
+     * @see TextUtils.color
      */
     fun color(text: String, player: Player): String {
         if (player.hasPermission("rockwall.color")) return color(text)
@@ -92,15 +89,15 @@ object Formats {
      * Flattens a string list to a single string
      * @return string list as string
      */
-    fun flattenList(list: List<String>): String {
-        val builder: StringBuilder = StringBuilder()
+    fun formatStringList(list: List<String>, player: Player): ComponentBuilder {
+        val builder = ComponentBuilder()
         list.forEach {
-            builder.append(it)
-            if (list.indexOf(it) != list.size - 1) builder.append('\n')
-            if (Config.getBool("settings.reset-color-on-new-line")) builder.append("&r&f")
+            builder.appendLegacy(color(setPlaceholders(player, it)))
+            if (list.indexOf(it) != list.size - 1) builder.appendLegacy("\n")
+            if (Config.getBool("settings.reset-color-on-new-line")) builder.appendLegacy(color("&r&f"))
         }
 
-        return builder.toString()
+        return builder
     }
 
     /**

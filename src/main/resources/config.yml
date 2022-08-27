@@ -36,6 +36,7 @@ global-chat:
   # These formats are used when speaking globally
   # Higher the format is in the file, the higher the priority
   formats:
+    # Other formats can be made, and to use it, give the player rockwall.format.{NAME} permission
     # Default format must always be present, do not remove, only modify
     default:
       prefix:
@@ -44,6 +45,8 @@ global-chat:
           - "%luckperms_prefix%"
           - "%player_name%"
         on-click: "/suicide"
+        # Optional:
+        # font: "minecraft:default"
       name:
         display: "%player_name% "
         hover:
