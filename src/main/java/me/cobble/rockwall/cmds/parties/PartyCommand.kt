@@ -25,6 +25,7 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
         PartyMembersSub()
     )
 
+
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
         if (!Parties.arePartiesEnabled()) return false
 

@@ -8,12 +8,15 @@
 # Plugin created by Cbble_
 
 # Do not change!
-version: 2
+version: 3
 
 # General settings for the whole plugin
 settings:
-  # Applies to hover text
+  # Applies a new line character to the end of all hover text
   reset-color-on-new-line: true
+
+  # Number of tries Rockwall will shuffle the party discriminator before it false
+  # Ex. Hello#0454 is taken, it will try Hello#0455, see if its taken, then repeat the cycle x more times
   party-discriminator-tries: 10
 
 # ---------------------
@@ -21,16 +24,20 @@ settings:
 # ---------------------
 # Settings for the default chat
 global-chat:
-  # Is the global party enabled?
+  # Is the global chat enabled?
+  # disabling global chat will also disable the commands
   enabled: true
 
   features:
     # Social media like mentioning/pinging
+    # Ex. @Cbble_, @Notch
     mentions:
       enabled: true
       format: "&9%format%&f"
       play-sound: true
       sound: "block_note_block_pling" # Must match Bukkit Sound values
+    # Emojis
+    # Ex. :shrug: :star: -> ¯\_(ツ)_/¯ ⭐
     emojis:
       enabled: true
 
@@ -40,6 +47,8 @@ global-chat:
     # Other formats can be made, and to use it, give the player rockwall.format.{NAME} permission
     # Default format must always be present, do not remove, only modify
     default:
+      # Prefix
+      # Ex. [Owner]
       prefix:
         display: "%luckperms_prefix% " # Shown in chat
         hover:
@@ -48,17 +57,25 @@ global-chat:
         on-click: "/suicide"
         # Optional:
         # font: "minecraft:default"
+      # Name
+      # Ex. Notch
       name:
         display: "%player_name% "
         hover:
           - "%player_name%"
           - "Click to msg"
         on-click: "/msg %player_name%"
+      # Prefix
+      # Ex. Prefix | Name
+      #            ^
       prefix-separator:
         display: "&8| "
         hover:
           -
         on-click: "/msg %player_name%"
+      # Prefix
+      # Prefix | Name >>
+      #               ^
       name-separator:
         display: "&8» "
         hover:
@@ -69,8 +86,10 @@ global-chat:
 #       Parties
 # ---------------------
 # Settings for experimental party system
+# Parties do not support global chat's emoji or pinging features
 parties:
   # Are parties enabled?
+  # disabling parties will also disable the commands
   enabled: true
 
   # Time until normal parties get automatically delete
@@ -78,7 +97,11 @@ parties:
   timeout: 300
 
   # Multi format support coming soon-ish
+  # These follow similar rule to Global Chat formats
   formats:
+    # Default normal party
+    # The normal party, this party expires and does not require a permission to create or join
+    # More permissions might be added soon
     normal:
       prefix:
         display: "&7[%party_alias%] " # Shown in party
@@ -101,6 +124,9 @@ parties:
         hover:
           -
         on-click: ""
+    # Default admin party
+    # The admin party does not expire and requires a permission to create or join
+    # More permissions might be added soon
     admin:
       prefix:
         display: "&7[%party_alias%] &c[Admin] " # Shown in party

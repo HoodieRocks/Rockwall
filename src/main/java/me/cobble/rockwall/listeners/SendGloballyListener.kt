@@ -47,7 +47,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
                 .append(prefixSeparator)
                 .append(name)
                 .append(nameSeparator)
-                .appendLegacy(TextUtils.color(ChatUtils.processMessageFeatures(event.message, player), player))
+                .append(TextUtils.colorToTextComponent(ChatUtils.processMessageFeatures(event.message, player), player))
                 .create()
 
             // send to everyone

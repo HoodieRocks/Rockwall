@@ -6,25 +6,102 @@ import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.*
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 
 object TextUtils {
-    private val hexPattern: Pattern = Pattern.compile("<#([A-Fa-f0-9]){6}>")
     var placeholderAPIPresent = false
+    private const val WITH_DELIMITER = "((?<=%1\$s)|(?=%1\$s))"
 
-    fun color(message: String): String {
-        var message = message
-        var matcher: Matcher = hexPattern.matcher(message)
-        while (matcher.find()) {
-            val hexColor: ChatColor = ChatColor.of(matcher.group().substring(1, matcher.group().length - 1))
-            val before = message.substring(0, matcher.start())
-            val after: String = message.substring(matcher.end())
-            message = before + hexColor + after
-            matcher = hexPattern.matcher(message)
+    /**
+     * @param text The string of text to apply color/effects to
+     * @return Returns a string of text with color/effects applied
+     */
+    fun color(text: String): String {
+        val texts = text.split(String.format(WITH_DELIMITER, "&").toRegex()).dropLastWhile { it.isEmpty() }
+            .toTypedArray()
+        val finalText = StringBuilder()
+        var i = 0
+        while (i < texts.size) {
+            if (texts[i].equals("&", ignoreCase = true)) {
+                //get the next string
+                i++
+                if (texts[i][0] == '#') {
+                    finalText.append(ChatColor.of(texts[i].substring(0, 7)).toString() + texts[i].substring(7))
+                } else {
+                    finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]))
+                }
+            } else {
+                finalText.append(texts[i])
+            }
+            i++
         }
-        return ChatColor.translateAlternateColorCodes('&', message)
+        return finalText.toString()
     }
+
+
+    fun colorToTextComponent(text: String): TextComponent {
+        val texts: Array<String> =
+            text.split(java.lang.String.format(WITH_DELIMITER, "&").toRegex()).dropLastWhile { it.isEmpty() }
+                .toTypedArray()
+        val builder = ComponentBuilder()
+        var i = 0
+        while (i < texts.size) {
+            val subComponent = TextComponent()
+            if (texts[i].equals("&", ignoreCase = true)) {
+                //get the next string
+                i++
+                if (texts[i][0] == '#') {
+                    subComponent.text = texts[i].substring(7)
+                    subComponent.color = ChatColor.of(texts[i].substring(0, 7))
+                    builder.append(subComponent)
+                } else {
+                    if (texts[i].length > 1) {
+                        subComponent.text = texts[i].substring(1)
+                    } else {
+                        subComponent.text = ""
+                    }
+                    when (texts[i][0]) {
+                        '0' -> subComponent.color = ChatColor.BLACK
+                        '1' -> subComponent.color = ChatColor.DARK_BLUE
+                        '2' -> subComponent.color = ChatColor.DARK_GREEN
+                        '3' -> subComponent.color = ChatColor.DARK_AQUA
+                        '4' -> subComponent.color = ChatColor.DARK_RED
+                        '5' -> subComponent.color = ChatColor.DARK_PURPLE
+                        '6' -> subComponent.color = ChatColor.GOLD
+                        '7' -> subComponent.color = ChatColor.GRAY
+                        '8' -> subComponent.color = ChatColor.DARK_GRAY
+                        '9' -> subComponent.color = ChatColor.BLUE
+                        'a' -> subComponent.color = ChatColor.GREEN
+                        'b' -> subComponent.color = ChatColor.AQUA
+                        'c' -> subComponent.color = ChatColor.RED
+                        'd' -> subComponent.color = ChatColor.LIGHT_PURPLE
+                        'e' -> subComponent.color = ChatColor.YELLOW
+                        'f' -> subComponent.color = ChatColor.WHITE
+                        'k' -> subComponent.isObfuscated = true
+                        'l' -> subComponent.isBold = true
+                        'm' -> subComponent.isStrikethrough = true
+                        'n' -> subComponent.isUnderlined = true
+                        'o' -> subComponent.isItalic = true
+                        'r' -> subComponent.color = ChatColor.RESET
+                    }
+                    builder.append(subComponent)
+                }
+            } else {
+                builder.append(texts[i])
+            }
+            i++
+        }
+        return TextComponent(*builder.create())
+    }
+
+    fun colorToTextComponent(string: String, player: Player): TextComponent {
+        return if (player.hasPermission("rockwall.color")) colorToTextComponent(string)
+        else {
+            val component = TextComponent(string)
+            component.retain(ComponentBuilder.FormatRetention.NONE)
+            component
+        }
+    }
+
 
     /**
      * Same as Formats#color(text), but requires permission to use color
@@ -57,8 +134,8 @@ object TextUtils {
     /**
      * Adds click and hover events
      */
-    private fun addEvents(text: String?, hoverText: String?, command: String?): BaseComponent {
-        val component = TextComponent(text)
+    private fun addEvents(text: String, hoverText: String?, command: String?): BaseComponent {
+        val component = colorToTextComponent(text)
         component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(hoverText))
         component.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)
         return component
@@ -92,7 +169,7 @@ object TextUtils {
     fun formatStringList(list: List<String>, player: Player): ComponentBuilder {
         val builder = ComponentBuilder()
         list.forEach {
-            builder.appendLegacy(color(setPlaceholders(player, it)))
+            builder.append(colorToTextComponent(setPlaceholders(player, it)))
             if (list.indexOf(it) != list.size - 1) builder.appendLegacy("\n")
             if (Config.getBool("settings.reset-color-on-new-line")) builder.appendLegacy(color("&r&f"))
         }

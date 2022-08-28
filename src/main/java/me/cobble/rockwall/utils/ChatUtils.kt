@@ -20,13 +20,7 @@ object ChatUtils {
         if (formatName.isBlank()) return null
         val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
         val section = configSection.getSection(type.getType())
-        val format = TextComponent(
-            *TextComponent.fromLegacyText(
-                TextUtils.color(
-                    TextUtils.setPlaceholders(player, section!!.getString("display")!!)
-                )
-            )
-        )
+        val format = TextUtils.colorToTextComponent(TextUtils.setPlaceholders(player, section!!.getString("display")!!))
 
         format.font = section.getOptionalString("font").orElse("minecraft:default")
         format.hoverEvent = HoverEvent(

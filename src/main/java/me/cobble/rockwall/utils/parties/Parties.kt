@@ -13,6 +13,11 @@ import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 import java.util.*
 
+/**
+ * Various utilities related to parties
+ *
+ * @author Cbble_
+ */
 object Parties {
 
     fun isPartyNameValid(string: String): Boolean {
@@ -33,6 +38,11 @@ object Parties {
         }
     }
 
+    /**
+     * Gets the party the player is speaking in
+     *
+     * @return Party with player
+     */
     fun getPartyBySpeaking(player: UUID): Party? {
         for (party: Party in PartyManager.getParties().values) {
             if (party.isSpeaking(player)) {
@@ -50,14 +60,10 @@ object Parties {
     ): TextComponent? {
         val formatRoot = Config.getSection("parties.formats.${partyType.getType()}") ?: return null
         val section = formatRoot.getSection(chatFormatType.getType())
-        val format = TextComponent(
-            *TextComponent.fromLegacyText(
-                TextUtils.color(
-                    TextUtils.setPlaceholders(
-                        player,
-                        customPlaceholders(section!!.getString("display")!!, party!!)
-                    )
-                )
+        val format = TextUtils.colorToTextComponent(
+            TextUtils.setPlaceholders(
+                player,
+                customPlaceholders(section!!.getString("display")!!, party!!)
             )
         )
         format.font = section.getOptionalString("font").orElse("minecraft:default")
@@ -121,10 +127,10 @@ object Parties {
         for (id: UUID in invites) {
             val player = Bukkit.getPlayer(id)
             val inviteComponent =
-                TextComponent(TextUtils.color("&eYou've been invited to join party &7$name. \n&eClick accept to join, or click deny to decline.\n"))
-            val accept = TextComponent(TextUtils.color("&a&lAccept"))
-            val separator = TextComponent(TextUtils.color(" &8| "))
-            val deny = TextComponent(TextUtils.color("&c&lDeny"))
+                TextUtils.colorToTextComponent("&eYou've been invited to join party &7$name. \n&eClick accept to join, or click deny to decline.\n")
+            val accept = TextUtils.colorToTextComponent("&a&lAccept")
+            val separator = TextUtils.colorToTextComponent(" &8| ")
+            val deny = TextUtils.colorToTextComponent("&c&lDeny")
 
             accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to join $name"))
             deny.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to decline"))

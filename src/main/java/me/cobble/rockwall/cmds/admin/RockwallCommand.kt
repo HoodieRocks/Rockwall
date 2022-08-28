@@ -14,12 +14,13 @@ import org.bukkit.command.CommandSender
 import org.bukkit.command.TabExecutor
 import org.bukkit.entity.Player
 
-class RockwallCommand(plugin: Rockwall) : TabExecutor {
+class RockwallCommand(val plugin: Rockwall) : TabExecutor {
 
     init {
         plugin.getCommand("rockwall")!!.setExecutor(this)
         plugin.getCommand("rockwall")!!.tabCompleter = this
     }
+
 
     private val subCommands = arrayListOf(
         ReloadConfigSub(),
@@ -49,6 +50,7 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
                 }
                 if (args[0].equals("debug", true)) {
                     list.add("stressTestParty")
+                    list.add("stressTestGlobal")
                 }
             }
         }

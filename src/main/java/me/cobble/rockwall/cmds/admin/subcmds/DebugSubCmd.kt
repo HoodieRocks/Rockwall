@@ -23,6 +23,10 @@ class DebugSubCmd : RockwallBaseCommand {
                 if (args[0] == "stressTestParty") {
                     StressTests.parties(p)
                 }
+
+                if (args[0] == "stressTestGlobal") {
+                    StressTests.chat(p)
+                }
             }
         }
     }
