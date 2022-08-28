@@ -6,8 +6,8 @@ import me.cobble.rockwall.cmds.admin.subcmds.ReloadConfigSub
 import me.cobble.rockwall.cmds.admin.subcmds.RockwallInfoSub
 import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.rockwall.Rockwall
-import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.RockwallBaseCommand
+import me.cobble.rockwall.utils.TextUtils
 import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender
@@ -47,7 +47,7 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
                 if (args[0].equals("update", true)) {
                     list.add("download")
                 }
-                if(args[0].equals("debug", true)) {
+                if (args[0].equals("debug", true)) {
                     list.add("stressTestParty")
                 }
             }

@@ -1,9 +1,9 @@
 package me.cobble.rockwall.utils
 
-import java.util.Optional
+import java.util.*
 import java.util.concurrent.CompletableFuture
 
-abstract class Manager<K : Any, V> {
+open class Manager<K : Any, V> {
 
     private val map: HashMap<K, V> = hashMapOf()
 

@@ -15,9 +15,9 @@ object StressTests {
         val localCopy = linkedMapOf<UUID, Party>()
 
         var time = System.currentTimeMillis()
-        for(i in 0 until 10000) {
+        for (i in 0 until 10000) {
             val uuid = UUID.randomUUID()
-            localCopy[uuid] = PartyManager.createParty(uuid, TextUtils.randomString(10), PartyType.NORMAL)!!
+            localCopy[uuid] = PartyManager.createParty(uuid, TextUtils.randomString(10), PartyType.NORMAL)
         }
         player.sendMessage("Took ${System.currentTimeMillis() - time}ms to create 10K party objects")
 

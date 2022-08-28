@@ -8,12 +8,13 @@
 # Plugin created by Cbble_
 
 # Do not change!
-version: 1
+version: 2
 
 # General settings for the whole plugin
 settings:
   # Applies to hover text
   reset-color-on-new-line: true
+  party-discriminator-tries: 10
 
 # ---------------------
 #     Global Chat

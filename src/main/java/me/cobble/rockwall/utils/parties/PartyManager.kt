@@ -1,5 +1,6 @@
 package me.cobble.rockwall.utils.parties
 
+import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.Manager
@@ -51,12 +52,17 @@ object PartyManager : Manager<UUID, Party>() {
      * @see PartyType
      */
     fun createParty(owner: UUID, name: String, type: PartyType): Party {
-        val tag = (0 until 10000).random()
+        var tag = (0 until 10000).random()
         var alias = "$name#${String.format("%04d", tag)}"
 
         getParty(alias).thenAccept {
-            if(it != null) {
-                alias = "$name#${tag + 1}"
+            for (i in 0 until Config.getInt("settings.party-discriminator-tries")) {
+                if (it != null) {
+                    tag += 1
+                    alias = "$name#${tag}"
+                } else {
+                    break
+                }
             }
         }
 

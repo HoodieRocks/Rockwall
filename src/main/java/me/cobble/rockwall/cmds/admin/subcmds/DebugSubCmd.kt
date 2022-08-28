@@ -16,11 +16,11 @@ class DebugSubCmd : RockwallBaseCommand {
         get() = "[label] debug"
 
     override fun run(p: Player, args: Array<String>) {
-        if(args.isEmpty()) {
+        if (args.isEmpty()) {
             p.sendMessage(TextUtils.color("&c${syntax.replace("[label]", "/rockwall")}"))
         } else {
-            if(args.size == 1){
-                if(args[0] == "stressTestParty") {
+            if (args.size == 1) {
+                if (args[0] == "stressTestParty") {
                     StressTests.parties(p)
                 }
             }

@@ -79,7 +79,7 @@ object TextUtils {
     fun randomString(int: Int): String {
         val values = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
         val stringBuilder = StringBuilder()
-        for(i in 0 until int) {
+        for (i in 0 until int) {
             stringBuilder.append(values.random())
         }
         return stringBuilder.toString()
