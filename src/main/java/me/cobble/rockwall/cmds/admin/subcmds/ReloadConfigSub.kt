@@ -5,7 +5,7 @@ import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import org.bukkit.entity.Player
 
-class ReloadConfigSub : RockwallBaseCommand() {
+class ReloadConfigSub : RockwallBaseCommand {
     override val name: String
         get() = "reload"
     override val descriptor: String

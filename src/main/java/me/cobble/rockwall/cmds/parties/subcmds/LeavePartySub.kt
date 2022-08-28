@@ -1,13 +1,13 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.Messages
-import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.RockwallBaseCommand
+import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.entity.Player
 
-class LeavePartySub : RockwallBaseCommand() {
+class LeavePartySub : RockwallBaseCommand {
     override val name: String
         get() = "leave"
     override val descriptor: String
@@ -26,29 +26,30 @@ class LeavePartySub : RockwallBaseCommand() {
             return
         }
 
-        val party = PartyManager.getParty(args[0])
+        PartyManager.getParty(args[0]).thenAccept {
+            if (it == null) {
+                p.sendMessage(Messages.getPartyMsg("errors.404"))
+                return@thenAccept
+            }
 
-        if (party == null) {
-            p.sendMessage(Messages.getPartyMsg("errors.404"))
-            return
+            if (!it.isMember(p.uniqueId)) {
+                p.sendMessage(Messages.getPartyMsg("errors.leave-party-not-in"))
+                return@thenAccept
+            }
+
+            if (it.owner == p.uniqueId) {
+                p.sendMessage(Messages.getPartyMsg("errors.owner-leave-party"))
+                return@thenAccept
+            }
+
+            it.members.remove(p.uniqueId)
+            it.activeSpeakers.remove(p.uniqueId)
+            p.sendMessage(Messages.getPartyMsg("leave"))
+
+            if (it.members.size == 0) {
+                PartyManager.deleteParty(it)
+            }
         }
 
-        if (!party.isMember(p.uniqueId)) {
-            p.sendMessage(Messages.getPartyMsg("errors.leave-party-not-in"))
-            return
-        }
-
-        if (party.owner == p.uniqueId) {
-            p.sendMessage(Messages.getPartyMsg("errors.owner-leave-party"))
-            return
-        }
-
-        party.members.remove(p.uniqueId)
-        party.activeSpeakers.remove(p.uniqueId)
-        p.sendMessage(Messages.getPartyMsg("leave"))
-
-        if (party.members.size == 0) {
-            PartyManager.deleteParty(party)
-        }
     }
 }

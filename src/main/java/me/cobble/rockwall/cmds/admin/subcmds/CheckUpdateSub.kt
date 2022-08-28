@@ -5,7 +5,7 @@ import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.RockwallBaseCommand
 import org.bukkit.entity.Player
 
-class CheckUpdateSub(private val plugin: Rockwall) : RockwallBaseCommand() {
+class CheckUpdateSub(private val plugin: Rockwall) : RockwallBaseCommand {
     override val name: String
         get() = "update"
     override val descriptor: String

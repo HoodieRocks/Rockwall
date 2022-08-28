@@ -1,6 +1,9 @@
 package me.cobble.rockwall.utils
 
-abstract class Manager<K, V> {
+import java.util.Optional
+import java.util.concurrent.CompletableFuture
+
+abstract class Manager<K : Any, V> {
 
     private val map: HashMap<K, V> = hashMapOf()
 
@@ -16,20 +19,19 @@ abstract class Manager<K, V> {
         return map[key]
     }
 
-    fun getByValue(value: V): K? {
-        if (!containsValue(value)) return null
-        return map.keys.find {
-            map[it] == value
+    fun getByValue(value: V): CompletableFuture<Optional<K>> {
+        return CompletableFuture.supplyAsync {
+            Optional.ofNullable(map.keys.find {
+                get(it) == value
+            })
         }
     }
 
     fun containsValue(value: V): Boolean {
-        if (value == null) return false
         return map.containsValue(value)
     }
 
     fun containsKey(key: K): Boolean {
-        if (key == null) return false
         return map.containsKey(key)
     }
 

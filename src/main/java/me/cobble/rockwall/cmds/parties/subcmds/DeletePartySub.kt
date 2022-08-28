@@ -5,7 +5,7 @@ import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.entity.Player
 
-class DeletePartySub : RockwallBaseCommand() {
+class DeletePartySub : RockwallBaseCommand {
     override val name: String
         get() = "delete"
     override val descriptor: String

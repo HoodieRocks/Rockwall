@@ -6,33 +6,24 @@ import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.*
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
+import java.util.regex.Matcher
+import java.util.regex.Pattern
 
 object TextUtils {
-    private const val WITH_DELIMITER = "((?<=%1\$s)|(?=%1\$s))"
+    private val hexPattern: Pattern = Pattern.compile("<#([A-Fa-f0-9]){6}>")
     var placeholderAPIPresent = false
 
-    fun color(text: String): String {
-        val texts: Array<String> =
-            text.split(String.format(WITH_DELIMITER, "&").toRegex())
-                .dropLastWhile { it.isEmpty() }
-                .toTypedArray()
-        val finalText = StringBuilder()
-        var i = 0
-        while (i < texts.size) {
-            if ("&".equals(texts[i], ignoreCase = true)) {
-                // get the next string
-                i++
-                if (texts[i][0] == '#') {
-                    finalText.append(ChatColor.of(texts[i].substring(0, 7))).append(texts[i].substring(7))
-                } else {
-                    finalText.append(ChatColor.translateAlternateColorCodes('&', "&${texts[i]}"))
-                }
-            } else {
-                finalText.append(texts[i])
-            }
-            i++
+    fun color(message: String): String {
+        var message = message
+        var matcher: Matcher = hexPattern.matcher(message)
+        while (matcher.find()) {
+            val hexColor: ChatColor = ChatColor.of(matcher.group().substring(1, matcher.group().length - 1))
+            val before = message.substring(0, matcher.start())
+            val after: String = message.substring(matcher.end())
+            message = before + hexColor + after
+            matcher = hexPattern.matcher(message)
         }
-        return finalText.toString()
+        return ChatColor.translateAlternateColorCodes('&', message)
     }
 
     /**
@@ -83,6 +74,15 @@ object TextUtils {
      */
     fun String.containsSpecialCharacters(): Boolean {
         return this.contains(Regex("[^A-Za-z0-9]"))
+    }
+
+    fun randomString(int: Int): String {
+        val values = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+        val stringBuilder = StringBuilder()
+        for(i in 0 until int) {
+            stringBuilder.append(values.random())
+        }
+        return stringBuilder.toString()
     }
 
     /**

@@ -1,6 +1,7 @@
 package me.cobble.rockwall.cmds.admin
 
 import me.cobble.rockwall.cmds.admin.subcmds.CheckUpdateSub
+import me.cobble.rockwall.cmds.admin.subcmds.DebugSubCmd
 import me.cobble.rockwall.cmds.admin.subcmds.ReloadConfigSub
 import me.cobble.rockwall.cmds.admin.subcmds.RockwallInfoSub
 import me.cobble.rockwall.config.Messages
@@ -24,6 +25,7 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
         ReloadConfigSub(),
         CheckUpdateSub(plugin),
         RockwallInfoSub(plugin),
+        DebugSubCmd()
     )
 
     override fun onTabComplete(
@@ -44,6 +46,9 @@ class RockwallCommand(plugin: Rockwall) : TabExecutor {
             if (args.size == 2) {
                 if (args[0].equals("update", true)) {
                     list.add("download")
+                }
+                if(args[0].equals("debug", true)) {
+                    list.add("stressTestParty")
                 }
             }
         }

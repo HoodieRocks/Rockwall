@@ -8,6 +8,7 @@ import me.cobble.rockwall.utils.parties.parties.NormalParty
 import me.cobble.rockwall.utils.parties.parties.Party
 import org.bukkit.Bukkit
 import java.util.*
+import java.util.concurrent.CompletableFuture
 
 // Manages Rockwall parties
 object PartyManager : Manager<UUID, Party>() {
@@ -16,17 +17,13 @@ object PartyManager : Manager<UUID, Party>() {
         addOrUpdate(owner, party)
     }
 
-    /**
-     * Deletes party
-     * @param party party to delete
-     */
     fun deleteParty(party: Party?) {
         if (party == null) return
 
         val memberCopy = party.members
         for (member: UUID in party.members) {
             val player = Bukkit.getPlayer(member)
-            if (player!!.isOnline) player.sendMessage(Messages.getPartyMsg("deletion", party))
+            if (player != null && player.isOnline) player.sendMessage(Messages.getPartyMsg("deletion", party))
         }
 
         party.members.removeAll(memberCopy.toSet())
@@ -34,7 +31,7 @@ object PartyManager : Manager<UUID, Party>() {
         val inviteCopy = party.invites
         for (member: UUID in party.invites) {
             val player = Bukkit.getPlayer(member)
-            if (player!!.isOnline) player.sendMessage(Messages.getPartyMsg("deletion", party))
+            if (player != null && player.isOnline) player.sendMessage(Messages.getPartyMsg("deletion", party))
         }
         party.invites.removeAll(inviteCopy.toSet())
 
@@ -50,63 +47,44 @@ object PartyManager : Manager<UUID, Party>() {
      * @param owner uuid of owner player
      * @param name name of party
      * @param type type of party
+     *
      * @see PartyType
      */
-    fun createParty(owner: UUID, name: String, type: PartyType) {
+    fun createParty(owner: UUID, name: String, type: PartyType): Party {
         val tag = (0 until 10000).random()
         var alias = "$name#${String.format("%04d", tag)}"
 
-        while (getParty(alias) != null) {
-            alias = "$name#${tag + 1}"
+        getParty(alias).thenAccept {
+            if(it != null) {
+                alias = "$name#${tag + 1}"
+            }
         }
 
         val party = if (type == PartyType.NORMAL) NormalParty(owner, alias) else AdminParty(owner, alias)
         addParty(owner, party)
+        return party
     }
 
-    /**
-     * Gets party by UUID
-     * @param uuid uuid of party owner
-     * @return party
-     */
     fun getParty(uuid: UUID): Party? {
         return get(uuid)
     }
 
-    /**
-     * Gets party by party name
-     * @param name name of party, including tag
-     * @return party
-     */
-    fun getParty(name: String): Party? {
-        if (name.isBlank()) return null
-        return getAll().values.find {
-            it.alias == name
+    fun getParty(name: String): CompletableFuture<Party?> {
+        return CompletableFuture.supplyAsync {
+            getAll().values.find {
+                it.alias == name
+            }
         }
     }
 
-    /**
-     * Check if party exists by owner UUID
-     * @param uuid owner uuid
-     * @return true if exists
-     */
-    fun partyExists(uuid: UUID): Boolean {
+    fun doesPartyExists(uuid: UUID): Boolean {
         return containsKey(uuid)
     }
 
-    /**
-     * Check if party exists by party name
-     * @param name party name
-     * @return true if exists
-     */
-    fun partyExists(name: String): Boolean {
-        return getParty(name) != null
+    fun doesPartyExists(name: String): Boolean {
+        return getParty(name).get() != null
     }
 
-    /**
-     * Gets all parties
-     * @return all parties
-     */
     fun getParties(): HashMap<UUID, Party> {
         return getAll()
     }

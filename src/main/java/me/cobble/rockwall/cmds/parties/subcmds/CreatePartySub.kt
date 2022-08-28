@@ -2,13 +2,13 @@ package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.config.models.PartyType
+import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.TextUtils.containsSpecialCharacters
-import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.entity.Player
 
-class CreatePartySub : RockwallBaseCommand() {
+class CreatePartySub : RockwallBaseCommand {
     override val name: String
         get() = "create"
     override val descriptor: String
@@ -25,7 +25,7 @@ class CreatePartySub : RockwallBaseCommand() {
                 return
             }
 
-            if (PartyManager.partyExists(p.uniqueId)) {
+            if (PartyManager.doesPartyExists(p.uniqueId)) {
                 p.sendMessage(Messages.getPartyMsg("errors.party-limit-reached"))
                 return
             }

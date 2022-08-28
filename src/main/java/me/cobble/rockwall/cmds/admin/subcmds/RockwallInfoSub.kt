@@ -7,7 +7,7 @@ import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.Parties
 import org.bukkit.entity.Player
 
-class RockwallInfoSub(private val plugin: Rockwall) : RockwallBaseCommand() {
+class RockwallInfoSub(private val plugin: Rockwall) : RockwallBaseCommand {
     override val name: String
         get() = "info"
     override val descriptor: String
