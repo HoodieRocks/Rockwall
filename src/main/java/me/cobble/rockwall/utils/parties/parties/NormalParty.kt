@@ -2,7 +2,6 @@ package me.cobble.rockwall.utils.parties.parties
 
 import me.cobble.rockwall.config.Config
 import java.util.*
-import java.util.concurrent.CompletableFuture
 
 class NormalParty(override val owner: UUID, override val alias: String) : Party {
     override val members: ArrayList<UUID> = arrayListOf(owner)
@@ -11,8 +10,6 @@ class NormalParty(override val owner: UUID, override val alias: String) : Party 
     var timeTillDeath = Config.getInt("parties.timeout")
 
     fun decrementTimeTillDeath() {
-        CompletableFuture.runAsync {
-            timeTillDeath--
-        }
+        timeTillDeath--
     }
 }

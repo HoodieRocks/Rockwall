@@ -60,50 +60,61 @@ object StressTests {
     fun chat(player: Player) {
         val totalTime = System.currentTimeMillis()
         if (Parties.getPartyBySpeaking(player.uniqueId) == null) {
-            player.sendMessage("Testing time to get format perm")
-            var time = System.currentTimeMillis()
+            player.sendMessage("Generating 10K fake UUIDs")
+
+            val uuids = linkedSetOf<UUID>()
+
+            for (i in 0 until 10000) {
+                uuids.add(UUID.randomUUID())
+            }
+
             val permission = ChatUtils.getFormatByPermission(player)
-            player.sendMessage("Took ${System.currentTimeMillis() - time}ms to get format permission")
+
+            // config format components
+            var prefix: TextComponent? = null
+            var prefixSeparator: TextComponent? = null
+            var name: TextComponent? = null
+            var nameSeparator: TextComponent? = null
 
             player.sendMessage("Testing time to make format objects")
-            time = System.currentTimeMillis()
-            // config format components
-            val prefix = makeFormat(player, permission, ChatFormatType.PREFIX)
-            val prefixSeparator = makeFormat(player, permission, ChatFormatType.PREFIX_SEPARATOR)
-            val name = makeFormat(player, permission, ChatFormatType.NAME)
-            val nameSeparator = makeFormat(player, permission, ChatFormatType.NAME_SEPARATOR)
+            var time = System.currentTimeMillis()
+            for (uuid in uuids) {
+                prefix = makeFormat(permission, ChatFormatType.PREFIX)
+                prefixSeparator = makeFormat(permission, ChatFormatType.PREFIX_SEPARATOR)
+                name = makeFormat(permission, ChatFormatType.NAME)
+                nameSeparator = makeFormat(permission, ChatFormatType.NAME_SEPARATOR)
+            }
             player.sendMessage("Took ${System.currentTimeMillis() - time}ms to make format objects")
 
             player.sendMessage("Testing time to combine format objects")
             time = System.currentTimeMillis()
-            ComponentBuilder()
-                .append(prefix)
-                .append(prefixSeparator)
-                .append(name)
-                .append(nameSeparator)
-                .append(
-                    TextUtils.colorToTextComponent(
-                        ChatUtils.processMessageFeatures(
-                            TextUtils.randomString(25),
-                            player
-                        ), player
+            for (uuid in uuids) {
+                ComponentBuilder()
+                    .append(prefix)
+                    .append(prefixSeparator)
+                    .append(name)
+                    .append(nameSeparator)
+                    .append(
+                        TextUtils.colorToTextComponent(
+                            ChatUtils.processMessageFeatures(
+                                TextUtils.randomString(25),
+                                player
+                            ), player
+                        )
                     )
-                )
-                .create()
+                    .create()
+            }
             player.sendMessage("Took ${System.currentTimeMillis() - time}ms to combine format objects")
-
-
-            // sending not included
         }
         player.sendMessage("Total time of ${System.currentTimeMillis() - totalTime}ms")
 
     }
 
-    private fun makeFormat(player: Player, formatName: String, type: ChatFormatType): TextComponent? {
+    private fun makeFormat(formatName: String, type: ChatFormatType): TextComponent? {
         if (formatName.isBlank()) return null
         val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
         val section = configSection.getSection(type.getType())
-        val format = TextUtils.colorToTextComponent(TextUtils.setPlaceholders(player, section!!.getString("display")!!))
+        val format = TextUtils.colorToTextComponent(section.getString("display")!!)
 
         format.font = section.getOptionalString("font").orElse("minecraft:default")
         format.hoverEvent = HoverEvent(

@@ -28,7 +28,7 @@ class Rockwall : JavaPlugin() {
         registerComponents()
 
         // party timer registration
-        Bukkit.getScheduler().runTaskTimer(
+        Bukkit.getScheduler().runTaskTimerAsynchronously(
             this,
             Runnable {
                 PartyManager.tickTimers()
