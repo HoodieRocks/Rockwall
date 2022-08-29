@@ -44,6 +44,9 @@ class InviteToPartySub : RockwallBaseCommand {
             }
 
             if (party.owner == p.uniqueId) {
+                if(party.isMember(target.uniqueId)) {
+                    p.sendMessage(Messages.getPartyMsg("errors.already-a-member"))
+                }
                 party.addInvite(target.uniqueId)
                 Parties.sendInvites(party.invites, party.alias)
             } else {

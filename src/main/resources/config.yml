@@ -7,6 +7,8 @@
 # Main Config
 # Plugin created by Cbble_
 
+# Wiki: https://github.com/1ndiigo/Rockwall/wiki/
+
 # Do not change!
 version: 3
 
@@ -42,9 +44,11 @@ global-chat:
       enabled: true
 
   # These formats are used when speaking globally
-  # Higher the format is in the file, the higher the priority
+  # You can add your own too, as long as they follow the same structure
+  # To use a custom format, give the player rockwall.format.{NAME} permission
+  # Higher the format is in the file, the higher the priority is.
+  # Higher priority formats show first
   formats:
-    # Other formats can be made, and to use it, give the player rockwall.format.{NAME} permission
     # Default format must always be present, do not remove, only modify
     default:
       # Prefix
@@ -97,6 +101,7 @@ parties:
   timeout: 300
 
   # Multi format support coming soon-ish
+  # You can not create multi-formats yet
   # These follow similar rule to Global Chat formats
   formats:
     # Default normal party
@@ -206,3 +211,4 @@ messages:
       owner-leave-party: "&cYou can't leave your own party, to delete this party use /party delete"
       not-invited: "&cYou were not invited to join this party"
       in-a-party: "&cYou can't use this when you're in a party"
+      already-a-member: "&cThat player is already a member"
