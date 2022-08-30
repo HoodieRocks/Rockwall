@@ -18,7 +18,7 @@ import java.util.*
  *
  * @author Cbble_
  */
-object Parties {
+object PartyUtils {
 
     fun isPartyNameValid(string: String): Boolean {
         return Regex("[A-z]+#[0-9]+").matches(string)

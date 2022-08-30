@@ -27,6 +27,7 @@ interface Party {
 
     fun removeMember(uuid: UUID) {
         members.remove(uuid)
+        if(isSpeaking(uuid)) removeSpeaker(uuid)
     }
 
     fun addInvite(uuid: UUID) {

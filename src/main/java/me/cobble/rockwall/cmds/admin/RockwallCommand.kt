@@ -4,7 +4,7 @@ import me.cobble.rockwall.cmds.admin.subcmds.CheckUpdateSub
 import me.cobble.rockwall.cmds.admin.subcmds.DebugSubCmd
 import me.cobble.rockwall.cmds.admin.subcmds.ReloadConfigSub
 import me.cobble.rockwall.cmds.admin.subcmds.RockwallInfoSub
-import me.cobble.rockwall.config.Messages
+import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
@@ -81,6 +81,7 @@ class RockwallCommand(val plugin: Rockwall) : TabExecutor {
                 }
             } else {
                 sender.sendMessage(TextUtils.color(Messages.getPermissionString("no-perm-general")))
+                return false
             }
         }
         return false

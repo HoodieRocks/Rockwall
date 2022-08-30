@@ -1,7 +1,7 @@
 package me.cobble.rockwall.utils.parties
 
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.config.Messages
+import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.models.Manager
 import me.cobble.rockwall.utils.parties.models.AdminParty
@@ -10,6 +10,7 @@ import me.cobble.rockwall.utils.parties.models.Party
 import org.bukkit.Bukkit
 import java.util.*
 import java.util.concurrent.CompletableFuture
+import kotlin.collections.ArrayList
 
 // Manages Rockwall parties
 object PartyManager : Manager<UUID, Party>() {
@@ -102,6 +103,16 @@ object PartyManager : Manager<UUID, Party>() {
                 if (party.timeTillDeath == 0) deleteParty(party)
                 party.decrementTimeTillDeath()
             }
+        }
+    }
+
+    fun getAllAdminParties(): CompletableFuture<ArrayList<AdminParty>> {
+        return CompletableFuture.supplyAsync {
+            val adminParties = arrayListOf<AdminParty>()
+            getAll().values.forEach {
+                if(it is AdminParty) adminParties.add(it)
+            }
+            return@supplyAsync adminParties
         }
     }
 }

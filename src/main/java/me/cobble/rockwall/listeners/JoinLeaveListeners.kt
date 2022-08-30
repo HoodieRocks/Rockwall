@@ -17,6 +17,11 @@ class JoinLeaveListeners(private val plugin: Rockwall) : Listener {
     @EventHandler
     fun onLeave(event: PlayerQuitEvent) {
         PartyManager.deleteParty(PartyManager.getParty(event.player.uniqueId))
+        PartyManager.getAllAdminParties().thenAccept { parties ->
+            parties.forEach {
+                it.removeMember(event.player.uniqueId)
+            }
+        }
     }
 
     @EventHandler
@@ -24,6 +29,14 @@ class JoinLeaveListeners(private val plugin: Rockwall) : Listener {
         val player = event.player
         if ((player.hasPermission("rockwall.admin") || player.isOp) && plugin.getUpdateUtils().updateAvailable()) {
             plugin.getUpdateUtils().sendUpdateAvailableMsg(player)
+        }
+
+        if(player.hasPermission("rockwall.admin.join") || player.isOp) {
+            PartyManager.getAllAdminParties().thenAccept { parties ->
+                parties.forEach {
+                    it.addMember(player.uniqueId)
+                }
+            }
         }
     }
 }

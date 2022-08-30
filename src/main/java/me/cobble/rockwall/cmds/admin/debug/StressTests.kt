@@ -5,7 +5,7 @@ import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.ChatUtils
 import me.cobble.rockwall.utils.TextUtils
-import me.cobble.rockwall.utils.parties.Parties
+import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.ClickEvent
@@ -60,7 +60,7 @@ object StressTests {
 
     fun chat(player: Player) {
         val totalTime = System.currentTimeMillis()
-        if (Parties.getPartyBySpeaking(player.uniqueId) == null) {
+        if (PartyUtils.getPartyBySpeaking(player.uniqueId) == null) {
             player.sendMessage("This test represents 10K chat messages at the same time, this is more a performance test than an example of actual use")
             player.sendMessage("Generating 10K fake UUIDs")
 
@@ -70,7 +70,7 @@ object StressTests {
                 uuids.add(UUID.randomUUID())
             }
 
-            player.sendMessage("Testing time to make format objects")
+            player.sendMessage("generating format objects")
             var time = System.currentTimeMillis()
 
             val permission = ChatUtils.getFormatByPermission(player)
@@ -91,7 +91,7 @@ object StressTests {
             }
             player.sendMessage("Took ${System.currentTimeMillis() - time}ms to make format objects")
 
-            player.sendMessage("Testing time to combine format objects")
+            player.sendMessage("combining format objects")
             time = System.currentTimeMillis()
             for (uuid in uuids) {
                 ComponentBuilder()

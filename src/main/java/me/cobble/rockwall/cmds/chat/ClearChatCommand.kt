@@ -14,6 +14,7 @@ class ClearChatCommand : BukkitCommand("clearchat", "Clears chat", "", listOf("c
                 for (i in (0..100)) {
                     player.sendMessage("\n")
                 }
+                return true
             }
         } else {
             sender.sendMessage(TextUtils.color("&cYou do not have permission to use this command"))

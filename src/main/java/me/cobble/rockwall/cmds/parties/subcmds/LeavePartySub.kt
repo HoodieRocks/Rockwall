@@ -1,9 +1,9 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
-import me.cobble.rockwall.config.Messages
+import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
-import me.cobble.rockwall.utils.parties.Parties
+import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.entity.Player
 
@@ -21,7 +21,7 @@ class LeavePartySub : RockwallBaseCommand {
             return
         }
 
-        if (!Parties.isPartyNameValid(args[0])) {
+        if (!PartyUtils.isPartyNameValid(args[0])) {
             p.sendMessage(Messages.getPartyMsg("errors.invalid"))
             return
         }

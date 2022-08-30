@@ -1,5 +1,6 @@
-package me.cobble.rockwall.config
+package me.cobble.rockwall.config.models
 
+import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.parties.models.Party
 

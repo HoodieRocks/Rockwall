@@ -1,9 +1,10 @@
 package me.cobble.rockwall.cmds.parties
 
 import me.cobble.rockwall.cmds.parties.subcmds.*
+import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
-import me.cobble.rockwall.utils.parties.Parties
+import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.BaseComponent
@@ -27,9 +28,13 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
 
 
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
-        if (!Parties.arePartiesEnabled()) return false
-
         if (sender is Player) {
+
+            if(!sender.hasPermission("rockwall.parties")) {
+                sender.sendMessage(Messages.getPermissionString("no-perm-general"))
+                return false
+            }
+
             if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
                 sender.sendMessage(TextUtils.color("&e\n\n&lRockwall &7Party Commands"))
                 val components: Array<BaseComponent> = TextUtils.formatAsFileStructure(subCommands, "/$commandLabel")
@@ -69,7 +74,7 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
 
                 if (args[0].equals("msg", ignoreCase = true)) {
                     if (sender.hasPermission("rockwall.admin.joinany")) {
-                        Parties.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
+                        PartyUtils.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
                     } else {
                         PartyManager.getAll().values.forEach {
                             list.add(it.alias)
@@ -79,7 +84,7 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
                 }
 
                 if (args[0].equals("leave", ignoreCase = true) || args[0].equals("members", ignoreCase = true)) {
-                    Parties.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
+                    PartyUtils.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
                 }
 
                 if (args[0].equals("accept", ignoreCase = true) || args[0].equals("deny", ignoreCase = true)) {

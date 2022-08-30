@@ -5,7 +5,7 @@ import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.TextUtils
-import me.cobble.rockwall.utils.parties.Parties
+import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.AdminParty
 import me.cobble.rockwall.utils.parties.models.NormalParty
 import net.md_5.bungee.api.chat.ComponentBuilder
@@ -34,17 +34,17 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
             return
         }
 
-        if (Parties.getPartyBySpeaking(player.uniqueId) != null) {
+        if (PartyUtils.getPartyBySpeaking(player.uniqueId) != null) {
             event.isCancelled = true
 
-            val party = Parties.getPartyBySpeaking(player.uniqueId)
+            val party = PartyUtils.getPartyBySpeaking(player.uniqueId)
             val type = if (party is AdminParty) PartyType.ADMIN else PartyType.NORMAL
 
             // various components from config formats
-            val prefix = Parties.formatMaker(player, party, type, ChatFormatType.PREFIX)
-            val prefixSeparator = Parties.formatMaker(player, party, type, ChatFormatType.PREFIX_SEPARATOR)
-            val name = Parties.formatMaker(player, party, type, ChatFormatType.NAME)
-            val nameSeparator = Parties.formatMaker(player, party, type, ChatFormatType.NAME_SEPARATOR)
+            val prefix = PartyUtils.formatMaker(player, party, type, ChatFormatType.PREFIX)
+            val prefixSeparator = PartyUtils.formatMaker(player, party, type, ChatFormatType.PREFIX_SEPARATOR)
+            val name = PartyUtils.formatMaker(player, party, type, ChatFormatType.NAME)
+            val nameSeparator = PartyUtils.formatMaker(player, party, type, ChatFormatType.NAME_SEPARATOR)
 
             // hacky-but-not way to fix format codes being non-overridable
             val msg = TextComponent(TextUtils.color(event.message, player))
@@ -59,6 +59,8 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
                 .create()
 
             player.spigot().sendMessage(*components)
+
+            Bukkit.getConsoleSender().spigot().sendMessage(*components)
 
             for (uuid: UUID in party!!.members) {
                 val resolvedPlayer = Bukkit.getPlayer(uuid)!!

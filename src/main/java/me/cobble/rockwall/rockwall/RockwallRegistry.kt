@@ -8,7 +8,7 @@ import me.cobble.rockwall.listeners.JoinLeaveListeners
 import me.cobble.rockwall.listeners.SendGloballyListener
 import me.cobble.rockwall.listeners.SendToPartyListener
 import me.cobble.rockwall.utils.ChatUtils
-import me.cobble.rockwall.utils.parties.Parties
+import me.cobble.rockwall.utils.parties.PartyUtils
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
 
@@ -29,7 +29,7 @@ class RockwallRegistry(private val plugin: Rockwall) {
     }
 
     fun registerBukkitCommands() {
-        if (Parties.arePartiesEnabled()) {
+        if (PartyUtils.arePartiesEnabled()) {
             plugin.logger.info("Registering party commands")
             map!!.register(prefix, PartyCommand())
         }
@@ -50,7 +50,7 @@ class RockwallRegistry(private val plugin: Rockwall) {
             SendGloballyListener(plugin)
         }
 
-        if (Parties.arePartiesEnabled()) {
+        if (PartyUtils.arePartiesEnabled()) {
             plugin.logger.info("Registering party listeners")
             SendToPartyListener(plugin)
             JoinLeaveListeners(plugin)

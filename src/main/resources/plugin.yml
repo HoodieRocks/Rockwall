@@ -18,9 +18,17 @@ permissions:
   rockwall.clearchat:
     default: op
     description: Allows players to clear chat
+  rockwall.parties:
+    description: Allows the player to use parties
+    default: not op
   rockwall.admin:
     default: op
     description: Allows access to admin commands
+    children:
+      - rockwall.admin.join
+      - rockwall.admin.create
+      - rockwall.admin.joinany
+      - rockwall.parties
   rockwall.admin.join:
     description: Allows access to joining admin parties
     default: op

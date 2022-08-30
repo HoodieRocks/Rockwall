@@ -5,7 +5,7 @@ import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.ChatUtils
 import me.cobble.rockwall.utils.TextUtils
-import me.cobble.rockwall.utils.parties.Parties
+import me.cobble.rockwall.utils.parties.PartyUtils
 import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
@@ -34,7 +34,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
         // player is not muted by other plugins, override message
         event.isCancelled = true
 
-        if (Parties.getPartyBySpeaking(player.uniqueId) == null) {
+        if (PartyUtils.getPartyBySpeaking(player.uniqueId) == null) {
             val permission = ChatUtils.getFormatByPermission(player)
 
             // config format components

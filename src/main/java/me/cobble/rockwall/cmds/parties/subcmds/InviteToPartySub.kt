@@ -1,9 +1,9 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
-import me.cobble.rockwall.config.Messages
+import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
-import me.cobble.rockwall.utils.parties.Parties
+import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.models.AdminParty
 import me.cobble.rockwall.utils.parties.models.Party
@@ -49,7 +49,7 @@ class InviteToPartySub : RockwallBaseCommand {
                     return
                 }
                 party.addInvite(target.uniqueId)
-                Parties.sendInvites(party.invites, party.alias)
+                PartyUtils.sendInvites(party.invites, party.alias)
             } else {
                 p.sendMessage(Messages.getPermissionString("no-perm-party"))
                 return
