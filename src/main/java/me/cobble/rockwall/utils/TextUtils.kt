@@ -2,6 +2,7 @@ package me.cobble.rockwall.utils
 
 import me.clip.placeholderapi.PlaceholderAPI
 import me.cobble.rockwall.config.Config
+import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import net.md_5.bungee.api.ChatColor
 import net.md_5.bungee.api.chat.*
 import net.md_5.bungee.api.chat.hover.content.Text

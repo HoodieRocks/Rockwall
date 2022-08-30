@@ -1,4 +1,4 @@
-package me.cobble.rockwall.utils.parties.parties
+package me.cobble.rockwall.utils.parties.models
 
 import org.bukkit.Bukkit
 import java.util.*

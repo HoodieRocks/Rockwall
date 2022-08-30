@@ -1,8 +1,8 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.Messages
-import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.Bukkit

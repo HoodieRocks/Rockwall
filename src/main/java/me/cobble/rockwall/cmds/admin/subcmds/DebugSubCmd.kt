@@ -1,8 +1,8 @@
 package me.cobble.rockwall.cmds.admin.subcmds
 
 import me.cobble.rockwall.cmds.admin.debug.StressTests
-import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import org.bukkit.entity.Player
 
 class DebugSubCmd : RockwallBaseCommand {

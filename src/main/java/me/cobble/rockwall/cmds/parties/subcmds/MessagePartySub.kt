@@ -1,10 +1,10 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.Messages
-import me.cobble.rockwall.utils.RockwallBaseCommand
+import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.parties.AdminParty
+import me.cobble.rockwall.utils.parties.models.AdminParty
 import org.bukkit.entity.Player
 
 class MessagePartySub : RockwallBaseCommand {
@@ -23,13 +23,16 @@ class MessagePartySub : RockwallBaseCommand {
             val partyName = args[0]
             if (Parties.isPartyNameValid(partyName)) {
                 PartyManager.getParty(partyName).thenAccept {
-                    if (!it!!.isMember(p.uniqueId)) {
+                    if (!p.hasPermission("rockwall.admin.joinany") || !it!!.isMember(p.uniqueId)) {
                         p.sendMessage(Messages.getPermissionString("no-perm-party"))
+                        return@thenAccept
                     }
 
-                    if (PartyManager.doesPartyExists(partyName) && ((it is AdminParty && p.hasPermission("rockwall.admin.join")) || it.isMember(
-                            p.uniqueId
-                        ))
+                    if (
+                        PartyManager.doesPartyExists(partyName) &&
+                        ((it is AdminParty && p.hasPermission("rockwall.admin.join")) ||
+                                (p.hasPermission("rockwall.admin.joinany") || it.isMember(p.uniqueId)
+                                        ))
                     ) {
                         if (it.isSpeaking(p.uniqueId)) p.sendMessage(Messages.getPartyMsg("already-speaking")) else {
                             it.addSpeaker(p.uniqueId)

@@ -1,11 +1,11 @@
 package me.cobble.rockwall.cmds.parties
 
 import me.cobble.rockwall.cmds.parties.subcmds.*
-import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.parties.Party
+import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.Bukkit
 import org.bukkit.command.CommandSender
@@ -68,7 +68,13 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
                 }
 
                 if (args[0].equals("msg", ignoreCase = true)) {
-                    Parties.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
+                    if (sender.hasPermission("rockwall.admin.joinany")) {
+                        Parties.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
+                    } else {
+                        PartyManager.getAll().values.forEach {
+                            list.add(it.alias)
+                        }
+                    }
                     list.add("global")
                 }
 

@@ -7,7 +7,7 @@ import me.cobble.rockwall.utils.ChatUtils
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.parties.Party
+import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.chat.HoverEvent
@@ -19,6 +19,7 @@ import java.util.*
 object StressTests {
 
     fun parties(player: Player) {
+        player.sendMessage("This test represents 10K parties at the same time, this is more a performance test than an example of actual use")
         player.sendMessage("Testing create() with 10K entries")
 
         val localCopy = linkedMapOf<UUID, Party>()
@@ -60,6 +61,7 @@ object StressTests {
     fun chat(player: Player) {
         val totalTime = System.currentTimeMillis()
         if (Parties.getPartyBySpeaking(player.uniqueId) == null) {
+            player.sendMessage("This test represents 10K chat messages at the same time, this is more a performance test than an example of actual use")
             player.sendMessage("Generating 10K fake UUIDs")
 
             val uuids = linkedSetOf<UUID>()
@@ -68,6 +70,9 @@ object StressTests {
                 uuids.add(UUID.randomUUID())
             }
 
+            player.sendMessage("Testing time to make format objects")
+            var time = System.currentTimeMillis()
+
             val permission = ChatUtils.getFormatByPermission(player)
 
             // config format components
@@ -75,10 +80,10 @@ object StressTests {
             var prefixSeparator: TextComponent? = null
             var name: TextComponent? = null
             var nameSeparator: TextComponent? = null
+            var chatColor: String? = null
 
-            player.sendMessage("Testing time to make format objects")
-            var time = System.currentTimeMillis()
             for (uuid in uuids) {
+                chatColor = getChatColor(permission)
                 prefix = makeFormat(permission, ChatFormatType.PREFIX)
                 prefixSeparator = makeFormat(permission, ChatFormatType.PREFIX_SEPARATOR)
                 name = makeFormat(permission, ChatFormatType.NAME)
@@ -95,7 +100,7 @@ object StressTests {
                     .append(name)
                     .append(nameSeparator)
                     .append(
-                        TextUtils.colorToTextComponent(
+                        chatColor + TextUtils.colorToTextComponent(
                             ChatUtils.processMessageFeatures(
                                 TextUtils.randomString(25),
                                 player
@@ -105,6 +110,8 @@ object StressTests {
                     .create()
             }
             player.sendMessage("Took ${System.currentTimeMillis() - time}ms to combine format objects")
+
+            uuids.clear()
         }
         player.sendMessage("Total time of ${System.currentTimeMillis() - totalTime}ms")
 
@@ -129,6 +136,10 @@ object StressTests {
         )
 
         return format
+    }
+
+    private fun getChatColor(formatName: String): String {
+        return Config.getString("global-chat.formats.$formatName.chat-color").orElse("&f")
     }
 
 }

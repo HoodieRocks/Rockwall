@@ -1,3 +1,3 @@
 # Rockwall
 
-> An advanced, highly-configurable and powerful chat system for Spigot and Paper
+> A highly configurable, feature-rich chat plugin for Spigot or Paper

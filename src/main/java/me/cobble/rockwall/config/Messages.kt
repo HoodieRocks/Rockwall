@@ -1,7 +1,7 @@
 package me.cobble.rockwall.config
 
 import me.cobble.rockwall.utils.TextUtils
-import me.cobble.rockwall.utils.parties.parties.Party
+import me.cobble.rockwall.utils.parties.models.Party
 
 /**
  * Utility class that gets messages from config

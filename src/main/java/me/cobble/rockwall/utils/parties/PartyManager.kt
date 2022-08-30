@@ -3,10 +3,10 @@ package me.cobble.rockwall.utils.parties
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.config.models.PartyType
-import me.cobble.rockwall.utils.Manager
-import me.cobble.rockwall.utils.parties.parties.AdminParty
-import me.cobble.rockwall.utils.parties.parties.NormalParty
-import me.cobble.rockwall.utils.parties.parties.Party
+import me.cobble.rockwall.utils.models.Manager
+import me.cobble.rockwall.utils.parties.models.AdminParty
+import me.cobble.rockwall.utils.parties.models.NormalParty
+import me.cobble.rockwall.utils.parties.models.Party
 import org.bukkit.Bukkit
 import java.util.*
 import java.util.concurrent.CompletableFuture
@@ -59,6 +59,7 @@ object PartyManager : Manager<UUID, Party>() {
             for (i in 0 until Config.getInt("settings.party-discriminator-tries")) {
                 if (it != null) {
                     tag += 1
+                    if (tag >= 10000) tag = 0
                     alias = "$name#${tag}"
                 } else {
                     break

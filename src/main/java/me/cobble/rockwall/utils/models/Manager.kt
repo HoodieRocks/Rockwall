@@ -1,4 +1,4 @@
-package me.cobble.rockwall.utils
+package me.cobble.rockwall.utils.models
 
 import java.util.*
 import java.util.concurrent.CompletableFuture

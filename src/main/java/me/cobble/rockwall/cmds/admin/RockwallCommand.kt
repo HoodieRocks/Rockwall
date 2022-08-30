@@ -6,8 +6,8 @@ import me.cobble.rockwall.cmds.admin.subcmds.ReloadConfigSub
 import me.cobble.rockwall.cmds.admin.subcmds.RockwallInfoSub
 import me.cobble.rockwall.config.Messages
 import me.cobble.rockwall.rockwall.Rockwall
-import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.command.Command
 import org.bukkit.command.CommandSender

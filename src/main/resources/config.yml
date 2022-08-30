@@ -85,6 +85,7 @@ global-chat:
         hover:
           -
         on-click: ""
+      chat-color: "&f"
 
 # ---------------------
 #       Parties

@@ -1,5 +1,6 @@
 package me.cobble.rockwall.listeners
 
+import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.ChatUtils
@@ -41,13 +42,21 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             val prefixSeparator = ChatUtils.makeFormat(player, permission, ChatFormatType.PREFIX_SEPARATOR)
             val name = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME)
             val nameSeparator = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME_SEPARATOR)
+            val chatColor = getChatColor(permission)
 
             val completedMessage = ComponentBuilder()
                 .append(prefix)
                 .append(prefixSeparator)
                 .append(name)
                 .append(nameSeparator)
-                .append(TextUtils.colorToTextComponent(ChatUtils.processMessageFeatures(event.message, player), player))
+                .append(
+                    TextUtils.colorToTextComponent(
+                        chatColor + ChatUtils.processMessageFeatures(
+                            event.message,
+                            player
+                        ), player
+                    )
+                )
                 .create()
 
             // send to everyone
@@ -56,5 +65,9 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             // Specific exception so console can see chat
             Bukkit.getConsoleSender().spigot().sendMessage(*completedMessage)
         }
+    }
+
+    private fun getChatColor(formatName: String): String {
+        return Config.getString("global-chat.formats.$formatName.chat-color").orElse("&f")
     }
 }

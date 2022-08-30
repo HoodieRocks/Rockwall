@@ -6,8 +6,8 @@ import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.parties.Parties
-import me.cobble.rockwall.utils.parties.parties.AdminParty
-import me.cobble.rockwall.utils.parties.parties.NormalParty
+import me.cobble.rockwall.utils.parties.models.AdminParty
+import me.cobble.rockwall.utils.parties.models.NormalParty
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.Bukkit

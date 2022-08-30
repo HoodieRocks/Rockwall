@@ -4,7 +4,7 @@ import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.TextUtils
-import me.cobble.rockwall.utils.parties.parties.Party
+import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent

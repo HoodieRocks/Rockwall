@@ -1,12 +1,12 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.Messages
-import me.cobble.rockwall.utils.RockwallBaseCommand
 import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.Parties
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.parties.AdminParty
-import me.cobble.rockwall.utils.parties.parties.Party
+import me.cobble.rockwall.utils.parties.models.AdminParty
+import me.cobble.rockwall.utils.parties.models.Party
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -44,8 +44,9 @@ class InviteToPartySub : RockwallBaseCommand {
             }
 
             if (party.owner == p.uniqueId) {
-                if(party.isMember(target.uniqueId)) {
+                if (party.isMember(target.uniqueId)) {
                     p.sendMessage(Messages.getPartyMsg("errors.already-a-member"))
+                    return
                 }
                 party.addInvite(target.uniqueId)
                 Parties.sendInvites(party.invites, party.alias)
