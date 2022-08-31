@@ -31,7 +31,7 @@ class JoinLeaveListeners(private val plugin: Rockwall) : Listener {
             plugin.getUpdateUtils().sendUpdateAvailableMsg(player)
         }
 
-        if(player.hasPermission("rockwall.admin.join") || player.isOp) {
+        if (player.hasPermission("rockwall.admin.join") || player.isOp) {
             PartyManager.getAllAdminParties().thenAccept { parties ->
                 parties.forEach {
                     it.addMember(player.uniqueId)

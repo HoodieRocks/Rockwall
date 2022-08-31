@@ -6,6 +6,7 @@ import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.TextUtils.containsSpecialCharacters
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.PartyManager
+import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 class CreatePartySub : RockwallBaseCommand {
@@ -37,12 +38,21 @@ class CreatePartySub : RockwallBaseCommand {
                     return
                 }
                 PartyManager.createParty(p.uniqueId, args[0], PartyType.valueOf(args[1].uppercase().trim()))
+                addPlayers()
             } else {
                 PartyManager.createParty(p.uniqueId, args[0], PartyType.NORMAL)
             }
             PartyManager.getParty(p.uniqueId)!!.addMember(p.uniqueId)
 
             p.sendMessage(Messages.getPartyMsg("creation", PartyManager.getParty(p.uniqueId)!!))
+        }
+    }
+
+    private fun addPlayers() {
+        for (party in PartyManager.getAllAdminParties().get()) {
+            for (player in Bukkit.getOnlinePlayers()) {
+                if (player.hasPermission("rockwall.admin.join")) party.addMember(player.uniqueId)
+            }
         }
     }
 }

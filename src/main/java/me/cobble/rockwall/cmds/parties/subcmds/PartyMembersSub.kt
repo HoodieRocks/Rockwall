@@ -3,8 +3,8 @@ package me.cobble.rockwall.cmds.parties.subcmds
 import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
-import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.PartyManager
+import me.cobble.rockwall.utils.parties.PartyUtils
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
@@ -14,7 +14,7 @@ class PartyMembersSub : RockwallBaseCommand {
     override val descriptor: String
         get() = "Shows your party's members"
     override val syntax: String
-        get() = "[label] members"
+        get() = "[label] members <party name>"
 
     override fun run(p: Player, args: Array<String>) {
         if (args.isEmpty()) {

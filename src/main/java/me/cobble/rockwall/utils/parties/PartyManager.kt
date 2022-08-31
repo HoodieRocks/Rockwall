@@ -10,7 +10,6 @@ import me.cobble.rockwall.utils.parties.models.Party
 import org.bukkit.Bukkit
 import java.util.*
 import java.util.concurrent.CompletableFuture
-import kotlin.collections.ArrayList
 
 // Manages Rockwall parties
 object PartyManager : Manager<UUID, Party>() {
@@ -110,7 +109,7 @@ object PartyManager : Manager<UUID, Party>() {
         return CompletableFuture.supplyAsync {
             val adminParties = arrayListOf<AdminParty>()
             getAll().values.forEach {
-                if(it is AdminParty) adminParties.add(it)
+                if (it is AdminParty) adminParties.add(it)
             }
             return@supplyAsync adminParties
         }

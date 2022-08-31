@@ -22,15 +22,17 @@ interface Party {
     }
 
     fun addMember(uuid: UUID) {
+        if (isMember(uuid)) return
         members.add(uuid)
     }
 
     fun removeMember(uuid: UUID) {
         members.remove(uuid)
-        if(isSpeaking(uuid)) removeSpeaker(uuid)
+        if (isSpeaking(uuid)) removeSpeaker(uuid)
     }
 
     fun addInvite(uuid: UUID) {
+        if (isInvited(uuid)) return
         invites.add(uuid)
     }
 
@@ -39,6 +41,7 @@ interface Party {
     }
 
     fun addSpeaker(uuid: UUID) {
+        if (isSpeaking(uuid)) return
         activeSpeakers.add(uuid)
     }
 

@@ -2,8 +2,8 @@ package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
-import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.PartyManager
+import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.AdminParty
 import org.bukkit.entity.Player
 

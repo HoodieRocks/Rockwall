@@ -4,8 +4,8 @@ import me.cobble.rockwall.cmds.parties.subcmds.*
 import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
-import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.PartyManager
+import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.Party
 import net.md_5.bungee.api.chat.BaseComponent
 import org.bukkit.Bukkit
@@ -30,7 +30,7 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
         if (sender is Player) {
 
-            if(!sender.hasPermission("rockwall.parties")) {
+            if (!sender.hasPermission("rockwall.parties")) {
                 sender.sendMessage(Messages.getPermissionString("no-perm-general"))
                 return false
             }
