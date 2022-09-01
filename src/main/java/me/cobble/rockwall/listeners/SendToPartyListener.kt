@@ -27,57 +27,55 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
     // this is required to be the lowest priority, because muting
     @EventHandler(priority = EventPriority.LOWEST)
     fun onSpeakToParty(event: AsyncPlayerChatEvent) {
-        if (PartyUtils.arePartiesEnabled()) {
-            val player = event.player
+        val player = event.player
 
-            // is the player muted by other plugins?
-            if (event.isCancelled) {
-                return
-            }
+        // is the player muted by other plugins?
+        if (event.isCancelled) {
+            return
+        }
 
-            if (PartyUtils.getPartyBySpeaking(player.uniqueId) != null) {
-                event.isCancelled = true
+        if (PartyUtils.getPartyBySpeaking(player.uniqueId) != null) {
+            event.isCancelled = true
 
-                val party = PartyUtils.getPartyBySpeaking(player.uniqueId)
-                val type = if (party is AdminParty) PartyType.ADMIN else PartyType.NORMAL
+            val party = PartyUtils.getPartyBySpeaking(player.uniqueId)
+            val type = if (party is AdminParty) PartyType.ADMIN else PartyType.NORMAL
 
-                // various components from config formats
-                val prefix = PartyUtils.formatMaker(player, party, type, ChatFormatType.PREFIX)
-                val prefixSeparator = PartyUtils.formatMaker(player, party, type, ChatFormatType.PREFIX_SEPARATOR)
-                val name = PartyUtils.formatMaker(player, party, type, ChatFormatType.NAME)
-                val nameSeparator = PartyUtils.formatMaker(player, party, type, ChatFormatType.NAME_SEPARATOR)
+            // various components from config formats
+            val prefix = PartyUtils.formatMaker(player, party, type, ChatFormatType.PREFIX)
+            val prefixSeparator = PartyUtils.formatMaker(player, party, type, ChatFormatType.PREFIX_SEPARATOR)
+            val name = PartyUtils.formatMaker(player, party, type, ChatFormatType.NAME)
+            val nameSeparator = PartyUtils.formatMaker(player, party, type, ChatFormatType.NAME_SEPARATOR)
 
-                // hacky-but-not way to fix format codes being non-overridable
-                val msg = TextComponent(TextUtils.color(event.message, player))
-                msg.retain(ComponentBuilder.FormatRetention.NONE)
+            // hacky-but-not way to fix format codes being non-overridable
+            val msg = TextComponent(TextUtils.color(event.message, player))
+            msg.retain(ComponentBuilder.FormatRetention.NONE)
 
-                val components = ComponentBuilder()
-                    .append(prefix)
-                    .append(prefixSeparator)
-                    .append(name)
-                    .append(nameSeparator)
-                    .append(msg)
-                    .create()
+            val components = ComponentBuilder()
+                .append(prefix)
+                .append(prefixSeparator)
+                .append(name)
+                .append(nameSeparator)
+                .append(msg)
+                .create()
 
-                player.spigot().sendMessage(*components)
+            player.spigot().sendMessage(*components)
 
-                Bukkit.getConsoleSender().spigot().sendMessage(*components)
+            Bukkit.getConsoleSender().spigot().sendMessage(*components)
 
-                for (uuid: UUID in party!!.members) {
-                    val resolvedPlayer = Bukkit.getPlayer(uuid)!!
-                    if (resolvedPlayer.isOnline) {
-                        // we already sent the message to the event player, don't do it again
-                        if (uuid != event.player.uniqueId) {
-                            resolvedPlayer.spigot().sendMessage(*components)
-                        }
-                    } else {
-                        party.removeMember(uuid)
+            for (uuid: UUID in party!!.members) {
+                val resolvedPlayer = Bukkit.getPlayer(uuid)!!
+                if (resolvedPlayer.isOnline) {
+                    // we already sent the message to the event player, don't do it again
+                    if (uuid != event.player.uniqueId) {
+                        resolvedPlayer.spigot().sendMessage(*components)
                     }
+                } else {
+                    party.removeMember(uuid)
                 }
-
-                // reset time until auto-deletion
-                if (party is NormalParty) party.timeTillDeath = Config.getInt("parties.timeout")
             }
+
+            // reset time until auto-deletion
+            if (party is NormalParty) party.timeTillDeath = Config.getInt("parties.timeout")
         }
     }
 }

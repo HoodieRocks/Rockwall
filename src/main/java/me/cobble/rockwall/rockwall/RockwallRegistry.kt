@@ -31,12 +31,12 @@ class RockwallRegistry(private val plugin: Rockwall) {
     fun registerBukkitCommands() {
         if (PartyUtils.arePartiesEnabled()) {
             plugin.logger.info("Registering party commands")
-            map!!.register(prefix, PartyCommand())
+            map.register(prefix, PartyCommand())
         }
         if (ChatUtils.isGlobalChatEnabled()) {
             plugin.logger.info("Registering global chat commands")
-            map!!.register(prefix, ClearChatCommand())
-            map!!.register(prefix, EmojisCommand())
+            map.register(prefix, ClearChatCommand())
+            map.register(prefix, EmojisCommand())
         }
     }
 

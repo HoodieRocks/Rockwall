@@ -71,36 +71,39 @@ object StressTests {
             }
 
             player.sendMessage("generating format objects")
+
+
+            // config format components
+            val prefix = arrayListOf<TextComponent?>()
+            val prefixSeparator = arrayListOf<TextComponent?>()
+            val name = arrayListOf<TextComponent?>()
+            val nameSeparator = arrayListOf<TextComponent?>()
+            val chatColor = arrayListOf<String>()
+
             var time = System.currentTimeMillis()
 
             val permission = ChatUtils.getFormatByPermission(player)
 
-            // config format components
-            var prefix: TextComponent? = null
-            var prefixSeparator: TextComponent? = null
-            var name: TextComponent? = null
-            var nameSeparator: TextComponent? = null
-            var chatColor: String? = null
-
-            for (uuid in uuids) {
-                chatColor = getChatColor(permission)
-                prefix = makeFormat(permission, ChatFormatType.PREFIX)
-                prefixSeparator = makeFormat(permission, ChatFormatType.PREFIX_SEPARATOR)
-                name = makeFormat(permission, ChatFormatType.NAME)
-                nameSeparator = makeFormat(permission, ChatFormatType.NAME_SEPARATOR)
+            for (i in 0 until uuids.size) {
+                chatColor.add(getChatColor(permission))
+                prefix.add(makeFormat(permission, ChatFormatType.PREFIX))
+                prefixSeparator.add(makeFormat(permission, ChatFormatType.PREFIX_SEPARATOR))
+                name.add(makeFormat(permission, ChatFormatType.NAME))
+                nameSeparator.add(makeFormat(permission, ChatFormatType.NAME_SEPARATOR))
             }
             player.sendMessage("Took ${System.currentTimeMillis() - time}ms to make format objects")
 
             player.sendMessage("combining format objects")
             time = System.currentTimeMillis()
-            for (uuid in uuids) {
+            for (i in 0 until uuids.size) {
                 ComponentBuilder()
-                    .append(prefix)
-                    .append(prefixSeparator)
-                    .append(name)
-                    .append(nameSeparator)
+                    .append(prefix[i])
+                    .append(prefixSeparator[i])
+                    .append(name[i])
+                    .append(nameSeparator[i])
                     .append(
-                        chatColor + TextUtils.colorToTextComponent(
+                        chatColor[i] +
+                        TextUtils.colorToTextComponent(
                             ChatUtils.processMessageFeatures(
                                 TextUtils.randomString(25),
                                 player
