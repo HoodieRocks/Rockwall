@@ -2,6 +2,7 @@ package me.cobble.rockwall.listeners
 
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.parties.PartyManager
+import me.cobble.rockwall.utils.parties.PartyUtils
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.Listener
@@ -32,9 +33,11 @@ class JoinLeaveListeners(private val plugin: Rockwall) : Listener {
         }
 
         if (player.hasPermission("rockwall.admin.join") || player.isOp) {
-            PartyManager.getAllAdminParties().thenAccept { parties ->
-                parties.forEach {
-                    it.addMember(player.uniqueId)
+            if (PartyUtils.arePartiesEnabled()) {
+                PartyManager.getAllAdminParties().thenAccept { parties ->
+                    parties.forEach {
+                        it.addMember(player.uniqueId)
+                    }
                 }
             }
         }

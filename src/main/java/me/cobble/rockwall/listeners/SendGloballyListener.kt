@@ -24,46 +24,48 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
 
     @EventHandler(priority = EventPriority.LOW)
     fun onGlobalMessageSent(event: AsyncPlayerChatEvent) {
-        val player = event.player
+        if(ChatUtils.isGlobalChatEnabled()) {
+            val player = event.player
 
-        // player is muted
-        if (event.isCancelled) {
-            return
-        }
+            // player is muted
+            if (event.isCancelled) {
+                return
+            }
 
-        // player is not muted by other plugins, override message
-        event.isCancelled = true
+            // player is not muted by other plugins, override message
+            event.isCancelled = true
 
-        if (PartyUtils.getPartyBySpeaking(player.uniqueId) == null) {
-            val permission = ChatUtils.getFormatByPermission(player)
+            if (PartyUtils.getPartyBySpeaking(player.uniqueId) == null) {
+                val permission = ChatUtils.getFormatByPermission(player)
 
-            // config format components
-            val prefix = ChatUtils.makeFormat(player, permission, ChatFormatType.PREFIX)
-            val prefixSeparator = ChatUtils.makeFormat(player, permission, ChatFormatType.PREFIX_SEPARATOR)
-            val name = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME)
-            val nameSeparator = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME_SEPARATOR)
-            val chatColor = getChatColor(permission)
+                // config format components
+                val prefix = ChatUtils.makeFormat(player, permission, ChatFormatType.PREFIX)
+                val prefixSeparator = ChatUtils.makeFormat(player, permission, ChatFormatType.PREFIX_SEPARATOR)
+                val name = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME)
+                val nameSeparator = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME_SEPARATOR)
+                val chatColor = getChatColor(permission)
 
-            val completedMessage = ComponentBuilder()
-                .append(prefix)
-                .append(prefixSeparator)
-                .append(name)
-                .append(nameSeparator)
-                .append(
-                    TextUtils.colorToTextComponent(
-                        chatColor + ChatUtils.processMessageFeatures(
-                            event.message,
-                            player
-                        ), player
+                val completedMessage = ComponentBuilder()
+                    .append(prefix)
+                    .append(prefixSeparator)
+                    .append(name)
+                    .append(nameSeparator)
+                    .append(
+                        TextUtils.colorToTextComponent(
+                            chatColor + ChatUtils.processMessageFeatures(
+                                event.message,
+                                player
+                            ), player
+                        )
                     )
-                )
-                .create()
+                    .create()
 
-            // send to everyone
-            Bukkit.spigot().broadcast(*completedMessage)
+                // send to everyone
+                Bukkit.spigot().broadcast(*completedMessage)
 
-            // Specific exception so console can see chat
-            Bukkit.getConsoleSender().spigot().sendMessage(*completedMessage)
+                // Specific exception so console can see chat
+                Bukkit.getConsoleSender().spigot().sendMessage(*completedMessage)
+            }
         }
     }
 

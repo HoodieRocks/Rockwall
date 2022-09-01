@@ -13,7 +13,7 @@ import org.bukkit.Bukkit
 import org.bukkit.command.CommandMap
 
 class RockwallRegistry(private val plugin: Rockwall) {
-    private var map: CommandMap? = null
+    private lateinit var map: CommandMap
     private val prefix = "rockwall"
 
     init {

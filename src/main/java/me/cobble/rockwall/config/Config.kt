@@ -13,7 +13,7 @@ import java.util.*
 
 object Config {
 
-    private var document: YamlDocument? = null
+    private lateinit var document: YamlDocument
     fun setup(plugin: Rockwall) {
         document = YamlDocument.create(
             File(plugin.dataFolder, "config.yml"),
@@ -29,7 +29,7 @@ object Config {
     }
 
     fun get(): YamlDocument {
-        return document!!
+        return document
     }
 
     fun getSection(path: String): Section? {
@@ -49,6 +49,6 @@ object Config {
     }
 
     fun reload() {
-        document!!.reload()
+        document.reload()
     }
 }
