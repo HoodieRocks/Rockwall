@@ -1,6 +1,7 @@
 package me.cobble.rockwall.cmds.admin.subcmds
 
 import me.cobble.rockwall.cmds.admin.debug.StressTests
+import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
@@ -11,10 +12,10 @@ class DebugSubCmd : RockwallBaseCommand {
         get() = "debug"
 
     override val descriptor: String
-        get() = "Enables debug commands for this session only"
+        get() = "Debugging commands"
 
     override val syntax: String
-        get() = "[label] debug"
+        get() = "[label] debug <value>"
 
     override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
@@ -27,6 +28,11 @@ class DebugSubCmd : RockwallBaseCommand {
                     true
                 } else if (args[0] == "stressTestParty") {
                     StressTests.parties(p)
+                    true
+                } else if (args[0] == "enableDebugMsgs") {
+                    Config.setDebug(!Config.isDebugEnabled())
+                    if(Config.isDebugEnabled()) p.sendMessage(TextUtils.color("&aEnabled debug messages"))
+                    else p.sendMessage(TextUtils.color("&cDisabled debug messages"))
                     true
                 } else {
                     p.sendMessage(Messages.getGeneralError("unknown-argument"))

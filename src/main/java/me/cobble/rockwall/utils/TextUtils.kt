@@ -182,4 +182,10 @@ object TextUtils {
         return if (placeholderAPIPresent) PlaceholderAPI.setPlaceholders(player, string)
         else string
     }
+
+    fun sendDebug(string: String, player: Player) {
+        if(Config.isDebugEnabled()) {
+            player.sendMessage(color("&e[DEBUG] $string"))
+        }
+    }
 }

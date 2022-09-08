@@ -51,6 +51,7 @@ class RockwallCommand(val plugin: Rockwall) : TabExecutor {
                 if (args[0].equals("debug", true)) {
                     list.add("stressTestParty")
                     list.add("stressTestGlobal")
+                    list.add("enableDebugMsgs")
                 }
             }
         }

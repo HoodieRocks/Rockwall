@@ -29,7 +29,7 @@ object ChatUtils {
         )
         format.clickEvent = ClickEvent(
             ClickEvent.Action.SUGGEST_COMMAND,
-            TextUtils.setPlaceholders(player, section.getString("on-click")!!)
+            TextUtils.setPlaceholders(player, section.getOptionalString("on-click").orElse(""))
         )
 
         return format
@@ -62,13 +62,13 @@ object ChatUtils {
                 if ((it.value == "@everyone" || it.value == "@here") && player.hasPermission("rockwall.massmention")) {
                     if (Features.canPlayMentionSound()) {
                         for (p in Bukkit.getServer().onlinePlayers) {
-                            p.playSound(p.location, retrievedSound, 0.3f, 1f)
+                            p.playSound(p.location, retrievedSound, 0.7f, 2f)
                         }
                     }
                 } else {
                     val mentioned = Bukkit.getPlayer(it.value.drop(1))
                     if (Features.canPlayMentionSound()) {
-                        mentioned?.playSound(mentioned.location, retrievedSound, 0.3f, 1f)
+                        mentioned?.playSound(mentioned.location, retrievedSound, 0.7f, 2f)
                     }
                 }
 

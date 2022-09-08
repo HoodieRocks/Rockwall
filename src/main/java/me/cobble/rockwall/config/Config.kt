@@ -14,6 +14,7 @@ import java.util.*
 object Config {
 
     private lateinit var document: YamlDocument
+    private var debugEnabled: Boolean = false
     fun setup(plugin: Rockwall) {
         document = YamlDocument.create(
             File(plugin.dataFolder, "config.yml"),
@@ -50,5 +51,13 @@ object Config {
 
     fun reload() {
         document.reload()
+    }
+
+    fun isDebugEnabled(): Boolean {
+        return debugEnabled
+    }
+
+    fun setDebug(boolean: Boolean) {
+        debugEnabled = boolean
     }
 }

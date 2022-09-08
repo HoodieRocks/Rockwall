@@ -35,6 +35,8 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
         event.isCancelled = true
 
         if (PartyUtils.getPartyBySpeaking(player.uniqueId) == null) {
+
+            TextUtils.sendDebug("getting permissions", player)
             val permission = ChatUtils.getFormatByPermission(player)
 
             // config format components
@@ -44,6 +46,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             val nameSeparator = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME_SEPARATOR)
             val chatColor = getChatColor(permission)
 
+            TextUtils.sendDebug("assembling message", player)
             val completedMessage = ComponentBuilder()
                 .append(prefix)
                 .append(prefixSeparator)
