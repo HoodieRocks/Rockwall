@@ -26,7 +26,7 @@ object StressTests {
 
         val totalTime = System.currentTimeMillis()
         var time = System.currentTimeMillis()
-        for (i in 0 until 10000) {
+        repeat(10_000) {
             val uuid = UUID.randomUUID()
             localCopy[uuid] = PartyManager.createParty(uuid, TextUtils.randomString(10), PartyType.NORMAL)
         }
@@ -66,7 +66,7 @@ object StressTests {
 
             val uuids = linkedSetOf<UUID>()
 
-            for (i in 0 until 10000) {
+            repeat(10_000) {
                 uuids.add(UUID.randomUUID())
             }
 
@@ -84,7 +84,7 @@ object StressTests {
 
             val permission = ChatUtils.getFormatByPermission(player)
 
-            for (i in 0 until uuids.size) {
+            repeat(10_000) {
                 chatColor.add(getChatColor(permission))
                 prefix.add(makeFormat(permission, ChatFormatType.PREFIX))
                 prefixSeparator.add(makeFormat(permission, ChatFormatType.PREFIX_SEPARATOR))
@@ -103,12 +103,12 @@ object StressTests {
                     .append(nameSeparator[i])
                     .append(
                         chatColor[i] +
-                        TextUtils.colorToTextComponent(
-                            ChatUtils.processMessageFeatures(
-                                TextUtils.randomString(25),
-                                player
-                            ), player
-                        )
+                                TextUtils.colorToTextComponent(
+                                    ChatUtils.processMessageFeatures(
+                                        TextUtils.randomString(25),
+                                        player
+                                    ), player
+                                )
                     )
                     .create()
             }
@@ -141,8 +141,7 @@ object StressTests {
         return format
     }
 
-    private fun getChatColor(formatName: String): String {
-        return Config.getString("global-chat.formats.$formatName.chat-color").orElse("&f")
-    }
+    private fun getChatColor(formatName: String): String =
+        Config.getString("global-chat.formats.$formatName.chat-color").orElse("&f")
 
 }

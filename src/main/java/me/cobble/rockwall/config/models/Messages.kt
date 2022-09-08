@@ -17,9 +17,9 @@ object Messages {
     /**
      * Gets errors for when a person does not have a permission
      */
-    fun getPermissionString(path: String): String {
-        return getString("permission-messages.$path")
-    }
+    fun getPermissionString(path: String): String = getString("permission-messages.$path")
+
+    fun getGeneralError(path: String): String = getString("general.errors.$path")
 
     /**
      * Gets string from party config section
@@ -32,7 +32,5 @@ object Messages {
     /**
      * Gets string from party config section
      */
-    fun getPartyMsg(path: String): String {
-        return getString("parties.$path")
-    }
+    fun getPartyMsg(path: String): String = getString("parties.$path")
 }

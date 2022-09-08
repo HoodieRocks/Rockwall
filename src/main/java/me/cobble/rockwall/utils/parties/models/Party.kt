@@ -9,17 +9,11 @@ interface Party {
     val alias: String
     val owner: UUID
 
-    fun isMember(uuid: UUID): Boolean {
-        return members.contains(uuid)
-    }
+    fun isMember(uuid: UUID): Boolean = members.contains(uuid)
 
-    fun isInvited(uuid: UUID): Boolean {
-        return invites.contains(uuid)
-    }
+    fun isInvited(uuid: UUID): Boolean = invites.contains(uuid)
 
-    fun isSpeaking(uuid: UUID): Boolean {
-        return activeSpeakers.contains(uuid)
-    }
+    fun isSpeaking(uuid: UUID): Boolean = activeSpeakers.contains(uuid)
 
     fun addMember(uuid: UUID) {
         if (isMember(uuid)) return
@@ -36,16 +30,12 @@ interface Party {
         invites.add(uuid)
     }
 
-    fun removeInvite(uuid: UUID) {
-        invites.remove(uuid)
-    }
+    fun removeInvite(uuid: UUID) = invites.remove(uuid)
 
     fun addSpeaker(uuid: UUID) {
         if (isSpeaking(uuid)) return
         activeSpeakers.add(uuid)
     }
 
-    fun removeSpeaker(uuid: UUID) {
-        activeSpeakers.remove(uuid)
-    }
+    fun removeSpeaker(uuid: UUID) = activeSpeakers.remove(uuid)
 }

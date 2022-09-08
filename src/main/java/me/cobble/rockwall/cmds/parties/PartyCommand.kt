@@ -44,11 +44,10 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
             } else {
                 for (subCommand in subCommands) {
                     if (subCommand.name == args[0]) {
-                        subCommand.run(
+                        return subCommand.run(
                             sender,
                             args.drop(1).toTypedArray()
                         )
-                        return true
                     }
                 }
             }

@@ -18,42 +18,44 @@ class InviteToPartySub : RockwallBaseCommand {
     override val syntax: String
         get() = "[label] invite <player> <player> ..."
 
-    override fun run(p: Player, args: Array<String>) {
+    override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
             p.sendMessage(TextUtils.color("&c${syntax.replace("[label]", "/party")}"))
-            return
+            return false
         }
 
         val party: Party? = PartyManager.getParty(p.uniqueId)
 
         if (party == null) {
             p.sendMessage(Messages.getPartyMsg("errors.no-party-for-invites"))
-            return
+            return false
         }
 
         if (party is AdminParty) {
             p.sendMessage(Messages.getPartyMsg("errors.cant-invite-to-admin-party"))
-            return
+            return false
         }
 
         for (targetName in args) {
             val target = Bukkit.getPlayer(targetName)
             if (target == null) {
                 p.sendMessage(Messages.getPartyMsg("errors.offline-player"))
-                return
+                return false
             }
 
             if (party.owner == p.uniqueId) {
                 if (party.isMember(target.uniqueId)) {
                     p.sendMessage(Messages.getPartyMsg("errors.already-a-member"))
-                    return
+                    return false
                 }
                 party.addInvite(target.uniqueId)
                 PartyUtils.sendInvites(party.invites, party.alias)
+                return true
             } else {
                 p.sendMessage(Messages.getPermissionString("no-perm-party"))
-                return
+                return false
             }
         }
+        return false
     }
 }

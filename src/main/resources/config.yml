@@ -170,6 +170,11 @@ emojis:
 #       Messages
 # ---------------------
 messages:
+  general:
+    errors:
+      too-many-args: "&cToo many args!"
+      unknown-argument: "&cThat is not a valid agrument"
+
   # Permission related messages
   permission-messages:
 

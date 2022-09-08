@@ -142,17 +142,13 @@ object TextUtils {
         return component
     }
 
-    private fun formatCmd(prefix: String, cmd: String): String {
-        return color("&e$prefix&7$cmd\n")
-    }
+    private fun formatCmd(prefix: String, cmd: String): String = color("&e$prefix&7$cmd\n")
 
     /**
      * Checks if string is non-alphanumeric
      * @return if string is alphanumeric
      */
-    fun String.containsSpecialCharacters(): Boolean {
-        return this.contains(Regex("[^A-Za-z0-9]"))
-    }
+    fun String.containsSpecialCharacters(): Boolean = this.contains(Regex("[^A-Za-z0-9]"))
 
     fun randomString(int: Int): String {
         val values = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"

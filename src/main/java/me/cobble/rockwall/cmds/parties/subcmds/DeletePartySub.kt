@@ -13,18 +13,20 @@ class DeletePartySub : RockwallBaseCommand {
     override val syntax: String
         get() = "[label] delete"
 
-    override fun run(p: Player, args: Array<String>) {
+    override fun run(p: Player, args: Array<String>): Boolean {
         val party = PartyManager.getParty(p.uniqueId)
 
         if (party == null) {
             p.sendMessage(Messages.getPartyMsg("errors.no-party-for-deletion"))
-            return
+            return false
         }
 
-        if (party.owner == p.uniqueId) {
+        return if (party.owner == p.uniqueId) {
             PartyManager.deleteParty(party)
+            true
         } else {
             p.sendMessage(Messages.getPartyMsg("no-perm-party"))
+            false
         }
     }
 }

@@ -35,9 +35,7 @@ object ChatUtils {
         return format
     }
 
-    fun isGlobalChatEnabled(): Boolean {
-        return Config.getBool("global-chat.enabled")
-    }
+    fun isGlobalChatEnabled(): Boolean = Config.getBool("global-chat.enabled")
 
 
     fun getFormatByPermission(p: Player): String {

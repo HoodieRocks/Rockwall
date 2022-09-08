@@ -15,21 +15,25 @@ class AcceptInviteSub : RockwallBaseCommand {
     override val syntax: String
         get() = "[label] accept <party name>"
 
-    override fun run(p: Player, args: Array<String>) {
+    override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
             p.sendMessage(TextUtils.color("&c${syntax.replace("[label]", "/party")}"))
+            return false
         } else {
             if (PartyUtils.isPartyNameValid(args[0]) && PartyManager.doesPartyExists(args[0])) {
+                var returnBool = false
                 PartyManager.getParty(args[0]).thenAccept {
-
                     if (it!!.isInvited(p.uniqueId)) {
                         PartyUtils.inviteToMember(p.uniqueId, it)
                         p.sendMessage(Messages.getPartyMsg("joined", it))
+                        returnBool = true
                     } else {
                         p.sendMessage(Messages.getPartyMsg("errors.not-invited"))
                     }
                 }
+                return returnBool
             }
+            return false
         }
     }
 }

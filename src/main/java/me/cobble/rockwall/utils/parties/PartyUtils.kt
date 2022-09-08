@@ -20,9 +20,7 @@ import java.util.*
  */
 object PartyUtils {
 
-    fun isPartyNameValid(string: String): Boolean {
-        return Regex("[A-z]+#[0-9]+").matches(string)
-    }
+    fun isPartyNameValid(string: String): Boolean = Regex("[A-z]+#[0-9]+").matches(string)
 
     fun inviteToMember(uuid: UUID, party: Party?) {
         if (party == null) return
@@ -96,9 +94,7 @@ object PartyUtils {
     /**
      * Check if parties are enabled in config
      */
-    fun arePartiesEnabled(): Boolean {
-        return Config.getBool("parties.enabled")
-    }
+    fun arePartiesEnabled(): Boolean = Config.getBool("parties.enabled")
 
     /**
      * Gets the user's parties
@@ -119,9 +115,8 @@ object PartyUtils {
         return parties
     }
 
-    private fun customPlaceholders(string: String, party: Party): String {
-        return string.replace("%party_alias%", party.alias, true)
-    }
+    private fun customPlaceholders(string: String, party: Party): String =
+        string.replace("%party_alias%", party.alias, true)
 
     fun sendInvites(invites: ArrayList<UUID>, name: String) {
         for (id: UUID in invites) {

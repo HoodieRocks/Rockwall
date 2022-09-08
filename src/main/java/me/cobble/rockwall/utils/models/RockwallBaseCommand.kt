@@ -31,5 +31,5 @@ interface RockwallBaseCommand {
      * @param p    - The player who executed the sub command.
      * @param args - The arguments of the sub command.
      */
-    fun run(p: Player, args: Array<String>)
+    fun run(p: Player, args: Array<String>): Boolean
 }

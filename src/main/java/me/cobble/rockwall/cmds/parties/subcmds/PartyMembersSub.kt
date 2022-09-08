@@ -16,18 +16,19 @@ class PartyMembersSub : RockwallBaseCommand {
     override val syntax: String
         get() = "[label] members <party name>"
 
-    override fun run(p: Player, args: Array<String>) {
+    override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
             p.sendMessage(TextUtils.color("&c${syntax.replace("[label]", "/party")}"))
-            return
+            return false
         }
 
         if (args.size == 1) {
             if (!PartyUtils.isPartyNameValid(args[0])) {
                 p.sendMessage(Messages.getPartyMsg("errors.invalid"))
-                return
+                return false
             }
 
+            var returnBoolean = false
             PartyManager.getParty(args[0]).thenAccept {
                 if (it == null) {
                     p.sendMessage(Messages.getPartyMsg("errors.404"))
@@ -42,10 +43,15 @@ class PartyMembersSub : RockwallBaseCommand {
                 p.sendMessage(TextUtils.color("\n\n&e&lParty &7Members\n\n"))
                 p.sendMessage(TextUtils.color("&7(&cOwner&7) &f${Bukkit.getPlayer(it.owner)!!.name}"))
                 for (member in it.members) {
-                    if (it.owner == member) return@thenAccept
-                    p.sendMessage(TextUtils.color("&7${Bukkit.getPlayer(member)!!.name}"))
+                    if (it.owner != member) p.sendMessage(TextUtils.color("&7${Bukkit.getPlayer(member)!!.name}"))
                 }
+                returnBoolean = true
             }
+
+            return returnBoolean
+        } else {
+            p.sendMessage(Messages.getGeneralError("too-many-args"))
+            return false
         }
     }
 }

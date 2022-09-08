@@ -57,9 +57,7 @@ class UpdateUtils(private val plugin: Rockwall) {
     /**
      * Checks if there is an update available
      */
-    fun updateAvailable(): Boolean {
-        return updateVersion != plugin.description.version
-    }
+    fun updateAvailable(): Boolean = updateVersion != plugin.description.version
 
     fun sendUpdateAvailableMsg(player: Player) {
         if (player.hasPermission("rockwall.admin")) {

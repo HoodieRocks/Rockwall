@@ -17,34 +17,45 @@ class CreatePartySub : RockwallBaseCommand {
     override val syntax: String
         get() = "[label] create <name> [type]"
 
-    override fun run(p: Player, args: Array<String>) {
+    override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
             p.sendMessage(TextUtils.color("&c${syntax.replace("[label]", "/party")}"))
+            return false
         } else {
             if (args[0].containsSpecialCharacters()) {
                 p.sendMessage(Messages.getPartyMsg("errors.no-special-characters"))
-                return
+                return false
             }
 
             if (PartyManager.doesPartyExists(p.uniqueId)) {
                 p.sendMessage(Messages.getPartyMsg("errors.party-limit-reached"))
-                return
+                return false
             }
 
-            if (args.size == 2) {
-                val type = PartyType.valueOf(args[1].uppercase())
-                if (type == PartyType.ADMIN && !p.hasPermission("rockwall.admin.create")) {
-                    p.sendMessage(Messages.getPermissionString("no-admin-create-perm"))
-                    return
+            when (args.size) {
+                2 -> {
+                    val type = PartyType.valueOf(args[1].uppercase())
+                    if (type == PartyType.ADMIN && !p.hasPermission("rockwall.admin.create")) {
+                        p.sendMessage(Messages.getPermissionString("no-admin-create-perm"))
+                        return false
+                    }
+                    PartyManager.createParty(p.uniqueId, args[0], PartyType.valueOf(args[1].uppercase().trim()))
+                    addPlayers()
                 }
-                PartyManager.createParty(p.uniqueId, args[0], PartyType.valueOf(args[1].uppercase().trim()))
-                addPlayers()
-            } else {
-                PartyManager.createParty(p.uniqueId, args[0], PartyType.NORMAL)
+
+                1 -> {
+                    PartyManager.createParty(p.uniqueId, args[0], PartyType.NORMAL)
+                }
+
+                else -> {
+                    p.sendMessage(Messages.getGeneralError("too-many-args"))
+                    return false
+                }
             }
             PartyManager.getParty(p.uniqueId)!!.addMember(p.uniqueId)
 
             p.sendMessage(Messages.getPartyMsg("creation", PartyManager.getParty(p.uniqueId)!!))
+            return true
         }
     }
 

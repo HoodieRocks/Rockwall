@@ -15,17 +15,18 @@ class LeavePartySub : RockwallBaseCommand {
     override val syntax: String
         get() = "[label] leave <party name>"
 
-    override fun run(p: Player, args: Array<String>) {
+    override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
             p.sendMessage(TextUtils.color("&c${syntax.replace("[label]", "/party")}"))
-            return
+            return false
         }
 
         if (!PartyUtils.isPartyNameValid(args[0])) {
             p.sendMessage(Messages.getPartyMsg("errors.invalid"))
-            return
+            return false
         }
 
+        var returnBoolean = false
         PartyManager.getParty(args[0]).thenAccept {
             if (it == null) {
                 p.sendMessage(Messages.getPartyMsg("errors.404"))
@@ -49,7 +50,8 @@ class LeavePartySub : RockwallBaseCommand {
             if (it.members.size == 0) {
                 PartyManager.deleteParty(it)
             }
+            returnBoolean = true
         }
-
+        return returnBoolean
     }
 }

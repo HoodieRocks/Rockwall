@@ -13,8 +13,9 @@ class ReloadConfigSub : RockwallBaseCommand {
     override val syntax: String
         get() = "[label] reload"
 
-    override fun run(p: Player, args: Array<String>) {
+    override fun run(p: Player, args: Array<String>): Boolean {
         Config.reload()
         p.sendMessage(TextUtils.color("&aConfig reloaded"))
+        return true
     }
 }

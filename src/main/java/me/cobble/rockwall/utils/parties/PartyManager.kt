@@ -14,9 +14,7 @@ import java.util.concurrent.CompletableFuture
 // Manages Rockwall parties
 object PartyManager : Manager<UUID, Party>() {
 
-    private fun addParty(owner: UUID, party: Party) {
-        addOrUpdate(owner, party)
-    }
+    private fun addParty(owner: UUID, party: Party) = addOrUpdate(owner, party)
 
     fun deleteParty(party: Party?) {
         if (party == null) return
@@ -72,9 +70,7 @@ object PartyManager : Manager<UUID, Party>() {
         return party
     }
 
-    fun getParty(uuid: UUID): Party? {
-        return get(uuid)
-    }
+    fun getParty(uuid: UUID): Party? = get(uuid)
 
     fun getParty(name: String): CompletableFuture<Party?> {
         return CompletableFuture.supplyAsync {
@@ -84,17 +80,11 @@ object PartyManager : Manager<UUID, Party>() {
         }
     }
 
-    fun doesPartyExists(uuid: UUID): Boolean {
-        return containsKey(uuid)
-    }
+    fun doesPartyExists(uuid: UUID): Boolean = containsKey(uuid)
 
-    fun doesPartyExists(name: String): Boolean {
-        return getParty(name).get() != null
-    }
+    fun doesPartyExists(name: String): Boolean = getParty(name).get() != null
 
-    fun getParties(): HashMap<UUID, Party> {
-        return getAll()
-    }
+    fun getParties(): HashMap<UUID, Party> = getAll()
 
     fun tickTimers() {
         for (party: Party in getAll().values) {
