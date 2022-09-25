@@ -1,10 +1,10 @@
 plugins {
     id 'java'
-    id 'org.jetbrains.kotlin.jvm' version '1.7.0'
+    id 'org.jetbrains.kotlin.jvm' version '1.7.10'
 }
 
 group = 'me.cobble'
-version = '1.2.1'
+version = '1.2.2'
 
 repositories {
     mavenCentral()

@@ -1,7 +1,6 @@
 package me.cobble.rockwall.listeners
 
 import me.cobble.rockwall.rockwall.Rockwall
-import me.cobble.rockwall.utils.TextUtils
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyUtils
 import org.bukkit.Bukkit

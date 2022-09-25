@@ -184,7 +184,7 @@ object TextUtils {
     }
 
     fun sendDebug(string: String, player: Player) {
-        if(Config.isDebugEnabled()) {
+        if (Config.isDebugEnabled()) {
             player.sendMessage(color("&e[DEBUG] $string"))
         }
     }

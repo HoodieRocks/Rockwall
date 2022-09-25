@@ -31,7 +31,7 @@ class DebugSubCmd : RockwallBaseCommand {
                     true
                 } else if (args[0] == "enableDebugMsgs") {
                     Config.setDebug(!Config.isDebugEnabled())
-                    if(Config.isDebugEnabled()) p.sendMessage(TextUtils.color("&aEnabled debug messages"))
+                    if (Config.isDebugEnabled()) p.sendMessage(TextUtils.color("&aEnabled debug messages"))
                     else p.sendMessage(TextUtils.color("&cDisabled debug messages"))
                     true
                 } else {

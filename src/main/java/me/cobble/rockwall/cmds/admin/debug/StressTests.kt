@@ -19,8 +19,8 @@ import java.util.*
 object StressTests {
 
     fun parties(player: Player) {
-        player.sendMessage("This test represents 10K parties at the same time, this is more a performance test than an example of actual use")
-        player.sendMessage("Testing create() with 10K entries")
+        player.sendMessage(TextUtils.color("&eThis test represents 10K parties at the same time, this is more a performance test than an example of actual use"))
+        player.sendMessage(TextUtils.color("&cTesting create() with 10K entries"))
 
         val localCopy = linkedMapOf<UUID, Party>()
 
@@ -30,39 +30,39 @@ object StressTests {
             val uuid = UUID.randomUUID()
             localCopy[uuid] = PartyManager.createParty(uuid, TextUtils.randomString(10), PartyType.NORMAL)
         }
-        player.sendMessage("Took ${System.currentTimeMillis() - time}ms to create 10K party objects")
+        player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto create 10K party objects"))
 
-        player.sendMessage("getting all 10K objects via UUID")
+        player.sendMessage(TextUtils.color("&7Getting all 10K objects via UUID"))
         time = System.currentTimeMillis()
         localCopy.forEach {
             PartyManager.getParty(it.key)
         }
-        player.sendMessage("Took ${System.currentTimeMillis() - time}ms to get 10K objects via UUID")
+        player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto get 10K objects via UUID"))
 
-        player.sendMessage("getting all 10K objects via name (expensive)")
+        player.sendMessage(TextUtils.color("&7Getting all 10K objects via name (expensive)"))
         time = System.currentTimeMillis()
         localCopy.forEach {
             PartyManager.getParty(it.value.alias)
         }
-        player.sendMessage("Took ${System.currentTimeMillis() - time}ms to get 10K objects via name")
+        player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto get 10K objects via name"))
 
-        player.sendMessage("deleting all 10k objects")
+        player.sendMessage(TextUtils.color("&7Deleting all 10k objects"))
         time = System.currentTimeMillis()
         localCopy.forEach {
             PartyManager.deleteParty(it.value)
         }
-        player.sendMessage("Took ${System.currentTimeMillis() - time}ms to delete 10K objects")
+        player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto delete 10K objects"))
 
         localCopy.clear()
 
-        player.sendMessage("Total time of ${System.currentTimeMillis() - totalTime}ms")
+        player.sendMessage(TextUtils.color("&aTotal time of ${System.currentTimeMillis() - totalTime}ms"))
     }
 
     fun chat(player: Player) {
         val totalTime = System.currentTimeMillis()
         if (PartyUtils.getPartyBySpeaking(player.uniqueId) == null) {
-            player.sendMessage("This test represents 10K chat messages at the same time, this is more a performance test than an example of actual use")
-            player.sendMessage("Generating 10K fake UUIDs")
+            player.sendMessage(TextUtils.color("&cThis test represents 10K chat messages at the same time, this is more a performance test than an example of actual use"))
+            player.sendMessage(TextUtils.color("&7Generating 10K fake UUIDs"))
 
             val uuids = linkedSetOf<UUID>()
 
@@ -70,7 +70,7 @@ object StressTests {
                 uuids.add(UUID.randomUUID())
             }
 
-            player.sendMessage("generating format objects")
+            player.sendMessage(TextUtils.color("&7Generating format objects"))
 
 
             // config format components
@@ -91,9 +91,9 @@ object StressTests {
                 name.add(makeFormat(permission, ChatFormatType.NAME))
                 nameSeparator.add(makeFormat(permission, ChatFormatType.NAME_SEPARATOR))
             }
-            player.sendMessage("Took ${System.currentTimeMillis() - time}ms to make format objects")
+            player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto make format objects"))
 
-            player.sendMessage("combining format objects")
+            player.sendMessage(TextUtils.color("&7Combining format objects"))
             time = System.currentTimeMillis()
             for (i in 0 until uuids.size) {
                 ComponentBuilder()
@@ -112,11 +112,11 @@ object StressTests {
                     )
                     .create()
             }
-            player.sendMessage("Took ${System.currentTimeMillis() - time}ms to combine format objects")
+            player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto combine format objects"))
 
             uuids.clear()
         }
-        player.sendMessage("Total time of ${System.currentTimeMillis() - totalTime}ms")
+        player.sendMessage(TextUtils.color("&aTotal time of ${System.currentTimeMillis() - totalTime}ms"))
 
     }
 
