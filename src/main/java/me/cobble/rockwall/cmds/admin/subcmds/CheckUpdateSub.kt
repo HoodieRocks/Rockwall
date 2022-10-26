@@ -2,7 +2,7 @@ package me.cobble.rockwall.cmds.admin.subcmds
 
 import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.rockwall.Rockwall
-import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import org.bukkit.entity.Player
 
@@ -19,18 +19,18 @@ class CheckUpdateSub(private val plugin: Rockwall) : RockwallBaseCommand {
             if (plugin.getUpdateUtils().updateAvailable()) {
                 plugin.getUpdateUtils().sendUpdateAvailableMsg(p)
             } else {
-                p.sendMessage(TextUtils.color("&7No updates available!"))
+                p.sendMessage(ColorUtils.color("&7No updates available!"))
             }
         }
 
         if (args.size == 1) {
             return if (args[0].equals("download", ignoreCase = true)) {
-                p.sendMessage(TextUtils.color("&cBETA FEATURE: Expect bugs or errors"))
+                p.sendMessage(ColorUtils.color("&cBETA FEATURE: Expect bugs or errors"))
                 if (plugin.getUpdateUtils().updateAvailable()) {
                     plugin.getUpdateUtils().downloadUpdate(p)
                     true
                 } else {
-                    p.sendMessage(TextUtils.color("&cNo update to download"))
+                    p.sendMessage(ColorUtils.color("&cNo update to download"))
                     true
                 }
             } else {

@@ -4,7 +4,8 @@ import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.ChatUtils
-import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.ColorUtils
+import me.cobble.rockwall.utils.FormatUtils
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.Party
@@ -15,54 +16,73 @@ import net.md_5.bungee.api.chat.TextComponent
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
 import java.util.*
+import kotlin.system.measureTimeMillis
 
 object StressTests {
 
     fun parties(player: Player) {
-        player.sendMessage(TextUtils.color("&eThis test represents 10K parties at the same time, this is more a performance test than an example of actual use"))
-        player.sendMessage(TextUtils.color("&cTesting create() with 10K entries"))
+        player.sendMessage(
+            ColorUtils.color(
+                "&eThis test represents 10K parties at the same time, " +
+                        "\nThis is more a performance test than an example of actual use"
+            )
+        )
+        player.sendMessage(ColorUtils.color("&cTesting create() with 10K entries"))
 
         val localCopy = linkedMapOf<UUID, Party>()
 
         val totalTime = System.currentTimeMillis()
-        var time = System.currentTimeMillis()
-        repeat(10_000) {
-            val uuid = UUID.randomUUID()
-            localCopy[uuid] = PartyManager.createParty(uuid, TextUtils.randomString(10), PartyType.NORMAL)
-        }
-        player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto create 10K party objects"))
 
-        player.sendMessage(TextUtils.color("&7Getting all 10K objects via UUID"))
-        time = System.currentTimeMillis()
-        localCopy.forEach {
-            PartyManager.getParty(it.key)
-        }
-        player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto get 10K objects via UUID"))
+        var elapsed = measureTimeMillis {
+            repeat(10_000) {
+                val uuid = UUID.randomUUID()
+                localCopy[uuid] = PartyManager.createParty(uuid, FormatUtils.randomString(10), PartyType.NORMAL)
 
-        player.sendMessage(TextUtils.color("&7Getting all 10K objects via name (expensive)"))
-        time = System.currentTimeMillis()
-        localCopy.forEach {
-            PartyManager.getParty(it.value.alias)
+            }
         }
-        player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto get 10K objects via name"))
+        player.sendMessage(ColorUtils.color("&eTook &d${elapsed}ms &eto create 10K party objects"))
 
-        player.sendMessage(TextUtils.color("&7Deleting all 10k objects"))
-        time = System.currentTimeMillis()
-        localCopy.forEach {
-            PartyManager.deleteParty(it.value)
+        player.sendMessage(ColorUtils.color("&7Getting all 10K objects via UUID"))
+
+        elapsed = measureTimeMillis {
+            localCopy.forEach {
+                PartyManager.getParty(it.key)
+            }
+
         }
-        player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto delete 10K objects"))
+        player.sendMessage(ColorUtils.color("&eTook &d${elapsed}ms &eto get 10K objects via UUID"))
+
+        player.sendMessage(ColorUtils.color("&7Getting all 10K objects via name (expensive)"))
+        elapsed = measureTimeMillis {
+            localCopy.forEach {
+                PartyManager.getParty(it.value.alias)
+            }
+        }
+        player.sendMessage(ColorUtils.color("&eTook &d${elapsed}ms &eto get 10K objects via name"))
+
+        player.sendMessage(ColorUtils.color("&7Deleting all 10k objects"))
+        elapsed = measureTimeMillis {
+            localCopy.forEach {
+                PartyManager.deleteParty(it.value)
+            }
+        }
+        player.sendMessage(ColorUtils.color("&eTook &d${elapsed}ms &eto delete 10K objects"))
 
         localCopy.clear()
 
-        player.sendMessage(TextUtils.color("&aTotal time of ${System.currentTimeMillis() - totalTime}ms"))
+        player.sendMessage(ColorUtils.color("&aTotal time of ${System.currentTimeMillis() - totalTime}ms"))
     }
 
     fun chat(player: Player) {
         val totalTime = System.currentTimeMillis()
         if (PartyUtils.getPartyBySpeaking(player.uniqueId) == null) {
-            player.sendMessage(TextUtils.color("&cThis test represents 10K chat messages at the same time, this is more a performance test than an example of actual use"))
-            player.sendMessage(TextUtils.color("&7Generating 10K fake UUIDs"))
+            player.sendMessage(
+                ColorUtils.color(
+                    "&cThis test represents 10K chat messages at the same time" +
+                            "\nThis is more a performance test than an example of actual use"
+                )
+            )
+            player.sendMessage(ColorUtils.color("&7Generating 10K fake UUIDs"))
 
             val uuids = linkedSetOf<UUID>()
 
@@ -70,7 +90,7 @@ object StressTests {
                 uuids.add(UUID.randomUUID())
             }
 
-            player.sendMessage(TextUtils.color("&7Generating format objects"))
+            player.sendMessage(ColorUtils.color("&7Generating format objects"))
 
 
             // config format components
@@ -80,43 +100,46 @@ object StressTests {
             val nameSeparator = arrayListOf<TextComponent?>()
             val chatColor = arrayListOf<String>()
 
-            var time = System.currentTimeMillis()
 
             val permission = ChatUtils.getFormatByPermission(player)
 
-            repeat(10_000) {
-                chatColor.add(getChatColor(permission))
-                prefix.add(makeFormat(permission, ChatFormatType.PREFIX))
-                prefixSeparator.add(makeFormat(permission, ChatFormatType.PREFIX_SEPARATOR))
-                name.add(makeFormat(permission, ChatFormatType.NAME))
-                nameSeparator.add(makeFormat(permission, ChatFormatType.NAME_SEPARATOR))
+            var elapsed = measureTimeMillis {
+                repeat(10_000) {
+                    chatColor.add(getChatColor(permission))
+                    prefix.add(makeFormat(permission, ChatFormatType.PREFIX))
+                    prefixSeparator.add(makeFormat(permission, ChatFormatType.PREFIX_SEPARATOR))
+                    name.add(makeFormat(permission, ChatFormatType.NAME))
+                    nameSeparator.add(makeFormat(permission, ChatFormatType.NAME_SEPARATOR))
+                }
             }
-            player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto make format objects"))
 
-            player.sendMessage(TextUtils.color("&7Combining format objects"))
-            time = System.currentTimeMillis()
-            for (i in 0 until uuids.size) {
-                ComponentBuilder()
-                    .append(prefix[i])
-                    .append(prefixSeparator[i])
-                    .append(name[i])
-                    .append(nameSeparator[i])
-                    .append(
-                        chatColor[i] +
-                                TextUtils.colorToTextComponent(
-                                    ChatUtils.processMessageFeatures(
-                                        TextUtils.randomString(25),
-                                        player
-                                    ), player
-                                )
-                    )
-                    .create()
+            player.sendMessage(ColorUtils.color("&eTook &d${elapsed}ms &eto make format objects"))
+
+            player.sendMessage(ColorUtils.color("&7Combining format objects"))
+            elapsed = measureTimeMillis {
+                for (i in 0 until uuids.size) {
+                    ComponentBuilder()
+                        .append(prefix[i])
+                        .append(prefixSeparator[i])
+                        .append(name[i])
+                        .append(nameSeparator[i])
+                        .append(
+                            chatColor[i] +
+                                    ColorUtils.colorToTextComponent(
+                                        ChatUtils.processMessageFeatures(
+                                            FormatUtils.randomString(25),
+                                            player
+                                        ), player
+                                    )
+                        )
+                        .create()
+                }
             }
-            player.sendMessage(TextUtils.color("&eTook &d${System.currentTimeMillis() - time}ms &eto combine format objects"))
+            player.sendMessage(ColorUtils.color("&eTook &d${elapsed}ms &eto combine format objects"))
 
             uuids.clear()
         }
-        player.sendMessage(TextUtils.color("&aTotal time of ${System.currentTimeMillis() - totalTime}ms"))
+        player.sendMessage(ColorUtils.color("&aTotal time of ${System.currentTimeMillis() - totalTime}ms"))
 
     }
 
@@ -124,7 +147,7 @@ object StressTests {
         if (formatName.isBlank()) return null
         val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
         val section = configSection.getSection(type.getType())
-        val format = TextUtils.colorToTextComponent(section.getString("display")!!)
+        val format = ColorUtils.colorToTextComponent(section.getString("display")!!)
 
         format.font = section.getOptionalString("font").orElse("minecraft:default")
         format.hoverEvent = HoverEvent(

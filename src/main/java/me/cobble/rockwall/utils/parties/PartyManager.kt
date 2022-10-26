@@ -14,6 +14,8 @@ import java.util.concurrent.CompletableFuture
 // Manages Rockwall parties
 object PartyManager : Manager<UUID, Party>() {
 
+    private const val maxTagLength = 10000
+
     private fun addParty(owner: UUID, party: Party) = addOrUpdate(owner, party)
 
     fun deleteParty(party: Party?) {
@@ -50,14 +52,14 @@ object PartyManager : Manager<UUID, Party>() {
      * @see PartyType
      */
     fun createParty(owner: UUID, name: String, type: PartyType): Party {
-        var tag = (0 until 10000).random()
-        var alias = "$name#${String.format("%04d", tag)}"
+        var tag = (0 until maxTagLength).random()
+        var alias = "$name#${tag.toString().padStart(4, '0')}"
 
-        getParty(alias).thenAccept {
+        getParty(alias).thenAccept { party ->
             for (i in 0 until Config.getInt("settings.party-discriminator-tries")) {
-                if (it != null) {
+                if (party != null) {
                     tag += 1
-                    if (tag >= 10000) tag = 0
+                    if (tag >= maxTagLength) tag = (0 until maxTagLength).random() - i
                     alias = "$name#${tag}"
                 } else {
                     break

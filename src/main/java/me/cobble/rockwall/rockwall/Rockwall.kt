@@ -1,7 +1,7 @@
 package me.cobble.rockwall.rockwall
 
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.UpdateUtils
 import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.Bukkit
@@ -49,8 +49,8 @@ class Rockwall : JavaPlugin() {
     private fun setPlaceholderAPIPresent() {
         logger.info("Checking if PlaceholderAPI is present...")
         val present = (Bukkit.getServer().pluginManager.getPlugin("PlaceholderAPI") != null)
-        TextUtils.placeholderAPIPresent = present
-        if (!present) logger.warning("Placeholder support disabled due to missing PlaceholderAPI, please install PlaceholderAPI to use placeholders")
+        ColorUtils.placeholderAPIPresent = present
+        if (!present) logger.warning("Placeholder support disabled: missing PlaceholderAPI, install PAPI for placeholders")
         else logger.info("PlaceholderAPI found!")
     }
 

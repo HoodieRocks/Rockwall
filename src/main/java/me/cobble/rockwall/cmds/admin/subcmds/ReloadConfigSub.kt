@@ -1,7 +1,7 @@
 package me.cobble.rockwall.cmds.admin.subcmds
 
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import org.bukkit.entity.Player
 
@@ -15,7 +15,7 @@ class ReloadConfigSub : RockwallBaseCommand {
 
     override fun run(p: Player, args: Array<String>): Boolean {
         Config.reload()
-        p.sendMessage(TextUtils.color("&aConfig reloaded"))
+        p.sendMessage(ColorUtils.color("&aConfig reloaded"))
         return true
     }
 }

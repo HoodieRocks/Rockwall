@@ -1,7 +1,7 @@
 package me.cobble.rockwall.config.models
 
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.parties.models.Party
 
 /**
@@ -11,7 +11,7 @@ object Messages {
     private val config = Config.getSection("messages")
 
     private fun getString(path: String): String {
-        return TextUtils.color(config!!.getString(path)!!)
+        return ColorUtils.color(config!!.getString(path)!!)
     }
 
     /**

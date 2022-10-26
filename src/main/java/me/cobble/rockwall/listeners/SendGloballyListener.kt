@@ -4,7 +4,8 @@ import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.ChatUtils
-import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.ColorUtils
+import me.cobble.rockwall.utils.ColorUtils.sendDebug
 import me.cobble.rockwall.utils.parties.PartyUtils
 import net.md_5.bungee.api.chat.ComponentBuilder
 import org.bukkit.Bukkit
@@ -36,7 +37,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
 
         if (PartyUtils.getPartyBySpeaking(player.uniqueId) == null) {
 
-            TextUtils.sendDebug("getting permissions", player)
+            player.sendDebug("getting permissions")
             val permission = ChatUtils.getFormatByPermission(player)
 
             // config format components
@@ -46,14 +47,14 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
             val nameSeparator = ChatUtils.makeFormat(player, permission, ChatFormatType.NAME_SEPARATOR)
             val chatColor = getChatColor(permission)
 
-            TextUtils.sendDebug("assembling message", player)
+            player.sendDebug("assembling message")
             val completedMessage = ComponentBuilder()
                 .append(prefix)
                 .append(prefixSeparator)
                 .append(name)
                 .append(nameSeparator)
                 .append(
-                    TextUtils.colorToTextComponent(
+                    ColorUtils.colorToTextComponent(
                         chatColor + ChatUtils.processMessageFeatures(
                             event.message,
                             player

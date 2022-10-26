@@ -3,7 +3,7 @@ package me.cobble.rockwall.cmds.admin.subcmds
 import me.cobble.rockwall.cmds.admin.debug.StressTests
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.Messages
-import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import org.bukkit.entity.Player
 
@@ -19,7 +19,7 @@ class DebugSubCmd : RockwallBaseCommand {
 
     override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
-            p.sendMessage(TextUtils.color("&c${syntax.replace("[label]", "/rockwall")}"))
+            p.sendMessage(ColorUtils.color("&c${syntax.replace("[label]", "/rockwall")}"))
             return false
         } else {
             if (args.size == 1) {
@@ -31,8 +31,8 @@ class DebugSubCmd : RockwallBaseCommand {
                     true
                 } else if (args[0] == "enableDebugMsgs") {
                     Config.setDebug(!Config.isDebugEnabled())
-                    if (Config.isDebugEnabled()) p.sendMessage(TextUtils.color("&aEnabled debug messages"))
-                    else p.sendMessage(TextUtils.color("&cDisabled debug messages"))
+                    if (Config.isDebugEnabled()) p.sendMessage(ColorUtils.color("&aEnabled debug messages"))
+                    else p.sendMessage(ColorUtils.color("&cDisabled debug messages"))
                     true
                 } else {
                     p.sendMessage(Messages.getGeneralError("unknown-argument"))

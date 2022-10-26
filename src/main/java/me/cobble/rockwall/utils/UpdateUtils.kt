@@ -3,6 +3,7 @@ package me.cobble.rockwall.utils
 import com.google.gson.Gson
 import com.google.gson.JsonArray
 import me.cobble.rockwall.rockwall.Rockwall
+import me.cobble.rockwall.utils.ColorUtils.sendColoredMessage
 import org.bukkit.entity.Player
 import java.net.URI
 import java.net.http.HttpClient
@@ -15,7 +16,6 @@ import java.time.Duration
 /**
  * Really primitive update checker, will likely be improved in the future
  */
-// TODO: Improve the update checker
 class UpdateUtils(private val plugin: Rockwall) {
     private var updateVersion: String? = null
     private val id = 103709
@@ -61,10 +61,10 @@ class UpdateUtils(private val plugin: Rockwall) {
 
     fun sendUpdateAvailableMsg(player: Player) {
         if (player.hasPermission("rockwall.admin")) {
-            player.sendMessage(TextUtils.color("&e&lUpdate available!"))
-            player.sendMessage(TextUtils.color("&7There is an update available for Rockwall"))
-            player.sendMessage(TextUtils.color("&7Your version: &c${plugin.description.version} &8→ &7Newest version: &a$updateVersion"))
-            player.sendMessage(TextUtils.color("&7Download at&6&n https://www.spigotmc.org/resources/rockwall.103709/"))
+            player.sendColoredMessage("&e&lUpdate available!")
+            player.sendColoredMessage("&7There is an update available for Rockwall")
+            player.sendColoredMessage("&c${plugin.description.version} &8→ &a$updateVersion")
+            player.sendColoredMessage("&7Download at&6&n https://www.spigotmc.org/resources/rockwall.103709/")
         }
     }
 
@@ -78,6 +78,6 @@ class UpdateUtils(private val plugin: Rockwall) {
 
         client.send(request, HttpResponse.BodyHandlers.ofFile(path))
 
-        player.sendMessage(TextUtils.color("&aUpdate downloaded, this will be applied on next restart"))
+        player.sendMessage(ColorUtils.color("&aUpdate downloaded, this will be applied on next restart"))
     }
 }

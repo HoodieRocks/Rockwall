@@ -6,43 +6,43 @@ softdepend: [ PlaceholderAPI ]
 authors: [ Cbble_ ]
 description: A highly configurable, feature-rich chat plugin
 libraries:
-  - 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10'
-  - 'dev.dejvokep:boosted-yaml:1.3'
+    - 'org.jetbrains.kotlin:kotlin-stdlib-jdk8:1.7.10'
+    - 'dev.dejvokep:boosted-yaml:1.3'
 permissions:
-  rockwall.color:
-    description: Allows players to send colored messages
-    default: op
-  rockwall.massmention:
-    description: Allows the player to use @here or @everyone
-    default: op
-  rockwall.clearchat:
-    default: op
-    description: Allows players to clear chat
-  rockwall.parties:
-    description: Allows the player to use parties
-    default: not op
-  rockwall.admin:
-    default: op
-    description: Allows access to admin commands
-    children:
-      - rockwall.admin.join
-      - rockwall.admin.create
-      - rockwall.admin.joinany
-      - rockwall.parties
-  rockwall.admin.join:
-    description: Allows access to joining admin parties
-    default: op
-  rockwall.admin.create:
-    default: op
-    description: Allows for creating admin parties
-  rockwall.admin.joinany:
-    description: Allows the player to join any party, even if not invited
-    default: op
+    rockwall.color:
+        description: Allows players to send colored messages
+        default: op
+    rockwall.massmention:
+        description: Allows the player to use @here or @everyone
+        default: op
+    rockwall.clearchat:
+        default: op
+        description: Allows players to clear chat
+    rockwall.parties:
+        description: Allows the player to use parties
+        default: not op
+    rockwall.admin:
+        default: op
+        description: Allows access to admin commands
+        children:
+            - rockwall.admin.join
+            - rockwall.admin.create
+            - rockwall.admin.joinany
+            - rockwall.parties
+    rockwall.admin.join:
+        description: Allows access to joining admin parties
+        default: op
+    rockwall.admin.create:
+        default: op
+        description: Allows for creating admin parties
+    rockwall.admin.joinany:
+        description: Allows the player to join any party, even if not invited
+        default: op
 commands:
-  rockwall:
-    aliases:
-      - rock
-      - rwall
-      - rw
-    description: Admin command for Rockwall
+    rockwall:
+        aliases:
+            - rock
+            - rwall
+            - rw
+        description: Admin command for Rockwall
 

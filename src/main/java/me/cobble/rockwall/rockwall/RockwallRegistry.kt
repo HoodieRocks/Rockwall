@@ -22,9 +22,9 @@ class RockwallRegistry(private val plugin: Rockwall) {
             bukkitCommandMap.isAccessible = true
             map = bukkitCommandMap[Bukkit.getServer()] as CommandMap
         } catch (e: NoSuchFieldException) {
-            e.printStackTrace()
+            plugin.logger.severe(e.message)
         } catch (e: IllegalAccessException) {
-            e.printStackTrace()
+            plugin.logger.severe(e.message)
         }
     }
 

@@ -1,0 +1,17 @@
+performance:
+    SpreadOperator:
+        active: false
+style:
+    MagicNumber:
+        active: false
+    WildcardImport:
+        active: false
+    NewLineAtEndOfFile:
+        active: false
+    ReturnCount:
+        active: false
+    MaxLineLength:
+        active: false
+complexity:
+    NestedBlockDepth:
+        active: false

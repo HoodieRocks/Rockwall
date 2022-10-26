@@ -1,5 +1,6 @@
 package me.cobble.rockwall.utils
 
+import dev.dejvokep.boostedyaml.block.implementation.Section
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.Features
@@ -12,6 +13,8 @@ import org.bukkit.entity.Player
 
 object ChatUtils {
 
+    private var formats: Section? = null
+
     /**
      * Creates string formats from config entries
      * @return component with click, hover event and display text
@@ -20,16 +23,17 @@ object ChatUtils {
         if (formatName.isBlank()) return null
         val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
         val section = configSection.getSection(type.getType())
-        val format = TextUtils.colorToTextComponent(TextUtils.setPlaceholders(player, section!!.getString("display")!!))
+        val format =
+            ColorUtils.colorToTextComponent(ColorUtils.setPlaceholders(player, section!!.getString("display")!!))
 
         format.font = section.getOptionalString("font").orElse("minecraft:default")
         format.hoverEvent = HoverEvent(
             HoverEvent.Action.SHOW_TEXT,
-            Text(TextUtils.formatStringList(section.getStringList("hover"), player).create())
+            Text(FormatUtils.formatStringList(section.getStringList("hover"), player).create())
         )
         format.clickEvent = ClickEvent(
             ClickEvent.Action.SUGGEST_COMMAND,
-            TextUtils.setPlaceholders(player, section.getOptionalString("on-click").orElse(""))
+            ColorUtils.setPlaceholders(player, section.getOptionalString("on-click").orElse(""))
         )
 
         return format
@@ -39,7 +43,7 @@ object ChatUtils {
 
 
     fun getFormatByPermission(p: Player): String {
-        val keys = Config.getSection("global-chat.formats")!!.keys
+        val keys = getFormats()!!.keys
         for (key in keys) {
             if (p.hasPermission("rockwall.format.$key") && key != "default") {
                 return key as String
@@ -92,5 +96,12 @@ object ChatUtils {
             }
         }
         return msg
+    }
+
+    private fun getFormats(): Section? {
+        if (formats == null) {
+            formats = Config.getSection("global-chat.formats")!!
+        }
+        return formats
     }
 }

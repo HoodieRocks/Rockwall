@@ -4,7 +4,6 @@ import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyUtils
-import me.cobble.rockwall.utils.parties.models.AdminParty
 import org.bukkit.entity.Player
 
 class MessagePartySub : RockwallBaseCommand {
@@ -30,13 +29,9 @@ class MessagePartySub : RockwallBaseCommand {
                         return@thenAccept
                     }
 
-                    if (
-                        PartyManager.doesPartyExists(partyName) &&
-                        ((it is AdminParty && p.hasPermission("rockwall.admin.join")) ||
-                                (p.hasPermission("rockwall.admin.joinany") || it.isMember(p.uniqueId)
-                                        ))
-                    ) {
-                        if (it.isSpeaking(p.uniqueId)) p.sendMessage(Messages.getPartyMsg("already-speaking")) else {
+                    if (PartyManager.doesPartyExists(partyName) && PartyUtils.canJoin(p, it)) {
+                        if (it.isSpeaking(p.uniqueId)) p.sendMessage(Messages.getPartyMsg("already-speaking"))
+                        else {
                             it.addSpeaker(p.uniqueId)
                             PartyUtils.removeOldSpeakingParty(p.uniqueId, it)
                             p.sendMessage(Messages.getPartyMsg("now-speaking", it))

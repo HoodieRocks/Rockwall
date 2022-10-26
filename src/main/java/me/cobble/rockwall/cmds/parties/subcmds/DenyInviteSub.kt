@@ -1,7 +1,7 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.models.Messages
-import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyUtils
@@ -17,7 +17,7 @@ class DenyInviteSub : RockwallBaseCommand {
 
     override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
-            p.sendMessage(TextUtils.color("&c${syntax.replace("[label]", "/party")}"))
+            p.sendMessage(ColorUtils.color("&c${syntax.replace("[label]", "/party")}"))
             return false
         } else {
             if (PartyUtils.isPartyNameValid(args[0]) && PartyManager.doesPartyExists(args[0])) {

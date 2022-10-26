@@ -1,7 +1,7 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.models.Messages
-import me.cobble.rockwall.utils.TextUtils
+import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.PartyUtils
@@ -18,7 +18,7 @@ class PartyMembersSub : RockwallBaseCommand {
 
     override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
-            p.sendMessage(TextUtils.color("&c${syntax.replace("[label]", "/party")}"))
+            p.sendMessage(ColorUtils.color("&c${syntax.replace("[label]", "/party")}"))
             return false
         }
 
@@ -40,10 +40,10 @@ class PartyMembersSub : RockwallBaseCommand {
                     return@thenAccept
                 }
 
-                p.sendMessage(TextUtils.color("\n\n&e&lParty &7Members\n\n"))
-                p.sendMessage(TextUtils.color("&7(&cOwner&7) &f${Bukkit.getPlayer(it.owner)!!.name}"))
+                p.sendMessage(ColorUtils.color("\n\n&e&lParty &7Members\n\n"))
+                p.sendMessage(ColorUtils.color("&7(&cOwner&7) &f${Bukkit.getPlayer(it.owner)!!.name}"))
                 for (member in it.members) {
-                    if (it.owner != member) p.sendMessage(TextUtils.color("&7${Bukkit.getPlayer(member)!!.name}"))
+                    if (it.owner != member) p.sendMessage(ColorUtils.color("&7${Bukkit.getPlayer(member)!!.name}"))
                 }
                 returnBoolean = true
             }

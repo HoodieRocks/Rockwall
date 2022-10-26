@@ -2,8 +2,8 @@ package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.models.Messages
 import me.cobble.rockwall.config.models.PartyType
-import me.cobble.rockwall.utils.TextUtils
-import me.cobble.rockwall.utils.TextUtils.containsSpecialCharacters
+import me.cobble.rockwall.utils.ColorUtils
+import me.cobble.rockwall.utils.FormatUtils.containsSpecialCharacters
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.PartyManager
 import org.bukkit.Bukkit
@@ -19,7 +19,7 @@ class CreatePartySub : RockwallBaseCommand {
 
     override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
-            p.sendMessage(TextUtils.color("&c${syntax.replace("[label]", "/party")}"))
+            p.sendMessage(ColorUtils.color("&c${syntax.replace("[label]", "/party")}"))
             return false
         } else {
             if (args[0].containsSpecialCharacters()) {
