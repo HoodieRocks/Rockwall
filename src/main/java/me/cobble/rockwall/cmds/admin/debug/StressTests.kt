@@ -1,6 +1,6 @@
 package me.cobble.rockwall.cmds.admin.debug
 
-import me.cobble.rockwall.config.Config
+import me.cobble.rockwall.config.FormatsConfig
 import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.ChatUtils
@@ -125,7 +125,7 @@ object StressTests {
                         .append(nameSeparator[i])
                         .append(
                             chatColor[i] +
-                                    ColorUtils.colorToTextComponent(
+                                    ColorUtils.colorizeComponents(
                                         ChatUtils.processMessageFeatures(
                                             FormatUtils.randomString(25),
                                             player
@@ -145,9 +145,9 @@ object StressTests {
 
     private fun makeFormat(formatName: String, type: ChatFormatType): TextComponent? {
         if (formatName.isBlank()) return null
-        val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
+        val configSection = FormatsConfig.getSection("global-chat-formats.$formatName") ?: return null
         val section = configSection.getSection(type.getType())
-        val format = ColorUtils.colorToTextComponent(section.getString("display")!!)
+        val format = ColorUtils.colorizeComponents(section.getString("display")!!)
 
         format.font = section.getOptionalString("font").orElse("minecraft:default")
         format.hoverEvent = HoverEvent(
@@ -165,6 +165,6 @@ object StressTests {
     }
 
     private fun getChatColor(formatName: String): String =
-        Config.getString("global-chat.formats.$formatName.chat-color").orElse("&f")
+        FormatsConfig.getString("global-chat-formats.$formatName.chat-color").orElse("&f")
 
 }

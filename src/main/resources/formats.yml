@@ -1,0 +1,156 @@
+#   ____            _                   _ _
+# |  _ \ ___   ___| | ____      ____ _| | |
+# | |_) / _ \ / __| |/ /\ \ /\ / / _` | | |
+# |  _ < (_) | (__|   <  \ V  V / (_| | | |
+# |_| \_\___/ \___|_|\_\  \_/\_/ \__,_|_|_|
+#
+# Formats Config
+# Plugin created by Cbble_
+
+# Empty values in formats can be deleted to clear up
+
+# Do not touch!
+version: 1
+
+party-formats:
+    # Default normal party
+    # The normal party, this party expires and does not require a permission to create or join
+    # More permissions might be added soon
+    normal:
+        prefix:
+            display: "&7[%party_alias%] " # Shown in party
+            hover:
+                - "Boo"
+            on-click: "/g msg %party_alias%"
+        name:
+            display: "%player_name% "
+            hover:
+                - "%player_name%"
+                - "Click to msg privately"
+            on-click: "/msg %player_name%"
+        prefix-separator:
+            display: ""
+            hover:
+                -
+            on-click: ""
+        name-separator:
+            display: "&8» "
+            hover:
+                -
+            on-click: ""
+        suffix:
+            display: ""
+            hover:
+                -
+            on-click: ""
+        suffix-separator:
+            display: ""
+            hover:
+                -
+            on-click: ""
+    # Default admin party
+    # The admin party does not expire and requires a permission to create or join
+    # More permissions might be added soon
+    admin:
+        prefix:
+            display: "&7[%party_alias%] &c[Admin] " # Shown in party
+            hover:
+                - "Boo"
+            on-click: "/g msg %party_alias%"
+        name:
+            display: "%player_name% "
+            hover:
+                - "%player_name%"
+                - "Click to msg privately"
+            on-click: "/msg %player_name%"
+        prefix-separator:
+            display: ""
+            hover:
+                -
+            on-click: ""
+        name-separator:
+            display: "&8» "
+            hover:
+                -
+            on-click: ""
+        suffix:
+            display: ""
+            hover:
+                -
+            on-click: ""
+        suffix-separator:
+            display: ""
+            hover:
+                -
+            on-click: ""
+
+# These formats are used when speaking globally
+# You can add your own too, as long as they follow the same structure
+# To use a custom format, give the player rockwall.format.{NAME} permission
+# Higher the format is in the file, the higher the priority is.
+# Higher priority formats show first
+global-chat-formats:
+    # Default format must always be present, do not remove, only modify
+    default:
+        # Prefix
+        # Ex. [Owner]
+        prefix:
+            display: "%luckperms_prefix% " # Shown in chat
+            hover:
+                - "%luckperms_prefix%"
+                - "%player_name%"
+            on-click: "/suicide"
+            # Optional:
+            # font: "minecraft:default"
+        # Name
+        # Ex. Notch
+        name:
+            display: "%player_name% "
+            hover:
+                - "%player_name%"
+                - "Click to msg"
+            on-click: "/msg %player_name%"
+        # Prefix
+        # Ex. Prefix | Name
+        #            ^
+        prefix-separator:
+            display: "&8| "
+            hover:
+                -
+            on-click: "/msg %player_name%"
+        # Prefix
+        # Prefix | Name >>
+        #               ^
+        name-separator:
+            display: "&8» "
+            hover:
+                -
+            on-click: ""
+        chat-color: "&f"
+
+# Here you can customize the format of your chat room
+chat-room-formats:
+    staff-room:
+        prefix:
+            display: "&c&lStaff Chat &8| %luckperms_prefix% "
+            hover:
+                - "%luckperms_prefix%"
+                - "%player_name%"
+            on-click: "/suicide"
+        name:
+            display: "%player_name% "
+            hover:
+                - "%player_name%"
+                - "Click to msg"
+            on-click: "/msg %player_name%"
+        prefix-separator:
+            display: "&8| "
+            hover:
+                -
+            on-click: "/msg %player_name%"
+        name-separator:
+            display: "&8» "
+            hover:
+                -
+            on-click: ""
+        chat-color: "&e"

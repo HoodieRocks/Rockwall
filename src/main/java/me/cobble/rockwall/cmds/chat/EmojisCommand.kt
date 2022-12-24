@@ -10,15 +10,8 @@ class EmojisCommand : BukkitCommand("emojis", "Shows all the available emojis fo
     override fun execute(sender: CommandSender, commandLabel: String, args: Array<out String>): Boolean {
         sender.sendMessage(ColorUtils.color("&e&lEmojis"))
         for (emoji in Features.getAllEmojis()) {
-            sender.sendMessage(
-                ColorUtils.color(
-                    "&7${(emoji as String).replaceFirstChar { it.uppercaseChar() }}: ${
-                        Features.getEmoji(
-                            emoji
-                        )
-                    }"
-                )
-            )
+            val name = emoji.replaceFirstChar { it.uppercaseChar() }
+            sender.sendMessage(ColorUtils.color("&7${name}: ${Features.getEmoji(emoji).orElseThrow()}"))
         }
         return true
     }

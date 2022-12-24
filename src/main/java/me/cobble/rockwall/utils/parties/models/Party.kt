@@ -37,5 +37,8 @@ interface Party {
         activeSpeakers.add(uuid)
     }
 
+    /**
+     * Removes the player as an active speaker
+     */
     fun removeSpeaker(uuid: UUID) = activeSpeakers.remove(uuid)
 }

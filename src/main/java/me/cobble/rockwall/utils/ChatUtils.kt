@@ -2,48 +2,21 @@ package me.cobble.rockwall.utils
 
 import dev.dejvokep.boostedyaml.block.implementation.Section
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.config.models.ChatFormatType
+import me.cobble.rockwall.config.FormatsConfig
 import me.cobble.rockwall.config.models.Features
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.HoverEvent
-import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 
 object ChatUtils {
 
-    private var formats: Section? = null
-
-    /**
-     * Creates string formats from config entries
-     * @return component with click, hover event and display text
-     */
-    fun makeFormat(player: Player, formatName: String, type: ChatFormatType): TextComponent? {
-        if (formatName.isBlank()) return null
-        val configSection = Config.getSection("global-chat.formats.$formatName") ?: return null
-        val section = configSection.getSection(type.getType())
-        val format =
-            ColorUtils.colorToTextComponent(ColorUtils.setPlaceholders(player, section!!.getString("display")!!))
-
-        format.font = section.getOptionalString("font").orElse("minecraft:default")
-        format.hoverEvent = HoverEvent(
-            HoverEvent.Action.SHOW_TEXT,
-            Text(FormatUtils.formatStringList(section.getStringList("hover"), player).create())
-        )
-        format.clickEvent = ClickEvent(
-            ClickEvent.Action.SUGGEST_COMMAND,
-            ColorUtils.setPlaceholders(player, section.getOptionalString("on-click").orElse(""))
-        )
-
-        return format
-    }
-
     fun isGlobalChatEnabled(): Boolean = Config.getBool("global-chat.enabled")
 
 
+    /**
+     * Gets a player's highest format by their permission
+     */
     fun getFormatByPermission(p: Player): String {
-        val keys = getFormats()!!.keys
+        val keys = getFormats().keys
         for (key in keys) {
             if (p.hasPermission("rockwall.format.$key") && key != "default") {
                 return key as String
@@ -58,7 +31,7 @@ object ChatUtils {
     }
 
     private fun processMentions(msg: String, player: Player): String {
-        if (!Features.mentionsEnabled()) return msg
+        if (!Features.areMentionsEnabled()) return msg
         val mentionExpression = Regex("@[A-z]+")
         val retrievedSound = Features.getMentionSound()
         if (mentionExpression.containsMatchIn(msg)) {
@@ -83,13 +56,13 @@ object ChatUtils {
     }
 
     private fun processEmojis(msg: String): String {
-        if (!Features.emojisEnabled()) return msg
+        if (!Features.areEmojisEnabled()) return msg
         val emojiExpression = Regex(":[A-z]+:")
         val emojis = Features.getAllEmojis()
         if (emojiExpression.containsMatchIn(msg)) {
             emojiExpression.findAll(msg).forEach {
                 for (emoji in emojis) {
-                    if ((emoji as String).lowercase() == it.value.lowercase().replace(":", "")) {
+                    if (emoji.lowercase() == it.value.lowercase().replace(":", "")) {
                         return msg.replace(it.value, Features.getEmoji(emoji).orElse(""))
                     }
                 }
@@ -98,10 +71,7 @@ object ChatUtils {
         return msg
     }
 
-    private fun getFormats(): Section? {
-        if (formats == null) {
-            formats = Config.getSection("global-chat.formats")!!
-        }
-        return formats
+    private fun getFormats(): Section {
+        return FormatsConfig.getSection("global-chat-formats")!!
     }
 }

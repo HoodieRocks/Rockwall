@@ -8,10 +8,10 @@ import me.cobble.rockwall.utils.parties.models.Party
  * Utility class that gets messages from config
  */
 object Messages {
-    private val config = Config.getSection("messages")
+    private val config = Config.getSection("messages")!!
 
     private fun getString(path: String): String {
-        return ColorUtils.color(config!!.getString(path)!!)
+        return ColorUtils.color(config.getOptionalString(path).orElseThrow())
     }
 
     /**

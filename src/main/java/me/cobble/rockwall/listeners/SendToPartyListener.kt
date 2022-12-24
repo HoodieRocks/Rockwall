@@ -1,11 +1,11 @@
 package me.cobble.rockwall.listeners
 
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.ColorUtils.sendDebug
+import me.cobble.rockwall.utils.models.FormatTree
 import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.AdminParty
 import me.cobble.rockwall.utils.parties.models.NormalParty
@@ -37,15 +37,19 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
         if (PartyUtils.getPartyBySpeaking(player.uniqueId) != null) {
             e.isCancelled = true
 
+            val tree = FormatTree("party-formats")
+
             player.sendDebug("getting party details")
-            val party = PartyUtils.getPartyBySpeaking(player.uniqueId)
+            val party = PartyUtils.getPartyBySpeaking(player.uniqueId)!!
             val type = if (party is AdminParty) PartyType.ADMIN else PartyType.NORMAL
 
             // various components from config formats
-            val prefix = PartyUtils.formatMaker(player, party, type, ChatFormatType.PREFIX)
-            val prefixSeparator = PartyUtils.formatMaker(player, party, type, ChatFormatType.PREFIX_SEPARATOR)
-            val name = PartyUtils.formatMaker(player, party, type, ChatFormatType.NAME)
-            val nameSeparator = PartyUtils.formatMaker(player, party, type, ChatFormatType.NAME_SEPARATOR)
+            val prefix = tree.asRockwallFormat(player, tree.getGroupPrefix(type.getType()), party)
+            val prefixSeparator = tree.asRockwallFormat(player, tree.getGroupPrefixSeparator(type.getType()), party)
+            val name = tree.asRockwallFormat(player, tree.getGroupPlayerName(type.getType()), party)
+            val nameSeparator = tree.asRockwallFormat(player, tree.getGroupNameSeparator(type.getType()), party)
+            val suffix = tree.asRockwallFormat(player, tree.getGroupSuffix(type.getType()), party)
+            val suffixSeparator = tree.asRockwallFormat(player, tree.getGroupSuffixSeparator(type.getType()), party)
 
             player.sendDebug("assembling message")
             val components = ComponentBuilder()
@@ -53,7 +57,9 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
                 .append(prefixSeparator)
                 .append(name)
                 .append(nameSeparator)
-                .append(ColorUtils.colorToTextComponent(e.message, player))
+                .append(suffix)
+                .append(suffixSeparator)
+                .append(ColorUtils.colorizeComponents(e.message, player))
                 .create()
 
             player.sendDebug("sending to you")
@@ -62,7 +68,7 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
             Bukkit.getConsoleSender().spigot().sendMessage(*components)
 
             player.sendDebug("sending to others")
-            for (uuid: UUID in party!!.members) {
+            for (uuid: UUID in party.members) {
                 val resolvedPlayer = Bukkit.getPlayer(uuid)!!
                 if (resolvedPlayer.isOnline) {
                     // we already sent the message to the event player, don't do it again

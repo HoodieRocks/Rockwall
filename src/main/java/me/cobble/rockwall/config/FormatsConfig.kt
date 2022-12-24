@@ -8,18 +8,16 @@ import dev.dejvokep.boostedyaml.settings.general.GeneralSettings
 import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings
 import me.cobble.rockwall.rockwall.Rockwall
-import me.cobble.rockwall.utils.ChatRoomMapping
 import java.io.File
 import java.util.*
 
-object Config {
-
+object FormatsConfig {
     private lateinit var document: YamlDocument
-    private var debugEnabled: Boolean = false
+
     fun setup(plugin: Rockwall) {
         document = YamlDocument.create(
-            File(plugin.dataFolder, "config.yml"),
-            plugin.getResource("config.yml")!!,
+            File(plugin.dataFolder, "formats.yml"),
+            plugin.getResource("formats.yml")!!,
             GeneralSettings.DEFAULT,
             LoaderSettings.builder().setAutoUpdate(true).build(),
             DumperSettings.DEFAULT,
@@ -28,24 +26,14 @@ object Config {
                 .setVersioning(BasicVersioning("version"))
                 .build()
         )
-        FormatsConfig.setup(plugin)
-        ChatRoomMapping.buildMapping()
     }
 
-    fun get(): YamlDocument {
+    private fun get(): YamlDocument {
         return document
     }
 
     fun getSection(path: String): Section? {
         return get().getSection(path)
-    }
-
-    fun getBool(path: String): Boolean {
-        return get().getBoolean(path)
-    }
-
-    fun getInt(path: String): Int {
-        return get().getInt(path)
     }
 
     fun getString(path: String): Optional<String> {
@@ -54,15 +42,5 @@ object Config {
 
     fun reload() {
         document.reload()
-        FormatsConfig.reload()
-        ChatRoomMapping.buildMapping()
-    }
-
-    fun isDebugEnabled(): Boolean {
-        return debugEnabled
-    }
-
-    fun setDebug(boolean: Boolean) {
-        debugEnabled = boolean
     }
 }

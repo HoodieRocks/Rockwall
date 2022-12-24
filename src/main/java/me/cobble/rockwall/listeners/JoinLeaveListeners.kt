@@ -21,6 +21,7 @@ class JoinLeaveListeners(private val plugin: Rockwall) : Listener {
         PartyManager.getAllAdminParties().thenAccept { parties ->
             parties.forEach {
                 it.removeMember(event.player.uniqueId)
+                it.removeSpeaker(event.player.uniqueId)
             }
         }
     }

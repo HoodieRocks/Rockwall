@@ -1,11 +1,11 @@
 package me.cobble.rockwall.utils
 
 import me.cobble.rockwall.config.Config
+import me.cobble.rockwall.utils.ColorUtils.sendDebug
+import me.cobble.rockwall.utils.models.FormatTree
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
-import net.md_5.bungee.api.chat.BaseComponent
-import net.md_5.bungee.api.chat.ClickEvent
-import net.md_5.bungee.api.chat.ComponentBuilder
-import net.md_5.bungee.api.chat.HoverEvent
+import me.cobble.rockwall.utils.parties.models.Party
+import net.md_5.bungee.api.chat.*
 import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
 
@@ -34,7 +34,7 @@ object FormatUtils {
      * Adds click and hover events
      */
     private fun addEvents(text: String, hoverText: String?, command: String?): BaseComponent {
-        val component = ColorUtils.colorToTextComponent(text)
+        val component = ColorUtils.colorizeComponents(text)
         component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(hoverText))
         component.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)
         return component
@@ -64,11 +64,41 @@ object FormatUtils {
     fun formatStringList(list: List<String>, player: Player): ComponentBuilder {
         val builder = ComponentBuilder()
         list.forEach {
-            builder.append(ColorUtils.colorToTextComponent(ColorUtils.setPlaceholders(player, it)))
+            builder.append(ColorUtils.colorizeComponents(ColorUtils.setPlaceholders(player, it)))
             if (list.indexOf(it) != list.size - 1) builder.appendLegacy("\n")
             if (Config.getBool("settings.reset-color-on-new-line")) builder.appendLegacy(ColorUtils.color("&r&f"))
         }
 
         return builder
     }
+
+    fun assembleMessage(message: TextComponent, tree: FormatTree, treeKey: String, player: Player): ComponentBuilder {
+        val prefix = tree.asRockwallFormat(player, tree.getGroupPrefix(treeKey))
+        val prefixSeparator = tree.asRockwallFormat(player, tree.getGroupPrefixSeparator(treeKey))
+        val name = tree.asRockwallFormat(player, tree.getGroupPlayerName(treeKey))
+        val nameSeparator = tree.asRockwallFormat(player, tree.getGroupNameSeparator(treeKey))
+        val suffix = tree.asRockwallFormat(player, tree.getGroupSuffix(treeKey))
+        val suffixSeparator = tree.asRockwallFormat(player, tree.getGroupSuffixSeparator(treeKey))
+
+        player.sendDebug("assembling message")
+        return ComponentBuilder()
+            .append(prefix)
+            .append(prefixSeparator)
+            .append(name)
+            .append(nameSeparator)
+            .append(suffix)
+            .append(suffixSeparator)
+            .append(message)
+    }
+
+    fun customPlaceholders(string: MutableList<String>, party: Party): MutableList<String> {
+        val copy = string.toMutableList() // prevents a side effect
+        copy.forEach {
+            it.replace("%party_alias%", party.alias, true)
+        }
+        return copy
+    }
+
+    fun customPlaceholders(string: String, party: Party): String =
+        string.replace("%party_alias%", party.alias, true)
 }

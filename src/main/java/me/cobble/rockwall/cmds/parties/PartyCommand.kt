@@ -58,23 +58,23 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
         val list = mutableListOf<String>()
 
         if (sender is Player) {
-            if (args.size == 1) {
-                subCommands.forEach { list.add(subCommands.indexOf(it), it.name) }
-            }
+            if (args.size == 1) subCommands.forEach { list.add(subCommands.indexOf(it), it.name) }
             if (args.size == 2) {
                 if (args[0].equals("invite", true)) {
                     Bukkit.getOnlinePlayers().forEach { list.add(Bukkit.getOnlinePlayers().indexOf(it), it.name) }
                 }
 
-                if (args[0].equals("msg", true)) {
-                    if (sender.hasPermission("rockwall.admin.joinany")) {
-                        PartyUtils.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
-                    } else {
-                        PartyManager.getParties().values.forEach {
-                            list.add(it.alias)
-                        }
-                    }
+                if (args[0].equals("msg", true) && sender.hasPermission("rockwall.admin.joinany")) {
+                    PartyUtils.getUserParties(sender.uniqueId).forEach { list.add(it.alias) }
                     list.add("global")
+                } else {
+                    PartyManager.getParties().values.forEach {
+                        list.add(it.alias)
+                    }
+                }
+
+                if(args[0].equals("create", true)) {
+                    list.clear()
                 }
 
                 if (args[0].equals("leave", true) || args[0].equals("members", true)) {
@@ -86,12 +86,11 @@ class PartyCommand : BukkitCommand("party", "Command for parties", "", listOf("p
                 }
             }
 
-            if (args.size == 3 && args[0].equals("create", true)) {
-                list.add("admin")
-                list.add("normal")
-            }
         }
-
+        if (args.size == 3 && args[0].equals("create", true)) {
+            list.add("admin")
+            list.add("normal")
+        }
         return list
     }
 }

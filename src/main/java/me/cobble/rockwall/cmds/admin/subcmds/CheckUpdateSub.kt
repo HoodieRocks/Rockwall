@@ -16,14 +16,14 @@ class CheckUpdateSub(private val plugin: Rockwall) : RockwallBaseCommand {
 
     override fun run(p: Player, args: Array<String>): Boolean {
         if (args.isEmpty()) {
-            if (plugin.getUpdateUtils().updateAvailable()) {
+            return if (plugin.getUpdateUtils().updateAvailable()) {
                 plugin.getUpdateUtils().sendUpdateAvailableMsg(p)
+                true
             } else {
                 p.sendMessage(ColorUtils.color("&7No updates available!"))
+                true
             }
-        }
-
-        if (args.size == 1) {
+        } else if (args.size == 1) {
             return if (args[0].equals("download", ignoreCase = true)) {
                 p.sendMessage(ColorUtils.color("&cBETA FEATURE: Expect bugs or errors"))
                 if (plugin.getUpdateUtils().updateAvailable()) {
