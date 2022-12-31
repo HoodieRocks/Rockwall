@@ -45,6 +45,9 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
         }
     }
 
+    /**
+     * Finds the prefixes of chatrooms
+     */
     fun findChatRoomPrefixes(message: String): Pair<Boolean, String> {
         for (prefix in ChatRoomMapping.getPrefixes()) {
             if (message.startsWith(prefix)) return true to prefix

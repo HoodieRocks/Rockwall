@@ -1,7 +1,7 @@
 package me.cobble.rockwall.utils
 
 import com.google.gson.Gson
-import com.google.gson.JsonArray
+import com.google.gson.JsonObject
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.ColorUtils.sendColoredMessage
 import org.bukkit.entity.Player
@@ -17,7 +17,7 @@ import java.time.Duration
  * Really primitive update checker, will likely be improved in the future
  */
 class UpdateUtils(private val plugin: Rockwall) {
-    private var updateVersion: String? = null
+    private lateinit var updateVersion: String
     private val id = 103709
     private val client = HttpClient.newBuilder()
         .version(HttpClient.Version.HTTP_2)
@@ -34,12 +34,12 @@ class UpdateUtils(private val plugin: Rockwall) {
 
         val request = HttpRequest.newBuilder()
             .GET()
-            .uri(URI.create("https://api.spiget.org/v2/resources/$id/versions"))
+            .uri(URI.create("https://api.spiget.org/v2/resources/$id/versions/latest"))
             .build()
 
         client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenAccept {
-            val array = gson.fromJson(it.body(), JsonArray::class.java)
-            val retrievedVersion = array[array.size() - 1].asJsonObject["name"].asString
+            val obj = gson.fromJson(it.body(), JsonObject::class.java)
+            val retrievedVersion = obj["name"].asString
 
             updateAvailable = retrievedVersion != plugin.description.version
             updateVersion = retrievedVersion
@@ -74,7 +74,7 @@ class UpdateUtils(private val plugin: Rockwall) {
             .uri(URI.create("https://api.spiget.org/v2/resources/$id/download"))
             .build()
 
-        val path = Path.of(plugin.dataFolder.toString(), "../", "Rockwall.jar")
+        val path = Path.of(plugin.dataFolder.toString(), "../", "Rockwall-$updateVersion.jar")
 
         client.send(request, HttpResponse.BodyHandlers.ofFile(path))
 

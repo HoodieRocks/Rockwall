@@ -22,13 +22,12 @@ object ColorUtils {
         var i = 0
         while (i < texts.size) {
             if (texts[i].equals("&", ignoreCase = true)) {
-                //get the next string
+                // Get the next string
                 i++
-                if (texts[i][0] == '#') {
-                    finalText.append(ChatColor.of(texts[i].substring(0, 7)).toString() + texts[i].substring(7))
-                } else {
-                    finalText.append(ChatColor.translateAlternateColorCodes('&', "&" + texts[i]))
-                }
+                if (texts[i][0] == '#') finalText.append(
+                    ChatColor.of(texts[i].substring(0, 7)).toString() + texts[i].substring(7)
+                )
+                else finalText.append(ChatColor.translateAlternateColorCodes('&', "&${texts[i]}"))
             } else {
                 finalText.append(texts[i])
             }
@@ -40,13 +39,13 @@ object ColorUtils {
 
     fun colorizeComponents(text: String): TextComponent {
         val texts: Array<String> =
-            text.split(java.lang.String.format(WITH_DELIMITER, "&").toRegex()).dropLastWhile { it.isEmpty() }
+            text.split(String.format(WITH_DELIMITER, "&").toRegex()).dropLastWhile { it.isEmpty() }
                 .toTypedArray()
         val builder = ComponentBuilder()
         var i = 0
         while (i < texts.size) {
             val subComponent = TextComponent()
-            if (texts[i].equals("&", ignoreCase = true)) {
+            if (texts[i].equals("&", true)) {
                 //get the next string
                 i++
                 if (texts[i][0] == '#') {

@@ -1,7 +1,6 @@
 package me.cobble.rockwall.utils
 
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.utils.ColorUtils.sendDebug
 import me.cobble.rockwall.utils.models.FormatTree
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.models.Party
@@ -62,11 +61,13 @@ object FormatUtils {
      * @return string list as string
      */
     fun formatStringList(list: List<String>, player: Player): ComponentBuilder {
+        if (list.isEmpty()) return ComponentBuilder()
         val builder = ComponentBuilder()
-        list.forEach {
-            builder.append(ColorUtils.colorizeComponents(ColorUtils.setPlaceholders(player, it)))
-            if (list.indexOf(it) != list.size - 1) builder.appendLegacy("\n")
-            if (Config.getBool("settings.reset-color-on-new-line")) builder.appendLegacy(ColorUtils.color("&r&f"))
+        val resetColor = Config.getBool("settings.reset-color-on-new-line")
+        list.forEachIndexed { idx, str ->
+            builder.append(ColorUtils.colorizeComponents(ColorUtils.setPlaceholders(player, str)))
+            if (idx != list.size - 1) builder.appendLegacy("\n")
+            if (resetColor) builder.appendLegacy(ColorUtils.color("&r&f"))
         }
 
         return builder
@@ -80,7 +81,6 @@ object FormatUtils {
         val suffix = tree.asRockwallFormat(player, tree.getGroupSuffix(treeKey))
         val suffixSeparator = tree.asRockwallFormat(player, tree.getGroupSuffixSeparator(treeKey))
 
-        player.sendDebug("assembling message")
         return ComponentBuilder()
             .append(prefix)
             .append(prefixSeparator)

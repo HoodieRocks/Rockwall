@@ -12,6 +12,3 @@ style:
         active: false
     MaxLineLength:
         active: false
-complexity:
-    NestedBlockDepth:
-        active: false

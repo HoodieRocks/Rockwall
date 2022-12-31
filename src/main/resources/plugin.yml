@@ -12,7 +12,7 @@ permissions:
     rockwall.color:
         description: Allows players to send colored messages
         default: op
-    rockwall.massmention:
+    rockwall.mass-mention:
         description: Allows the player to use @here or @everyone
         default: op
     rockwall.clearchat:

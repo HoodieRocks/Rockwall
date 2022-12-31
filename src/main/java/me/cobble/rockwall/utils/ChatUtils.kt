@@ -34,23 +34,25 @@ object ChatUtils {
         if (!Features.areMentionsEnabled()) return msg
         val mentionExpression = Regex("@[A-z]+")
         val retrievedSound = Features.getMentionSound()
-        if (mentionExpression.containsMatchIn(msg)) {
-            mentionExpression.findAll(msg).forEach {
-                if ((it.value == "@everyone" || it.value == "@here") && player.hasPermission("rockwall.massmention")) {
-                    if (Features.canPlayMentionSound()) {
-                        for (p in Bukkit.getServer().onlinePlayers) {
-                            p.playSound(p.location, retrievedSound, 0.7f, 2f)
-                        }
-                    }
-                } else {
-                    val mentioned = Bukkit.getPlayer(it.value.drop(1))
-                    if (Features.canPlayMentionSound()) {
-                        mentioned?.playSound(mentioned.location, retrievedSound, 0.7f, 2f)
-                    }
+        if (!mentionExpression.containsMatchIn(msg)) {
+            return msg
+        }
+        mentionExpression.findAll(msg).forEach {
+            if ((it.value == "@everyone" || it.value == "@here") && player.hasPermission("rockwall.mass-mention")) {
+                if (Features.canPlayMentionSound()) Bukkit.getServer().onlinePlayers.forEach { p ->
+                    p.playSound(
+                        p.location,
+                        retrievedSound,
+                        0.7f,
+                        2f
+                    )
                 }
-
-                return msg.replace(it.value, Features.getMentionsFormat().replace("%format%", it.value, true), true)
+            } else {
+                val mentioned = Bukkit.getPlayer(it.value.drop(1))
+                if (Features.canPlayMentionSound()) mentioned?.playSound(mentioned.location, retrievedSound, 0.7f, 2f)
             }
+
+            return msg.replace(it.value, Features.getMentionsFormat().replace("%format%", it.value, true), true)
         }
         return msg
     }
@@ -59,12 +61,13 @@ object ChatUtils {
         if (!Features.areEmojisEnabled()) return msg
         val emojiExpression = Regex(":[A-z]+:")
         val emojis = Features.getAllEmojis()
-        if (emojiExpression.containsMatchIn(msg)) {
-            emojiExpression.findAll(msg).forEach {
-                for (emoji in emojis) {
-                    if (emoji.lowercase() == it.value.lowercase().replace(":", "")) {
-                        return msg.replace(it.value, Features.getEmoji(emoji).orElse(""))
-                    }
+        if (!emojiExpression.containsMatchIn(msg)) {
+            return msg
+        }
+        emojiExpression.findAll(msg).forEach {
+            for (emoji in emojis) {
+                if (emoji.lowercase().equals(it.value.replace(":", ""), true)) {
+                    return msg.replace(it.value, Features.getEmoji(emoji).orElse(""))
                 }
             }
         }

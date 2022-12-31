@@ -21,28 +21,36 @@ class DebugSubCmd : RockwallBaseCommand {
         if (args.isEmpty()) {
             p.sendMessage(ColorUtils.color("&c${syntax.replace("[label]", "/rockwall")}"))
             return false
-        } else {
-            if (args.size == 1) {
-                return if (args[0] == "stressTestGlobal") {
+        }
+
+        if (args.size == 1) {
+            return when (args[0]) {
+                "stressTestGlobal" -> {
                     StressTests.chat(p)
                     true
-                } else if (args[0] == "stressTestParty") {
+                }
+
+                "stressTestParty" -> {
                     StressTests.parties(p)
                     true
-                } else if (args[0] == "enableDebugMsgs") {
+                }
+
+                "enableDebugMsgs" -> {
                     Config.setDebug(!Config.isDebugEnabled())
                     if (Config.isDebugEnabled()) p.sendMessage(ColorUtils.color("&aEnabled debug messages"))
                     else p.sendMessage(ColorUtils.color("&cDisabled debug messages"))
                     true
-                } else {
+                }
+
+                else -> {
                     p.sendMessage(Messages.getGeneralError("unknown-argument"))
                     false
                 }
-
-            } else {
-                p.sendMessage(Messages.getGeneralError("too-many-args"))
-                return false
             }
+
+        } else {
+            p.sendMessage(Messages.getGeneralError("too-many-args"))
+            return false
         }
     }
 }

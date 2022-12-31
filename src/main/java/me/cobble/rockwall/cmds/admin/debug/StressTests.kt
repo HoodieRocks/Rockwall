@@ -1,19 +1,15 @@
 package me.cobble.rockwall.cmds.admin.debug
 
-import me.cobble.rockwall.config.FormatsConfig
-import me.cobble.rockwall.config.models.ChatFormatType
 import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.ChatUtils
 import me.cobble.rockwall.utils.ColorUtils
+import me.cobble.rockwall.utils.ColorUtils.sendDebug
 import me.cobble.rockwall.utils.FormatUtils
+import me.cobble.rockwall.utils.models.FormatTree
 import me.cobble.rockwall.utils.parties.PartyManager
-import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.Party
-import net.md_5.bungee.api.chat.ClickEvent
 import net.md_5.bungee.api.chat.ComponentBuilder
-import net.md_5.bungee.api.chat.HoverEvent
 import net.md_5.bungee.api.chat.TextComponent
-import net.md_5.bungee.api.chat.hover.content.Text
 import org.bukkit.entity.Player
 import java.util.*
 import kotlin.system.measureTimeMillis
@@ -74,97 +70,57 @@ object StressTests {
     }
 
     fun chat(player: Player) {
-        val totalTime = System.currentTimeMillis()
-        if (PartyUtils.getPartyBySpeaking(player.uniqueId) == null) {
-            player.sendMessage(
-                ColorUtils.color(
-                    "&cThis test represents 10K chat messages at the same time" +
-                            "\nThis is more a performance test than an example of actual use"
-                )
-            )
-            player.sendMessage(ColorUtils.color("&7Generating 10K fake UUIDs"))
+        val totalTime = measureTimeMillis {
+            var elapsed: Long
+            val tree = FormatTree("global-chat-formats")
 
-            val uuids = linkedSetOf<UUID>()
-
-            repeat(10_000) {
-                uuids.add(UUID.randomUUID())
+            player.sendDebug("getting permissions")
+            var permission = ""
+            elapsed = measureTimeMillis {
+                repeat(10_000) {
+                    permission = ChatUtils.getFormatByPermission(player)
+                }
             }
-
-            player.sendMessage(ColorUtils.color("&7Generating format objects"))
-
+            player.sendMessage(ColorUtils.color("&eTook &d${elapsed}&7ms &eto get permissions 10k times"))
 
             // config format components
-            val prefix = arrayListOf<TextComponent?>()
-            val prefixSeparator = arrayListOf<TextComponent?>()
-            val name = arrayListOf<TextComponent?>()
-            val nameSeparator = arrayListOf<TextComponent?>()
-            val chatColor = arrayListOf<String>()
-
-
-            val permission = ChatUtils.getFormatByPermission(player)
-
-            var elapsed = measureTimeMillis {
-                repeat(10_000) {
-                    chatColor.add(getChatColor(permission))
-                    prefix.add(makeFormat(permission, ChatFormatType.PREFIX))
-                    prefixSeparator.add(makeFormat(permission, ChatFormatType.PREFIX_SEPARATOR))
-                    name.add(makeFormat(permission, ChatFormatType.NAME))
-                    nameSeparator.add(makeFormat(permission, ChatFormatType.NAME_SEPARATOR))
-                }
-            }
-
-            player.sendMessage(ColorUtils.color("&eTook &d${elapsed}ms &eto make format objects"))
-
-            player.sendMessage(ColorUtils.color("&7Combining format objects"))
+            var chatColor = ""
             elapsed = measureTimeMillis {
-                for (i in 0 until uuids.size) {
-                    ComponentBuilder()
-                        .append(prefix[i])
-                        .append(prefixSeparator[i])
-                        .append(name[i])
-                        .append(nameSeparator[i])
-                        .append(
-                            chatColor[i] +
-                                    ColorUtils.colorizeComponents(
-                                        ChatUtils.processMessageFeatures(
-                                            FormatUtils.randomString(25),
-                                            player
-                                        ), player
-                                    )
-                        )
-                        .create()
+                repeat(10_000) {
+                    chatColor = tree.getGroupChatColor(permission).orElse("&f")
                 }
             }
-            player.sendMessage(ColorUtils.color("&eTook &d${elapsed}ms &eto combine format objects"))
+            player.sendMessage(ColorUtils.color("&eTook &d${elapsed}&7ms &eto get chat color 10k times"))
 
-            uuids.clear()
+            player.sendDebug("assembling message")
+            var assembledMessage: ComponentBuilder
+            var colorizedComponent = TextComponent()
+            elapsed = measureTimeMillis {
+                repeat(10_000) {
+                    colorizedComponent = ColorUtils.colorizeComponents(
+                        chatColor + ChatUtils.processMessageFeatures(
+                            FormatUtils.randomString(10),
+                            player
+                        ), player
+                    )
+                }
+            }
+            player.sendMessage(ColorUtils.color("&eTook &d${elapsed}&7ms &eto colorize 10k messages"))
+
+            elapsed = measureTimeMillis {
+                repeat(10_000) {
+                    assembledMessage =
+                        FormatUtils.assembleMessage(
+                            colorizedComponent, tree, permission, player
+                        )
+
+                    assembledMessage.create()
+                }
+            }
+            player.sendMessage(ColorUtils.color("&eTook &d${elapsed}&7ms &eto assemble 10k messages"))
         }
-        player.sendMessage(ColorUtils.color("&aTotal time of ${System.currentTimeMillis() - totalTime}ms"))
-
+        player.sendMessage(ColorUtils.color("&eTook &d${totalTime}&7ms &eto create and complete test of 10k messages"))
     }
 
-    private fun makeFormat(formatName: String, type: ChatFormatType): TextComponent? {
-        if (formatName.isBlank()) return null
-        val configSection = FormatsConfig.getSection("global-chat-formats.$formatName") ?: return null
-        val section = configSection.getSection(type.getType())
-        val format = ColorUtils.colorizeComponents(section.getString("display")!!)
-
-        format.font = section.getOptionalString("font").orElse("minecraft:default")
-        format.hoverEvent = HoverEvent(
-            HoverEvent.Action.SHOW_TEXT,
-            //TextUtils.formatStringList(section.getStringList("hover"), player).create()
-            Text("This is just a test message you wont see this anyways")
-        )
-        format.clickEvent = ClickEvent(
-            ClickEvent.Action.SUGGEST_COMMAND,
-            // TextUtils.setPlaceholders(player, section.getString("on-click")!!)
-            "/say hi"
-        )
-
-        return format
-    }
-
-    private fun getChatColor(formatName: String): String =
-        FormatsConfig.getString("global-chat-formats.$formatName.chat-color").orElse("&f")
 
 }
