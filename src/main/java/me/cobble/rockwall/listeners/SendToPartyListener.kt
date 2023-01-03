@@ -1,7 +1,6 @@
 package me.cobble.rockwall.listeners
 
 import me.cobble.rockwall.config.Config
-import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.rockwall.Rockwall
 import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.ColorUtils.sendDebug
@@ -10,6 +9,7 @@ import me.cobble.rockwall.utils.models.FormatTree
 import me.cobble.rockwall.utils.parties.PartyUtils
 import me.cobble.rockwall.utils.parties.models.AdminParty
 import me.cobble.rockwall.utils.parties.models.NormalParty
+import me.cobble.rockwall.utils.parties.models.PartyType
 import org.bukkit.Bukkit
 import org.bukkit.event.EventHandler
 import org.bukkit.event.EventPriority
@@ -43,7 +43,7 @@ class SendToPartyListener(plugin: Rockwall) : Listener {
         val type = if (party is AdminParty) PartyType.ADMIN else PartyType.NORMAL
 
         val components =
-            FormatUtils.assembleMessage(ColorUtils.colorizeComponents(e.message, player), tree, type.getType(), player)
+            FormatUtils.assembleMessage(ColorUtils.colorSpigot(e.message, player), tree, type.getType(), player, party)
                 .create()
 
         player.sendDebug("sending to you")

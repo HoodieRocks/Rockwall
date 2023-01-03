@@ -76,13 +76,13 @@ object PartyUtils {
         for (id: UUID in invites) {
             val player = Bukkit.getPlayer(id)
             val inviteComponent =
-                ColorUtils.colorizeComponents(
+                ColorUtils.colorSpigot(
                     "&eYou've been invited to join party &7$name. " +
                             "\n&eClick accept to join, or click deny to decline.\n"
                 )
-            val accept = ColorUtils.colorizeComponents("&a&lAccept")
-            val separator = ColorUtils.colorizeComponents(" &8| ")
-            val deny = ColorUtils.colorizeComponents("&c&lDeny")
+            val accept = ColorUtils.colorSpigot("&a&lAccept")
+            val separator = ColorUtils.colorSpigot(" &8| ")
+            val deny = ColorUtils.colorSpigot("&c&lDeny")
 
             accept.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to join $name"))
             deny.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text("Click to decline"))

@@ -1,6 +1,5 @@
 package me.cobble.rockwall.cmds.admin.debug
 
-import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.ChatUtils
 import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.ColorUtils.sendDebug
@@ -8,6 +7,7 @@ import me.cobble.rockwall.utils.FormatUtils
 import me.cobble.rockwall.utils.models.FormatTree
 import me.cobble.rockwall.utils.parties.PartyManager
 import me.cobble.rockwall.utils.parties.models.Party
+import me.cobble.rockwall.utils.parties.models.PartyType
 import net.md_5.bungee.api.chat.ComponentBuilder
 import net.md_5.bungee.api.chat.TextComponent
 import org.bukkit.entity.Player
@@ -97,7 +97,7 @@ object StressTests {
             var colorizedComponent = TextComponent()
             elapsed = measureTimeMillis {
                 repeat(10_000) {
-                    colorizedComponent = ColorUtils.colorizeComponents(
+                    colorizedComponent = ColorUtils.colorSpigot(
                         chatColor + ChatUtils.processMessageFeatures(
                             FormatUtils.randomString(10),
                             player

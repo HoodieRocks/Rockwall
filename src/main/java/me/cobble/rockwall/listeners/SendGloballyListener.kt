@@ -48,14 +48,14 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
     /**
      * Finds the prefixes of chatrooms
      */
-    fun findChatRoomPrefixes(message: String): Pair<Boolean, String> {
+    private fun findChatRoomPrefixes(message: String): Pair<Boolean, String> {
         for (prefix in ChatRoomMapping.getPrefixes()) {
             if (message.startsWith(prefix)) return true to prefix
         }
         return false to ""
     }
 
-    fun sendGlobalMessage(player: Player, event: AsyncPlayerChatEvent) {
+    private fun sendGlobalMessage(player: Player, event: AsyncPlayerChatEvent) {
 
         val tree = FormatTree("global-chat-formats")
 
@@ -67,7 +67,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
 
         player.sendDebug("assembling message")
         val completedMessage = FormatUtils.assembleMessage(
-            ColorUtils.colorizeComponents(
+            ColorUtils.colorSpigot(
                 chatColor.orElse("&f") + ChatUtils.processMessageFeatures(
                     event.message,
                     player
@@ -82,7 +82,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
         Bukkit.getConsoleSender().spigot().sendMessage(*completedMessage)
     }
 
-    fun sendChatRoomMessage(player: Player, event: AsyncPlayerChatEvent) {
+    private fun sendChatRoomMessage(player: Player, event: AsyncPlayerChatEvent) {
         val chatRoom = findChatRoomPrefixes(event.message)
         val tree = FormatTree("chat-room-formats")
         val room = ChatRoomMapping.getName(chatRoom.second)
@@ -93,7 +93,7 @@ class SendGloballyListener(plugin: Rockwall) : Listener {
 
             player.sendDebug("assembling message")
             val completedMessage = FormatUtils.assembleMessage(
-                ColorUtils.colorizeComponents(
+                ColorUtils.colorSpigot(
                     chatColor.orElse("&f") + ChatUtils.processMessageFeatures(
                         event.message,
                         player

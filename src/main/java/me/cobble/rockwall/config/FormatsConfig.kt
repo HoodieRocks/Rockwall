@@ -9,7 +9,6 @@ import dev.dejvokep.boostedyaml.settings.loader.LoaderSettings
 import dev.dejvokep.boostedyaml.settings.updater.UpdaterSettings
 import me.cobble.rockwall.rockwall.Rockwall
 import java.io.File
-import java.util.*
 
 object FormatsConfig {
     private lateinit var document: YamlDocument
@@ -34,10 +33,6 @@ object FormatsConfig {
 
     fun getSection(path: String): Section? {
         return get().getSection(path)
-    }
-
-    fun getString(path: String): Optional<String> {
-        return get().getOptionalString(path)
     }
 
     fun reload() {

@@ -2,11 +2,11 @@ package me.cobble.rockwall.utils.parties
 
 import me.cobble.rockwall.config.Config
 import me.cobble.rockwall.config.models.Messages
-import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.models.Manager
 import me.cobble.rockwall.utils.parties.models.AdminParty
 import me.cobble.rockwall.utils.parties.models.NormalParty
 import me.cobble.rockwall.utils.parties.models.Party
+import me.cobble.rockwall.utils.parties.models.PartyType
 import org.bukkit.Bukkit
 import java.util.*
 import java.util.concurrent.CompletableFuture

@@ -37,7 +37,7 @@ object ColorUtils {
     }
 
 
-    fun colorizeComponents(text: String): TextComponent {
+    fun colorSpigot(text: String): TextComponent {
         val texts: Array<String> =
             text.split(String.format(WITH_DELIMITER, "&").toRegex()).dropLastWhile { it.isEmpty() }
                 .toTypedArray()
@@ -89,8 +89,8 @@ object ColorUtils {
         return TextComponent(*builder.create())
     }
 
-    fun colorizeComponents(string: String, player: Player): TextComponent {
-        return if (player.hasPermission("rockwall.color")) colorizeComponents(string)
+    fun colorSpigot(string: String, player: Player): TextComponent {
+        return if (player.hasPermission("rockwall.color")) colorSpigot(string)
         else {
             val component = TextComponent(string)
             component.retain(ComponentBuilder.FormatRetention.NONE)

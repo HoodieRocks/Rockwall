@@ -67,7 +67,7 @@ class RockwallCommand(val plugin: Rockwall) : TabExecutor {
         }
 
         if (sender.hasPermission("rockwall.admin")) {
-            if (args.isEmpty() || "help".equals(args[0], ignoreCase = true)) {
+            if (args.isEmpty() || "help".equals(args[0], true)) {
                 sender.sendMessage(ColorUtils.color("&e\n\n&lRockwall &cAdmin &7Commands"))
                 val components: Array<BaseComponent> =
                     FormatUtils.formatAsFileStructure(subCommands.toList(), "/$label")

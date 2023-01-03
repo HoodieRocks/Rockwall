@@ -33,7 +33,7 @@ object FormatUtils {
      * Adds click and hover events
      */
     private fun addEvents(text: String, hoverText: String?, command: String?): BaseComponent {
-        val component = ColorUtils.colorizeComponents(text)
+        val component = ColorUtils.colorSpigot(text)
         component.hoverEvent = HoverEvent(HoverEvent.Action.SHOW_TEXT, Text(hoverText))
         component.clickEvent = ClickEvent(ClickEvent.Action.SUGGEST_COMMAND, command)
         return component
@@ -65,7 +65,7 @@ object FormatUtils {
         val builder = ComponentBuilder()
         val resetColor = Config.getBool("settings.reset-color-on-new-line")
         list.forEachIndexed { idx, str ->
-            builder.append(ColorUtils.colorizeComponents(ColorUtils.setPlaceholders(player, str)))
+            builder.append(ColorUtils.colorSpigot(ColorUtils.setPlaceholders(player, str)))
             if (idx != list.size - 1) builder.appendLegacy("\n")
             if (resetColor) builder.appendLegacy(ColorUtils.color("&r&f"))
         }
@@ -73,13 +73,20 @@ object FormatUtils {
         return builder
     }
 
-    fun assembleMessage(message: TextComponent, tree: FormatTree, treeKey: String, player: Player): ComponentBuilder {
-        val prefix = tree.asRockwallFormat(player, tree.getGroupPrefix(treeKey))
-        val prefixSeparator = tree.asRockwallFormat(player, tree.getGroupPrefixSeparator(treeKey))
-        val name = tree.asRockwallFormat(player, tree.getGroupPlayerName(treeKey))
-        val nameSeparator = tree.asRockwallFormat(player, tree.getGroupNameSeparator(treeKey))
-        val suffix = tree.asRockwallFormat(player, tree.getGroupSuffix(treeKey))
-        val suffixSeparator = tree.asRockwallFormat(player, tree.getGroupSuffixSeparator(treeKey))
+    fun assembleMessage(
+        message: TextComponent,
+        tree: FormatTree,
+        treeKey: String,
+        player: Player,
+        party: Party? = null
+    ): ComponentBuilder {
+
+        val prefix = tree.asRockwallFormat(player, tree.getGroupPrefix(treeKey), party)
+        val prefixSeparator = tree.asRockwallFormat(player, tree.getGroupPrefixSeparator(treeKey), party)
+        val name = tree.asRockwallFormat(player, tree.getGroupPlayerName(treeKey), party)
+        val nameSeparator = tree.asRockwallFormat(player, tree.getGroupNameSeparator(treeKey), party)
+        val suffix = tree.asRockwallFormat(player, tree.getGroupSuffix(treeKey), party)
+        val suffixSeparator = tree.asRockwallFormat(player, tree.getGroupSuffixSeparator(treeKey), party)
 
         return ComponentBuilder()
             .append(prefix)

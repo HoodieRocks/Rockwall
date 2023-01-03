@@ -1,11 +1,11 @@
 package me.cobble.rockwall.cmds.parties.subcmds
 
 import me.cobble.rockwall.config.models.Messages
-import me.cobble.rockwall.config.models.PartyType
 import me.cobble.rockwall.utils.ColorUtils
 import me.cobble.rockwall.utils.FormatUtils.containsSpecialCharacters
 import me.cobble.rockwall.utils.models.RockwallBaseCommand
 import me.cobble.rockwall.utils.parties.PartyManager
+import me.cobble.rockwall.utils.parties.models.PartyType
 import org.bukkit.Bukkit
 import org.bukkit.entity.Player
 

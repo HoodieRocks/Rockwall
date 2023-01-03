@@ -50,46 +50,40 @@ class FormatTree(private val path: String) {
     }
 
 
-    fun asRockwallFormat(player: Player, formatSection: AbstractFormatSection): TextComponent {
-        val format =
-            ColorUtils.colorizeComponents(ColorUtils.setPlaceholders(player, formatSection.getDisplay().orElse("")))
+    fun asRockwallFormat(player: Player, formatSection: AbstractFormatSection, party: Party?): TextComponent {
+        val format = ColorUtils.colorSpigot(ColorUtils.setPlaceholders(player, formatSection.getDisplay().orElse("")))
 
         format.font = formatSection.getFont().orElse("minecraft:default")
-        format.hoverEvent = HoverEvent(
-            HoverEvent.Action.SHOW_TEXT,
-            Text(FormatUtils.formatStringList(formatSection.getHover(), player).create())
-        )
-        format.clickEvent = ClickEvent(
-            ClickEvent.Action.SUGGEST_COMMAND,
-            ColorUtils.setPlaceholders(player, formatSection.getOnClick().orElse(""))
-        )
 
-        return format
-    }
-
-    fun asRockwallFormat(player: Player, formatSection: AbstractFormatSection, party: Party): TextComponent {
-        val format =
-            ColorUtils.colorizeComponents(ColorUtils.setPlaceholders(player, formatSection.getDisplay().orElse("")))
-
-        format.font = formatSection.getFont().orElse("minecraft:default")
-        format.hoverEvent = HoverEvent(
-            HoverEvent.Action.SHOW_TEXT,
-            Text(
-                FormatUtils.formatStringList(
-                    FormatUtils.customPlaceholders(
-                        formatSection.getHover(),
-                        party
-                    ), player
-                ).create()
+        if (party == null) {
+            format.hoverEvent = HoverEvent(
+                HoverEvent.Action.SHOW_TEXT,
+                Text(FormatUtils.formatStringList(formatSection.getHover(), player).create())
             )
-        )
-        format.clickEvent = ClickEvent(
-            ClickEvent.Action.SUGGEST_COMMAND,
-            ColorUtils.setPlaceholders(
-                player,
-                FormatUtils.customPlaceholders(formatSection.getOnClick().orElse(""), party)
+            format.clickEvent = ClickEvent(
+                ClickEvent.Action.SUGGEST_COMMAND,
+                ColorUtils.setPlaceholders(player, formatSection.getOnClick().orElse(""))
             )
-        )
+        } else {
+            format.hoverEvent = HoverEvent(
+                HoverEvent.Action.SHOW_TEXT,
+                Text(
+                    FormatUtils.formatStringList(
+                        FormatUtils.customPlaceholders(
+                            formatSection.getHover(),
+                            party
+                        ), player
+                    ).create()
+                )
+            )
+            format.clickEvent = ClickEvent(
+                ClickEvent.Action.SUGGEST_COMMAND,
+                ColorUtils.setPlaceholders(
+                    player,
+                    FormatUtils.customPlaceholders(formatSection.getOnClick().orElse(""), party)
+                )
+            )
+        }
 
         return format
     }
